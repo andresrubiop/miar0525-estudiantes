@@ -1,0 +1,32 @@
+# Estilo Matplotlib institucional UEES — MIAR0525 (Planificación §4.2 y §4.4)
+# Uso en los notebooks:  plt.style.use("utils/uees.mplstyle")
+# Colores: vino #821436 (oficial), gris #77787B (oficial) y tonos de apoyo derivados.
+
+axes.prop_cycle : cycler('color', ['821436', '1F6F8B', 'C28E0E', '3A7D44', '77787B'])
+axes.edgecolor : 77787B
+axes.labelcolor : 1C1A1B
+axes.titlecolor : 821436
+axes.titleweight : bold
+axes.titlesize : 13
+axes.labelsize : 11
+axes.grid : True
+axes.axisbelow : True
+axes.spines.top : False
+axes.spines.right : False
+grid.color : EEE8EA
+grid.linewidth : 0.8
+xtick.color : 5E5F62
+ytick.color : 5E5F62
+text.color : 1C1A1B
+font.family : sans-serif
+font.sans-serif : Poppins, Arial, DejaVu Sans
+font.size : 10.5
+legend.frameon : False
+figure.facecolor : FFFFFF
+figure.dpi : 110
+savefig.dpi : 150
+savefig.bbox : tight
+image.cmap : RdGy_r
+lines.linewidth : 2.0
+patch.edgecolor : FFFFFF
+scatter.edgecolors : face

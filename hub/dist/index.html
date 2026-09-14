@@ -390,6 +390,12 @@ kbd {
 .site-footer__meta { margin-left: auto; font-size: var(--fs-xs); color: #F2D7E0; text-align: right; line-height: 1.5; }
 @media (max-width: 700px) { .site-footer__meta { margin-left: 0; text-align: left; } }
 
+/* Edición docente: sello en la cabecera */
+html[data-edicion="docente"] .brand__code::after {
+  content: "Versión docente"; margin-left: .5em; padding: 0 .4em; border-radius: 4px;
+  color: var(--accent-ink); background: var(--accent-fill); border: 1px solid var(--accent-fill);
+}
+
 /* ---- src/css/30-components.css ---- */
 /* ==========================================================================
    Componentes reutilizables
@@ -619,6 +625,10 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
   border: 1px dashed var(--line-strong); background: var(--surface); color: var(--ink-2); font-size: var(--fs-sm);
 }
 .pending strong { color: var(--ink); }
+
+/* Edición docente (hub/dist/profesor.html): bloques marcados como docentes en el contenido */
+.callout--docente { --c: var(--ink-2); --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 9l9-5 9 5-9 5-9-5zM7 11.2V16c0 1.7 2.2 3 5 3s5-1.3 5-3v-4.8M21 9v6' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E"); border-style: dashed; }
+.callout--docente .callout__title::before { content: "Para el docente · "; }
 
 /* ---- src/css/40-stage.css ---- */
 /* ==========================================================================
@@ -952,6 +962,11 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
 .slide--dense li + li { margin-top: .45cqw; }
 .slide--dense .code pre { font-size: 1.18cqw; line-height: 1.42; padding: 1cqw 1.4cqw; }
 
+/* Notas ampliadas (solo edición docente) dentro del panel de notas */
+.deck__notes .notes-extra { margin-top: .6rem; padding-top: .6rem; border-top: 1px dashed var(--line-strong); }
+.deck__notes .notes-extra::before { content: "Guion ampliado"; display: block; font-weight: 600; font-size: var(--fs-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: .25rem; }
+.deck__notes .notes-extra > * + * { margin-top: .4rem; }
+
 /* ---- src/css/60-content.css ---- */
 /* ==========================================================================
    Contenido: portada del curso, manuales (prosa), glosario
@@ -1282,7 +1297,7 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
       <div class="grid grid--3" style="margin-top:1.2rem">
         <div class="card"><h3>Tareas con rúbrica</h3><p class="muted">Cada tarea tiene enunciado, entregables numerados y rúbrica analítica publicada desde el primer día.</p></div>
         <div class="card"><h3>Formativo, sin nota</h3><p class="muted">Los ejercicios y los cuestionarios no califican: son para practicar y recibir retroalimentación inmediata.</p></div>
-        <div class="card"><h3>Uso declarado de IA</h3><p class="muted">Toda entrega incluye la declaración de uso de IA generativa y de código externo (norma f).</p></div>
+        <div class="card"><h3>IA permitida, siempre declarada</h3><p class="muted">Puedes usar IA agéntica o de chat en ejercicios y tareas: el curso no es de programación en Python. Toda entrega incluye la declaración de uso (norma f). <a href="#/recursos/ia">Cómo</a>.</p></div>
       </div>
     </section>
 
@@ -1564,7 +1579,7 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
           <ol class="steps">
             <li class="fragment"><span><strong>Prepárate</strong> con videos, manual y prelaboratorio (el lunes).</span></li>
             <li class="fragment"><span><strong>Tutoría</strong> del sábado: dudas, animaciones, casos.</span></li>
-            <li class="fragment"><span><strong>Practica</strong> en notebooks que escalan del algoritmo a datos reales.</span></li>
+            <li class="fragment"><span><strong>Practica</strong> en notebooks, con su versión resuelta y un desafío opcional con IA.</span></li>
             <li class="fragment"><span><strong>Entrega</strong> una tarea por semana (semanas 1–3).</span></li>
           </ol>
         </div>
@@ -1572,10 +1587,10 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
           <h3>Evaluación</h3>
           <p>Tareas 1, 2 y 3: <strong>20 % cada una</strong> (60 %)</p>
           <p>Examen teórico: <strong>15 %</strong> · Examen práctico integrador: <strong>25 %</strong></p>
-          <p class="muted">Mínimo aprobatorio: 70/100. Toda entrega declara el uso de IA generativa.</p>
+          <p class="muted">Mínimo aprobatorio: 70/100. Puedes usar IA (agéntica o de chat) en ejercicios y tareas, siempre declarada.</p>
         </div>
       </div>
-      <aside class="notes"><p>Mostrar el hub en vivo: ruta semanal, progreso que se guarda en el navegador, animaciones y cuestionario formativo. Insistir en la norma f (declaración de uso de IA) y en la norma d (repositorio reproducible).</p></aside>
+      <aside class="notes"><p>Mostrar el hub en vivo: ruta semanal, progreso que se guarda en el navegador, animaciones, cuestionario formativo, la versión resuelta de un ejercicio y el desafío con IA al final de una tarjeta. Insistir en la norma f (declaración de uso de IA) y en la norma d (repositorio reproducible).</p></aside>
     </section>
 
     <section class="slide slide--section" data-title="Bloque 1">
@@ -1814,6 +1829,7 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
           <li>Validación cruzada estratificada (media ± desv.).</li>
           <li>Métrica y umbral según una matriz de costos.</li>
           <li>Errores por segmento y limitaciones.</li>
+          <li>IA agéntica o de chat permitida, <strong>declarada</strong>.</li>
         </ul>
         <div class="box box--soft">
           <h3>Rúbrica (100 pts)</h3>
@@ -1902,6 +1918,8 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
       <div class="callout__body"><p>Si una regla simple y estable resuelve el problema (validar el dígito verificador de una cédula), si no hay datos representativos del caso de uso, o si un error no es tolerable ni explicable para quien toma la decisión. ML añade incertidumbre, mantenimiento y riesgos; debe ganarse su lugar frente a la alternativa sencilla.</p></div>
     </div>
 
+    
+
     <h2 id="m1-2"><span class="sec">§2</span>Tipos de aprendizaje</h2>
     <p>La diferencia entre los tipos de aprendizaje está en la <strong>señal</strong> que guía el aprendizaje.</p>
     <div class="table-wrap"><table class="table">
@@ -1917,6 +1935,8 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
     <p>El dilema central es <strong>explorar o explotar</strong>: probar acciones nuevas para descubrir si son mejores, o repetir la mejor conocida. La estrategia ε-greedy explora al azar con probabilidad \(\varepsilon\). El caso más simple es el <em>bandido multibrazo</em>: un solo estado y varias acciones con recompensas desconocidas.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-1">E1.1 · Niveles 1 y 2</a> (regresión desde cero, K-means sobre <code>make_blobs</code> y un bandido ε-greedy) · <a href="#/s1/animaciones/anim-A1-1">Animación A1.1</a></div>
 
+    
+
     <h2 id="m1-3"><span class="sec">§3</span>Formulación del problema</h2>
     <p>La mayoría de los proyectos de ML que fracasan no lo hacen por el algoritmo, sino por un problema mal formulado. Antes de abrir un notebook responde por escrito:</p>
     <ol>
@@ -1926,6 +1946,8 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
       <li><strong>Métrica y costo del error.</strong> ¿Qué es peor, un falso positivo o un falso negativo, y cuánto? (§6).</li>
       <li><strong>Baseline.</strong> ¿Qué obtendría una regla trivial? El modelo debe superarla con claridad para justificar su costo.</li>
     </ol>
+
+    
 
     <h2 id="m1-4"><span class="sec">§4</span>El proceso general y la generalización</h2>
     <p>Un proyecto de ML recorre un ciclo: <strong>recolección</strong> de datos, análisis exploratorio, <strong>preprocesamiento</strong> (imputar, escalar, codificar), <strong>entrenamiento</strong>, <strong>validación</strong> para elegir el modelo y sus hiperparámetros, <strong>prueba</strong> final, despliegue y monitoreo. Cuando el monitoreo detecta que los datos cambiaron, el ciclo vuelve a empezar.</p>
@@ -1937,6 +1959,8 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
       <div class="callout__body"><p>Un <code>DummyClassifier(strategy="most_frequent")</code> predice siempre la clase mayoritaria; un <code>DummyRegressor(strategy="mean")</code>, la media. Si el 74 % de los clientes no abandona, el baseline ya tiene 74 % de exactitud. Todo resultado se reporta junto al baseline.</p></div>
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-1">E1.1 · Nivel 3</a> (California Housing: baseline frente a modelo lineal) · <a href="#/s1/animaciones/anim-A1-2">A1.2 ciclo de vida</a> · <a href="#/s1/animaciones/anim-A1-5">A1.5 sub/sobreajuste</a></div>
+
+    
 
     <h2 id="m1-5"><span class="sec">§5</span>Particiones y validación</h2>
     <p>Para estimar el error de generalización necesitamos datos que el modelo no haya visto. El esquema estándar tiene tres papeles:</p>
@@ -1962,6 +1986,8 @@ res = cross_validate(modelo, X_train, y_train, cv=cv, scoring="average_precision
 print(f"{res['test_score'].mean():.3f} ± {res['test_score'].std():.3f}")</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-3">E1.3 · Nivel 2</a> · <a href="#/s1/animaciones/anim-A1-3">Animación A1.3</a></div>
 
+    
+
     <h2 id="m1-6"><span class="sec">§6</span>Métricas de evaluación</h2>
     <h3>Regresión</h3>
     $$ \mathrm{MAE}=\frac1n\sum_{i}|y_i-\hat y_i| \qquad \mathrm{RMSE}=\sqrt{\frac1n\sum_{i}(y_i-\hat y_i)^2} \qquad R^2 = 1-\frac{\sum_i (y_i-\hat y_i)^2}{\sum_i (y_i-\bar y)^2} $$
@@ -1979,6 +2005,8 @@ print(f"{res['test_score'].mean():.3f} ± {res['test_score'].std():.3f}")</code>
     $$ C(t) = c_{FN}\cdot FN(t) + c_{FP}\cdot FP(t) $$
     <p>scikit-learn ofrece <code>TunedThresholdClassifierCV</code> para elegir el umbral por validación cruzada con una métrica o una función de costo, en lugar de usar 0.5 por defecto.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-2">E1.2 · Niveles 1 a 3</a> (métricas desde cero y umbral por costo sobre defectos de software) · <a href="#/s1/animaciones/anim-A1-6">Animación A1.6</a></div>
+
+    
 
     <h2 id="m1-7"><span class="sec">§7</span>Fuga de datos</h2>
     <p>Hay <strong>fuga de datos</strong> (<em>data leakage</em>) cuando información que no estará disponible al momento de predecir, o que pertenece al conjunto de validación o prueba, influye en el entrenamiento. Produce estimaciones optimistas que se desploman en producción. Las formas más comunes:</p>
@@ -2007,6 +2035,8 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-3">E1.3 · Nivel 1</a> (fuga sobre ruido puro) y <a href="#/s1/ejercicios/e1-3">Nivel 4</a> (encontrar la fuga en Titanic) · <a href="#/s1/animaciones/anim-A1-4">Animación A1.4</a></div>
 
+    
+
     <h2 id="m1-8"><span class="sec">§8</span>Reproducibilidad</h2>
     <p>Un resultado que nadie puede reproducir no es un resultado. La norma d del curso exige entregar un <strong>repositorio reproducible</strong>:</p>
     <ul>
@@ -2017,6 +2047,8 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
       <li><strong>Declaración de uso de IA</strong> generativa y de código externo, con los prompts relevantes (norma f).</li>
     </ul>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e0">E0 · Entorno reproducible</a></div>
+
+    
 
     <h2 id="m1-9"><span class="sec">§9</span>Autoevaluación y lecturas</h2>
     <ol class="selfcheck">
@@ -2050,7 +2082,15 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
   <div class="callout callout--practica">
     <div class="callout__title">Cómo trabajar los notebooks</div>
     <div class="callout__body">
-      <p>Ábrelos en Google Colab o en tu JupyterLab local (entorno de E0). Ejecuta de arriba hacia abajo, completa las celdas <code># TODO</code> y corre las celdas de <strong>autoverificación</strong>: sus <code>assert</code> te dicen si vas bien. La solución de cada ejercicio se publica después del cierre de la semana. Todos los notebooks se ejecutan completos en menos de un minuto.</p>
+      <p>Ábrelos en Google Colab o en tu JupyterLab local (entorno de E0). Ejecuta de arriba hacia abajo, completa las celdas <code># TODO</code> y corre las celdas de <strong>autoverificación</strong>: sus <code>assert</code> te dicen si vas bien. Todos los notebooks se ejecutan completos en menos de un minuto.</p>
+    </div>
+  </div>
+
+  <div class="callout callout--concepto">
+    <div class="callout__title">Versión resuelta y desafíos con IA</div>
+    <div class="callout__body">
+      <p>Cada ejercicio tiene su <strong>versión resuelta</strong> (botones <em>Resuelto en Colab</em> y <em>Resuelto en GitHub</em>): úsala para comprobar tu trabajo o para estudiar el razonamiento completo. Este curso no es de programación en Python: el código es el medio para entender, comparar y validar los métodos, y puedes escribirlo con ayuda de IA.</p>
+      <p>Al final de cada tarjeta hay un <strong>desafío opcional con IA agéntica</strong> para ampliar el laboratorio con Claude Code, Codex, Gemini, ChatGPT u otra herramienta. Si usas IA, decláralo (herramienta, prompts relevantes y qué verificaste tú), como pide la norma f del sílabo. Guía completa: <a href="#/recursos/ia">Recursos · IA en el curso</a>.</p>
     </div>
   </div>
 
@@ -2060,7 +2100,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     <h3>Entorno reproducible</h3>
     <p>Configura Python 3.13 o 3.14 con JupyterLab y las librerías del curso, en local o en Colab, y deja lista la estructura de repositorio que usarás en todas las tareas.</p>
     <div class="res-card__meta"><span>⏱ 1.5 h</span><span>Laboratorio guiado del sábado</span><span>Norma d · reproducibilidad</span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E0_entorno.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E0_entorno.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E0_entorno.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E0_entorno.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E0_entorno.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-1/E0_entorno_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-1/E0_entorno_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E0_entorno.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <details class="fold">
       <summary>Manual del ejercicio ME0</summary>
       <div class="fold__body">
@@ -2084,6 +2124,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
         <p><strong>Lista de cotejo:</strong> ☐ versiones impresas · ☐ semilla fija · ☐ estructura creada · ☐ README con los pasos · ☐ corrida registrada en MLflow.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Tu entorno, verificado por un agente</summary><div class="fold__body"><p><strong>Objetivo.</strong> Pedirle a un agente que prepare y compruebe un entorno reproducible del curso, y aprender a revisar lo que hizo.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">Estoy en un curso de aprendizaje automático. En este repositorio hay un notebook de entorno (E0) y un pyproject.toml. Muéstrame primero un plan y espera mi aprobación. Después crea un entorno con uv y Python 3.13 usando solo las dependencias de pyproject.toml, ejecuta el notebook de principio a fin y escribe un README con los pasos exactos, las versiones instaladas y el tiempo de ejecución. No instales nada que no esté declarado.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>El notebook corre de cero en un entorno limpio y las versiones coinciden con uv.lock.</li><li>Otra persona puede repetir los pasos del README sin preguntarte nada.</li><li>Revisaste cada comando que el agente ejecutó antes de aprobarlo.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s1-e0"><span class="check__text"><span class="check__title">Terminé E0</span></span></label>
   </section>
 
@@ -2093,7 +2134,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     <h3>Tipos de aprendizaje y proceso ML</h3>
     <p>Programa desde cero una regresión polinómica, un paso de K-means y un bandido ε-greedy; después lleva el flujo a California Housing con un baseline.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: sintéticos + <code>fetch_california_housing</code> (20 640 filas, 8 variables)</span><span>Teoría: <a href="#/s1/manual/m1-2">M1 §2</a>, <a href="#/s1/manual/m1-4">§4</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E1.1_tipos_y_proceso.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E1.1_tipos_y_proceso.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E1.1_tipos_y_proceso.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E1.1_tipos_y_proceso.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E1.1_tipos_y_proceso.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-1/E1.1_tipos_y_proceso_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-1/E1.1_tipos_y_proceso_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E1.1_tipos_y_proceso.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>Partición manual, ajuste polinómico por mínimos cuadrados y error de entrenamiento frente a validación por grado. Bandido multibrazo ε-greedy en ≈ 20 líneas.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>train_test_split</code>, <code>PolynomialFeatures</code>, <code>DummyRegressor</code>; vista previa de <code>KMeans</code> sobre <code>make_blobs</code>. Un <code>assert</code> compara con tu versión.</p></div>
@@ -2125,6 +2166,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
         <p><strong>Cómo te prepara para la Tarea 1:</strong> practicas la partición previa, el baseline y la validación cruzada que la tarea exige.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Un problema de TI de principio a fin</summary><div class="fold__body"><p><strong>Objetivo.</strong> Recorrer el proceso completo con un problema propio: formulación, modelo de referencia, modelo y validación.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">Tengo el notebook resuelto E1.1 (tipos de aprendizaje y proceso de ML). Agrega una sección nueva que simule 1000 tickets de soporte de TI (semilla 2026) para predecir su tiempo de resolución. Antes de programar, escribe la formulación del problema: unidad de análisis, variable objetivo, momento de predicción, métrica y modelo de referencia. Luego compara un DummyRegressor con una regresión lineal por validación cruzada y explica los resultados en español.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>La formulación está escrita antes del código y no usa variables posteriores al cierre del ticket.</li><li>El modelo se compara con el modelo de referencia, con media ± desviación entre folds.</li><li>Puedes explicar con tus palabras por qué el modelo supera (o no) al de referencia.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s1-e11"><span class="check__text"><span class="check__title">Terminé E1.1</span></span></label>
   </section>
 
@@ -2134,7 +2176,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     <h3>Métricas y costo del error</h3>
     <p>Construye la matriz de confusión y las curvas ROC y PR desde cero; después elige el umbral por costo en un problema real de TI con clases desbalanceadas.</p>
     <div class="res-card__meta"><span>⏱ 4.5 h</span><span>Datos: sintéticos + <strong>kc1</strong>, defectos de software (OpenML 1067, ≈ 15 % defectuosos)</span><span>Teoría: <a href="#/s1/manual/m1-6">M1 §6</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E1.2_metricas_y_costo.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E1.2_metricas_y_costo.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E1.2_metricas_y_costo.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E1.2_metricas_y_costo.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E1.2_metricas_y_costo.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-1/E1.2_metricas_y_costo_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-1/E1.2_metricas_y_costo_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E1.2_metricas_y_costo.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1</div><div class="level__t">Desde cero</div><p>Matriz de confusión, precisión, recall y F1 en NumPy; barrido de umbrales para trazar ROC y PR a mano.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>confusion_matrix</code>, <code>classification_report</code>, <code>RocCurveDisplay</code>, <code>PrecisionRecallDisplay</code>; comparación con el nivel 1.</p></div>
@@ -2165,6 +2207,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
         <p><strong>Cómo te prepara para la Tarea 1:</strong> la tarea pide justificar métrica y umbral con una matriz de costos.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · El umbral de tu organización</summary><div class="fold__body"><p><strong>Objetivo.</strong> Ver cómo cambian el umbral y la decisión cuando cambia el costo de cada error.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E1.2 (métricas y umbral por costo con los defectos de software kc1), agrega una sección que compare tres escenarios de costo FN:FP = 1:1, 5:1 y 20:1. Para cada uno elige el umbral por validación cruzada con TunedThresholdClassifierCV, sin usar la prueba, y reporta precisión, recall y costo esperado en la prueba. Resume en una tabla y explica qué escenario usarías en un equipo de QA con poca capacidad de revisión.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>El umbral se elige sin mirar la prueba.</li><li>Los umbrales bajan cuando el falso negativo se vuelve más caro.</li><li>La conclusión habla de costos y capacidad, no solo de F1.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s1-e12"><span class="check__text"><span class="check__title">Terminé E1.2</span></span></label>
   </section>
 
@@ -2174,7 +2217,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     <h3>Fuga de datos y pipelines</h3>
     <p>Provoca una fuga sobre ruido puro para ver cómo engaña; después construye un flujo sin fuga con <code>Pipeline</code> y <code>ColumnTransformer</code> sobre datos crudos con tipos mixtos. Es la base de la Tarea 1.</p>
     <div class="res-card__meta"><span>⏱ 5 h</span><span>Datos: ruido sintético + <strong>Titanic</strong> (OpenML 40945, 1309 filas, tipos mixtos y faltantes)</span><span>Teoría: <a href="#/s1/manual/m1-5">M1 §5</a>, <a href="#/s1/manual/m1-7">§7</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E1.3_fuga_y_pipelines.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E1.3_fuga_y_pipelines.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E1.3_fuga_y_pipelines.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E1.3_fuga_y_pipelines.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E1.3_fuga_y_pipelines.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-1/E1.3_fuga_y_pipelines_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-1/E1.3_fuga_y_pipelines_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E1.3_fuga_y_pipelines.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1</div><div class="level__t">La fuga en acción</div><p>Ruido puro + <code>SelectKBest</code> fuera y dentro de la validación cruzada: exactitud falsa frente a azar.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">Pipeline y ColumnTransformer</div><p>Imputación, escalado y one-hot por tipo de variable; <code>cross_validate</code> estratificado.</p></div>
@@ -2205,6 +2248,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
         <p><strong>Cómo te prepara para la Tarea 1:</strong> la tarea es este mismo flujo aplicado a Telco Customer Churn.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Caza de fugas</summary><div class="fold__body"><p><strong>Objetivo.</strong> Encontrar fugas de datos escondidas por un agente y comparar tu diagnóstico con el suyo.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">Haz una copia del notebook resuelto E1.3 (fuga de datos y pipelines) e introduce tres fugas de datos sutiles y distintas (por ejemplo: preprocesar antes de partir, seleccionar variables con todos los datos o usar una variable que solo existe después del evento). No me digas cuáles son ni dónde están: dime solo la exactitud que obtiene la copia. Cuando te dé mi diagnóstico, compáralo con lo que hiciste y explica cómo corregir cada fuga con un Pipeline.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Buscaste las tres fugas antes de pedir la respuesta.</li><li>Al corregirlas, la exactitud baja a valores realistas.</li><li>Cada corrección usa un Pipeline evaluado con validación cruzada.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s1-e13"><span class="check__text"><span class="check__title">Terminé E1.3</span></span></label>
   </section>
 </article>
@@ -2304,14 +2348,16 @@ X_train, X_test, y_train, y_test = train_test_split(
       </div>
     </div>
     <div class="callout callout--etica">
-      <div class="callout__title">Declaración de uso de IA (plantilla)</div>
+      <div class="callout__title">Uso de IA permitido, siempre declarado</div>
       <div class="callout__body">
-        <p>“Usé [herramienta] para [tarea concreta: depurar un error, redactar el README…]. Los prompts relevantes están en <code>reports/prompts.md</code>. Verifiqué los resultados [cómo]. El análisis, las decisiones y las conclusiones son de mi autoría.” Si no usaste IA, decláralo igualmente.</p>
+        <p>Puedes resolver esta tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares. El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y cómo verificaste los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>.</p>
+        <p>Plantilla: “Usé [herramienta] para [tarea concreta: depurar un error, redactar el README…]. Los prompts relevantes están en <code>reports/prompts.md</code>. Verifiqué los resultados [cómo]. El análisis, las decisiones y las conclusiones son de mi autoría.” Si no usaste IA, decláralo igualmente.</p>
       </div>
     </div>
   </div>
   <p class="muted" style="font-size:.875rem">Te preparan para esta tarea: <a href="#/s1/ejercicios/e1-3">E1.3</a> (flujo sin fuga), <a href="#/s1/ejercicios/e1-2">E1.2</a> (umbral por costo) y <a href="#/s1/ejercicios/e0">E0</a> (repositorio reproducible).</p>
   <label class="check"><input type="checkbox" data-check="s1-t1"><span class="check__text"><span class="check__title">Entregué la Tarea 1</span><small>Márcalo cuando la subas al LMS</small></span></label>
+  
 </article>
 
 <!-- ---- src/content/10-semana-1/80-quiz.html ---- -->
@@ -2939,7 +2985,7 @@ busq = GridSearchCV(knn, malla, cv=5,
           <li class="fragment">Con millones de filas: <code>LinearSVC</code>, <code>Nystroem</code> o árboles.</li>
         </ul>
       </div>
-      <aside class="notes"><p>En la ejecución de referencia, multiplicar n por 8 multiplicó el tiempo de entrenamiento del SVC RBF por ≈ 28 y el de LinearSVC por ≈ 5; el de predecir con KNN, por ≈ 6. Preguntar: ¿qué usarían para clasificar las URL de todo el tráfico de la empresa?</p></aside>
+      <aside class="notes"><p>En la ejecución de referencia, multiplicar n por 8 multiplicó el tiempo de entrenamiento del SVC RBF por ≈ 28 y el de LinearSVC por ≈ 5; el de predecir con KNN, por ≈ 5. Preguntar: ¿qué usarían para clasificar las URL de todo el tráfico de la empresa?</p></aside>
     </section>
 
     <!-- ===================== Bloque 4 ===================== -->
@@ -3100,6 +3146,7 @@ for nombre, (pipe, malla) in candidatos.items():
           <li>Búsqueda sin fuga, desbalance (pesos y umbral).</li>
           <li>Curvas de aprendizaje y calibración del elegido.</li>
           <li>Todo registrado en MLflow; media ± DE; recomendación.</li>
+          <li>IA agéntica o de chat permitida, <strong>declarada</strong>.</li>
         </ul>
         <div class="box box--soft">
           <h3>Rúbrica (100 pts)</h3>
@@ -3401,13 +3448,21 @@ with mlflow.start_run(run_name="bosque"):
     </div>
   </div>
 
+  <div class="callout callout--concepto">
+    <div class="callout__title">Versión resuelta y desafíos con IA</div>
+    <div class="callout__body">
+      <p>Cada ejercicio tiene su <strong>versión resuelta</strong> (botones <em>Resuelto en Colab</em> y <em>Resuelto en GitHub</em>): úsala para comprobar tu trabajo o para estudiar el razonamiento completo. Este curso no es de programación en Python: el código es el medio para entender, comparar y validar los métodos, y puedes escribirlo con ayuda de IA.</p>
+      <p>Al final de cada tarjeta hay un <strong>desafío opcional con IA agéntica</strong> para ampliar el laboratorio con Claude Code, Codex, Gemini, ChatGPT u otra herramienta. Si usas IA, decláralo (herramienta, prompts relevantes y qué verificaste tú), como pide la norma f del sílabo. Guía completa: <a href="#/recursos/ia">Recursos · IA en el curso</a>.</p>
+    </div>
+  </div>
+
   <!-- ============================== E2.1 ============================== -->
   <section class="card res-card" id="e2-1">
     <div class="res-card__top"><span class="chip chip--id">E2.1</span><span class="status status--listo">Notebook listo · verificado</span></div>
     <h3>Regresión lineal y regularización</h3>
     <p>Ecuación normal, descenso de gradiente y Ridge programados desde cero; después Ridge y Lasso sobre California Housing, con análisis de residuos y variables polinómicas.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: sintéticos + <code>fetch_california_housing</code> (20 640 distritos, 8 variables)</span><span>Teoría: <a href="#/s2/manual/m2-1">M2 §1</a>, <a href="#/s2/manual/m2-2">§2</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.1_regresion_y_regularizacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.1_regresion_y_regularizacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.1_regresion_y_regularizacion.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.1_regresion_y_regularizacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.1_regresion_y_regularizacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-2/E2.1_regresion_y_regularizacion_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-2/E2.1_regresion_y_regularizacion_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.1_regresion_y_regularizacion.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>Ecuación normal con <code>np.linalg.solve</code>, descenso de gradiente con cuatro tasas (una diverge) y efecto de escalar; Ridge cerrado con datos centrados.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>LinearRegression</code>, <code>Ridge</code>, <code>Lasso</code> y <code>RidgeCV</code>; <code>assert</code> contra tu versión y comparación con variables de ruido.</p></div>
@@ -3439,6 +3494,7 @@ with mlflow.start_run(run_name="bosque"):
         <p><strong>Cómo te prepara para la Tarea 2:</strong> comparar con validación cruzada y justificar la regularización con evidencia.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Elastic Net y la estabilidad de los coeficientes</summary><div class="fold__body"><p><strong>Objetivo.</strong> Comparar Ridge, Lasso y Elastic Net y medir qué tan estables son sus coeficientes.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E2.1 (regresión lineal y regularización con California Housing), agrega una sección que ajuste ElasticNetCV dentro de un Pipeline con StandardScaler y compare Ridge, Lasso y Elastic Net por validación cruzada. Después, con 50 muestras bootstrap, grafica la dispersión de cada coeficiente para los tres modelos y explica en español qué variables son estables, cuáles cambian y qué implica eso para interpretarlas.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Todo el preprocesamiento está dentro del pipeline.</li><li>Los errores se reportan con media ± desviación.</li><li>La interpretación no confunde un coeficiente con un efecto causal.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s2-e21"><span class="check__text"><span class="check__title">Terminé E2.1</span></span></label>
   </section>
 
@@ -3448,7 +3504,7 @@ with mlflow.start_run(run_name="bosque"):
     <h3>Regresión logística y calibración</h3>
     <p>Sigmoide, log-loss y gradiente desde cero; después una campaña bancaria real con desbalance, calibración y una decisión por valor esperado.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: sintéticos + <strong>Bank Marketing</strong> (OpenML 1461: 45 211 llamadas, 11.7 % positivos)</span><span>Teoría: <a href="#/s2/manual/m2-3">M2 §3</a>, <a href="#/s2/manual/m2-4">§4</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.2_logistica_y_calibracion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.2_logistica_y_calibracion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.2_logistica_y_calibracion.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.2_logistica_y_calibracion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.2_logistica_y_calibracion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-2/E2.2_logistica_y_calibracion_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-2/E2.2_logistica_y_calibracion_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.2_logistica_y_calibracion.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1</div><div class="level__t">Desde cero</div><p>Sigmoide, log-loss y descenso de gradiente en NumPy; mapa de probabilidad y frontera en 2D.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>LogisticRegression</code> contra tu versión; efecto de <code>C</code>; <code>class_weight</code> y el diagrama de fiabilidad.</p></div>
@@ -3479,6 +3535,7 @@ with mlflow.start_run(run_name="bosque"):
         <p><strong>Cómo te prepara para la Tarea 2:</strong> la tarea pide tratar el desbalance (pesos y umbral) y calibrar el modelo elegido.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · ¿A quién llamar? Calibración por grupo</summary><div class="fold__body"><p><strong>Objetivo.</strong> Revisar si la calibración y la decisión por valor esperado son parecidas en distintos grupos de edad.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E2.2 (regresión logística y calibración con Bank Marketing, sin la variable duration), agrega una sección que calcule el diagrama de fiabilidad y el Brier score por grupos de edad (menos de 30, de 30 a 60 y más de 60), antes y después de calibrar. Luego aplica por grupo la regla de valor esperado del notebook y explica si la decisión de a quién llamar cambia entre grupos y por qué eso importa.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>La calibración se ajusta sin tocar la prueba.</li><li>Cada grupo se reporta con su tamaño.</li><li>La conclusión menciona el riesgo de tratar distinto a los grupos.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s2-e22"><span class="check__text"><span class="check__title">Terminé E2.2</span></span></label>
   </section>
 
@@ -3488,7 +3545,7 @@ with mlflow.start_run(run_name="bosque"):
     <h3>SVM, kernels y k vecinos (KNN)</h3>
     <p>Una SVM lineal por subgradiente de la hinge y un KNN programados desde cero; kernels, k y escalado sobre datos no lineales, y un caso de seguridad informática: detección de phishing.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: <code>make_moons</code>, <code>make_circles</code> + <strong>PhishingWebsites</strong> (OpenML 4534: 11 055 sitios, 44 % phishing)</span><span>Teoría: <a href="#/s2/manual/m2-5">M2 §5</a>, <a href="#/s2/manual/m2-6">§6</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.3_svm_kernels_y_knn.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.3_svm_kernels_y_knn.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.3_svm_kernels_y_knn.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.3_svm_kernels_y_knn.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.3_svm_kernels_y_knn.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-2/E2.3_svm_kernels_y_knn_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-2/E2.3_svm_kernels_y_knn_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.3_svm_kernels_y_knn.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1</div><div class="level__t">Desde cero</div><p>Subgradiente de la pérdida hinge con tasa decreciente; margen y vectores de soporte. KNN con distancias y votación en NumPy.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>SVC</code> y <code>KNeighborsClassifier</code> contra tus versiones; kernels y malla C × gamma; k por validación cruzada, escalado y pesos 1/d.</p></div>
@@ -3504,7 +3561,7 @@ with mlflow.start_run(run_name="bosque"):
           <li><strong>Nivel 1.</strong> Implementa el subgradiente: los puntos con \(y_i f(x_i) &lt; 1\) aportan \(-y_i x_i\); el resto, nada. Con λ = 0.01 y 4000 pasos, <em>esperado:</em> w ≈ [1.505, 0.792], b ≈ −0.368, margen 2/‖w‖ ≈ 1.18 y 12 de 120 puntos en el margen o dentro de él. Después programa KNN: matriz de distancias por <em>broadcasting</em>, <code>np.argsort</code> y promedio de las etiquetas de los k vecinos. En lunas (400 de entrenamiento, 200 de validación), <em>esperado:</em> k = 1 → 1.000 en entrenamiento y 0.850 en validación (islas); k = 15 → 0.905 en validación; k = 101 → 0.895.</li>
           <li><strong>Nivel 2.</strong> <code>SVC(kernel="linear", C=1/(λn))</code> da el mismo w (coseno 1.000) y 12 vectores de soporte. En lunas y círculos el kernel lineal fracasa; RBF con γ = 1 sigue la forma y γ = 50 dibuja islas. En la malla de lunas la mejor combinación es C = 10, γ = 1 (exactitud CV 0.937). Tu KNN coincide con <code>KNeighborsClassifier</code> en todas las predicciones. Por validación cruzada, k = 1 da 0.857 y el mejor k es 71 (0.910), con una curva casi plana entre 3 y 100. Con la segunda variable × 100, la exactitud cae a 0.792 sin escalar y vuelve a 0.895 con <code>StandardScaler</code>; con <code>weights="distance"</code> la exactitud de entrenamiento es 1.000.</li>
           <li><strong>Nivel 3.</strong> Los indicadores vienen como texto (−1, 0, 1): conviértelos a enteros. Busca C y γ con validación cruzada sobre una submuestra de 3000 sitios del entrenamiento. <em>Esperado:</em> mejor C = 30, γ = 0.03 (F1 CV 0.934); en la prueba, F1 0.916 del baseline logístico, 0.925 de la SVM lineal y 0.960 de la RBF, con ≈ 1300 vectores de soporte. KNN: mejor k = 21 con pesos 1/d (F1 CV 0.912) y F1 0.949 en la prueba; entrena en milisegundos pero guarda los 8 291 sitios.</li>
-          <li><strong>Nivel 4.</strong> Mide el tiempo de entrenamiento con n = 1000, 2000, 4000 y 8000. En la ejecución de referencia, al multiplicar n por 8 el tiempo del <code>SVC</code> RBF se multiplicó por ≈ 28 y el de <code>LinearSVC</code> por ≈ 5; el de <em>predecir</em> la prueba con KNN, por ≈ 6 (los tiempos absolutos dependen de tu equipo).</li>
+          <li><strong>Nivel 4.</strong> Mide el tiempo de entrenamiento con n = 1000, 2000, 4000 y 8000. En la ejecución de referencia, al multiplicar n por 8 el tiempo del <code>SVC</code> RBF se multiplicó por ≈ 28 y el de <code>LinearSVC</code> por ≈ 5; el de <em>predecir</em> la prueba con KNN, por ≈ 5 (los tiempos absolutos dependen de tu equipo).</li>
         </ol>
         <div class="table-wrap"><table class="table">
           <thead><tr><th>Síntoma</th><th>Causa probable</th><th>Solución</th></tr></thead>
@@ -3521,6 +3578,7 @@ with mlflow.start_run(run_name="bosque"):
         <p><strong>Cómo te prepara para la Tarea 2:</strong> la SVM es uno de los cinco modelos que compararás, con C y gamma buscados dentro de la validación. KNN no es obligatorio en la tarea, pero es un buen modelo de referencia adicional.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Escalar la SVM y KNN a millones de datos</summary><div class="fold__body"><p><strong>Objetivo.</strong> Comparar alternativas más baratas que la SVM con kernel y que KNN cuando los datos crecen.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E2.3 (SVM, kernels y KNN con PhishingWebsites), agrega una sección que compare, con el mismo entrenamiento y la misma prueba, un SVC RBF, un pipeline con Nystroem y LinearSVC, y KNN. Mide F1, tiempo de entrenamiento y tiempo de predicción al crecer n de 1000 a 8000, buscando los hiperparámetros solo con el entrenamiento. Explica en español qué modelo usarías para clasificar millones de URL por día y por qué.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Todos los modelos usan las mismas particiones.</li><li>Gamma, C y k se buscan sin tocar la prueba.</li><li>La recomendación pesa desempeño, costo de entrenar y costo de predecir.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s2-e23"><span class="check__text"><span class="check__title">Terminé E2.3</span></span></label>
   </section>
 
@@ -3530,7 +3588,7 @@ with mlflow.start_run(run_name="bosque"):
     <h3>Árboles, bosques, boosting y comparación</h3>
     <p>Gini y mejor corte desde cero; árbol, bosque y boosting; cinco modelos comparados por costo con búsqueda de hiperparámetros y registro en MLflow. El nivel 3 es el laboratorio guiado del sábado y la base de la Tarea 2.</p>
     <div class="res-card__meta"><span>⏱ 5 h</span><span>Datos: <strong>credit-g</strong> (OpenML 31: 1000 solicitudes de crédito, 30 % malos pagadores, costo 5:1)</span><span>Teoría: <a href="#/s2/manual/m2-7">M2 §7</a>, <a href="#/s2/manual/m2-8">§8</a>, <a href="#/s2/manual/m2-9">§9</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.4_arboles_bosques_y_comparacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.4_arboles_bosques_y_comparacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.4_arboles_bosques_y_comparacion.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-2/E2.4_arboles_bosques_y_comparacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-2/E2.4_arboles_bosques_y_comparacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-2/E2.4_arboles_bosques_y_comparacion_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-2/E2.4_arboles_bosques_y_comparacion_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-2/E2.4_arboles_bosques_y_comparacion.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1</div><div class="level__t">Desde cero</div><p>Índice de Gini y mejor corte de una variable en NumPy; curva de impureza según el umbral.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p>Profundidad y sobreajuste, <code>plot_tree</code>, bosque con OOB, MDI frente a permutación y <code>HistGradientBoostingClassifier</code>.</p></div>
@@ -3562,6 +3620,7 @@ with mlflow.start_run(run_name="bosque"):
         <p><strong>Cómo te prepara para la Tarea 2:</strong> es el mismo flujo, aplicado a módulos de software defectuosos (jm1), con curvas de aprendizaje y calibración.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Un sexto modelo en MLflow</summary><div class="fold__body"><p><strong>Objetivo.</strong> Sumar KNN a la comparación de credit-g y registrarlo en MLflow con las mismas reglas.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E2.4 (árboles, bosques y comparación con credit-g y MLflow), agrega un sexto modelo: KNN con StandardScaler en el pipeline y búsqueda de k y de los pesos. Regístralo en el mismo experimento de MLflow (sqlite:///mlflow.db) con los mismos folds y la misma métrica de costo 5:1. Actualiza la tabla comparativa con media ± desviación y explica si cambia la elección del modelo.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Se usan los mismos folds y la misma métrica de costo que los otros cinco modelos.</li><li>La corrida aparece en MLflow con sus parámetros y métricas.</li><li>La conclusión considera la variabilidad entre folds antes de declarar un ganador.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s2-e24"><span class="check__text"><span class="check__title">Terminé E2.4</span></span></label>
   </section>
 </article>
@@ -3623,10 +3682,11 @@ with mlflow.start_run(run_name="bosque"):
     </div>
   <div class="callout callout--etica">
     <div class="callout__title">Integridad y uso de IA</div>
-    <div class="callout__body"><p>Incluye al final del informe la declaración de uso de IA generativa y de código externo, con los prompts relevantes en <code>reports/prompts.md</code> (norma f). Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
+    <div class="callout__body"><p>Puedes resolver la tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares al final del informe, con los prompts relevantes en <code>reports/prompts.md</code> (norma f). El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y la verificación de los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>. Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
   </div>
   <p class="muted" style="font-size:.875rem">Te prepara para esta tarea: <a href="#/s2/ejercicios/e2-4">E2.4</a>.</p>
   <label class="check"><input type="checkbox" data-check="s2-t2"><span class="check__text"><span class="check__title">Entregué la Tarea 2</span><small>Márcalo cuando la subas al LMS</small></span></label>
+  
 </article>
 
 <!-- ---- src/content/20-semana-2/80-quiz.html ---- -->
@@ -4518,6 +4578,7 @@ db = DBSCAN(eps=5 / 6371, min_samples=60,
           <li>K-means o DBSCAN validado y estable.</li>
           <li>Isolation Forest <strong>y</strong> LOF, comparados, con umbral justificado.</li>
           <li>Composición de clusters y anomalías por sexo, educación y edad, con tasas y razones.</li>
+          <li>IA agéntica o de chat permitida, <strong>declarada</strong>.</li>
         </ul>
         <div class="box box--soft">
           <h3>Rúbrica (100 pts)</h3>
@@ -4863,13 +4924,21 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
     </div>
   </div>
 
+  <div class="callout callout--concepto">
+    <div class="callout__title">Versión resuelta y desafíos con IA</div>
+    <div class="callout__body">
+      <p>Cada ejercicio tiene su <strong>versión resuelta</strong> (botones <em>Resuelto en Colab</em> y <em>Resuelto en GitHub</em>): úsala para comprobar tu trabajo o para estudiar el razonamiento completo. Este curso no es de programación en Python: el código es el medio para entender, comparar y validar los métodos, y puedes escribirlo con ayuda de IA.</p>
+      <p>Al final de cada tarjeta hay un <strong>desafío opcional con IA agéntica</strong> para ampliar el laboratorio con Claude Code, Codex, Gemini, ChatGPT u otra herramienta. Si usas IA, decláralo (herramienta, prompts relevantes y qué verificaste tú), como pide la norma f del sílabo. Guía completa: <a href="#/recursos/ia">Recursos · IA en el curso</a>.</p>
+    </div>
+  </div>
+
   <!-- ============================== E3.1 ============================== -->
   <section class="card res-card" id="e3-1">
     <div class="res-card__top"><span class="chip chip--id">E3.1</span><span class="status status--listo">Notebook listo · verificado</span></div>
     <h3>K-means y validación de clusters</h3>
     <p>Lloyd y k-means++ programados desde cero; elección de k con varios criterios y estabilidad; segmentación de los clientes de un banco y auditoría de su composición por edad y estado civil.</p>
     <div class="res-card__meta"><span>⏱ 4.5 h</span><span>Datos: <code>make_blobs</code> + <strong>Bank Marketing</strong> (OpenML 1461, 45 211 clientes, sin la variable objetivo)</span><span>Teoría: <a href="#/s3/manual/m3-2">M3 §2</a>, <a href="#/s3/manual/m3-3">§3</a>, <a href="#/s3/manual/m3-5">§5</a>, <a href="#/s3/manual/m3-9">§9</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.1_kmeans_y_validacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.1_kmeans_y_validacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.1_kmeans_y_validacion.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.1_kmeans_y_validacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.1_kmeans_y_validacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-3/E3.1_kmeans_y_validacion_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-3/E3.1_kmeans_y_validacion_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.1_kmeans_y_validacion.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>Algoritmo de Lloyd e inicialización k-means++; 30 corridas con cada inicio para ver los óptimos locales.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>KMeans</code> (con <code>assert</code> contra tu Lloyd), codo, silhouette, Davies-Bouldin y estabilidad con ARI entre bootstraps.</p></div>
@@ -4902,6 +4971,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
         <p><strong>Cómo te prepara para la Tarea 3:</strong> la tarea exige una segmentación validada y estable y el análisis de su composición por subgrupos (sexo, educación, edad).</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Otra forma de segmentar: mezclas gaussianas</summary><div class="fold__body"><p><strong>Objetivo.</strong> Comparar la segmentación de K-means con la de un modelo de mezclas gaussianas y validar ambas.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E3.1 (K-means y validación con Bank Marketing), agrega una sección que ajuste GaussianMixture con el mismo preprocesamiento y 4 grupos. Compara ambas segmentaciones con silhouette, estabilidad (ARI entre muestras bootstrap), perfiles de cada grupo y la tasa de contratación por segmento como validación externa. Explica en español cuál recomendarías y por qué.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Las dos segmentaciones usan el mismo preprocesamiento.</li><li>La estabilidad se mide con varias semillas o muestras.</li><li>Cada segmento se describe con una frase, no solo con números.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s3-e31"><span class="check__text"><span class="check__title">Terminé E3.1</span></span></label>
   </section>
 
@@ -4911,7 +4981,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
     <h3>DBSCAN y densidad</h3>
     <p>Vecindades, núcleos y expansión programados desde cero; elección de eps con la k-distancia; zonas densas de California con distancia haversine y su sensibilidad a los parámetros.</p>
     <div class="res-card__meta"><span>⏱ 3.5 h</span><span>Datos: <code>make_moons</code> con ruido + <code>fetch_california_housing</code> (coordenadas de 20 640 distritos)</span><span>Teoría: <a href="#/s3/manual/m3-4">M3 §4</a>, <a href="#/s3/manual/m3-5">§5</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.2_dbscan_y_densidad.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.2_dbscan_y_densidad.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.2_dbscan_y_densidad.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.2_dbscan_y_densidad.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.2_dbscan_y_densidad.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-3/E3.2_dbscan_y_densidad_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-3/E3.2_dbscan_y_densidad_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.2_dbscan_y_densidad.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>ε-vecindades, núcleo, borde y ruido, y expansión en anchura (BFS) de cada cluster.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>DBSCAN</code> (núcleos y ruido idénticos a los tuyos), gráfico de k-distancia con <code>NearestNeighbors</code> y comparación con K-means en las lunas.</p></div>
@@ -4943,6 +5013,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
         <p><strong>Cómo te prepara para la Tarea 3:</strong> la tarea permite segmentar con DBSCAN y pide justificar los parámetros, validar y medir la estabilidad.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · HDBSCAN: zonas con densidades distintas</summary><div class="fold__body"><p><strong>Objetivo.</strong> Probar HDBSCAN en el caso de California y compararlo con DBSCAN.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E3.2 (DBSCAN con las coordenadas de California y haversine), agrega una sección con sklearn.cluster.HDBSCAN sobre las mismas coordenadas en radianes y metric=&quot;haversine&quot;. Compara con DBSCAN: número de zonas, porcentaje de puntos marcados como ruido y un mapa de cada solución. Explica en español qué problema de DBSCAN resuelve HDBSCAN y qué parámetros quedan por decidir.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Las coordenadas están en radianes para ambos métodos.</li><li>Se reportan las zonas y el porcentaje de ruido de cada solución.</li><li>La explicación relaciona el resultado con las densidades distintas.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s3-e32"><span class="check__text"><span class="check__title">Terminé E3.2</span></span></label>
   </section>
 
@@ -4952,7 +5023,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
     <h3>PCA y t-SNE</h3>
     <p>PCA por SVD programado desde cero; eigenfaces; PCA frente a t-SNE en dígitos manuscritos, PCA dentro de un pipeline supervisado y la demostración de lo que un mapa de t-SNE no permite leer.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: sintéticos + <code>fetch_olivetti_faces</code> (400 rostros de 64 × 64) + <code>load_digits</code> (1 797 dígitos de 8 × 8)</span><span>Teoría: <a href="#/s3/manual/m3-6">M3 §6</a>, <a href="#/s3/manual/m3-7">§7</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.3_pca_y_tsne.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.3_pca_y_tsne.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.3_pca_y_tsne.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.3_pca_y_tsne.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.3_pca_y_tsne.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-3/E3.3_pca_y_tsne_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-3/E3.3_pca_y_tsne_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.3_pca_y_tsne.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>PCA con <code>np.linalg.svd</code>: componentes, varianza explicada y error de reconstrucción según k.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>PCA</code> (con <code>assert</code> contra tu versión, salvo el signo) y eigenfaces: reconstruir un rostro con 5 a 150 componentes.</p></div>
@@ -4985,6 +5056,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
         <p><strong>Cómo te prepara para la Tarea 3:</strong> la tarea pide PCA con varianza explicada y reconstrucción, y t-SNE solo exploratorio, con al menos dos perplejidades y advertencias.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · ¿Qué conserva cada mapa?</summary><div class="fold__body"><p><strong>Objetivo.</strong> Comparar PCA, t-SNE e Isomap midiendo cuánto conserva cada uno los vecindarios.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E3.3 (PCA y t-SNE con digits), agrega una sección que compare en 2D PCA, t-SNE con perplejidades 5, 30 y 50, e Isomap. Para cada mapa calcula sklearn.manifold.trustworthiness con 10 vecinos y muéstralos lado a lado. Explica en español qué conserva y qué no conserva cada mapa, y qué conclusiones no se pueden sacar de ellos.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Todos los mapas usan las mismas muestras y la misma semilla.</li><li>Se muestran al menos dos perplejidades de t-SNE.</li><li>La explicación no interpreta tamaños ni distancias entre grupos de t-SNE.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s3-e33"><span class="check__text"><span class="check__title">Terminé E3.3</span></span></label>
   </section>
 
@@ -4994,7 +5066,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
     <h3>Detección de anomalías</h3>
     <p>Reglas estadísticas e Isolation Forest de juguete programados desde cero; <code>IsolationForest</code> y LOF sobre intrusiones de red reales, con entrenamiento contaminado y limpio, y un umbral fijado por la capacidad del equipo de seguridad.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: sintéticos + <strong>KDD Cup 99</strong> (<code>fetch_kddcup99</code>, subconjunto SA: 100 655 conexiones, 3.4 % ataques)</span><span>Teoría: <a href="#/s3/manual/m3-8">M3 §8</a>, <a href="#/s3/manual/m3-9">§9</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.4_deteccion_de_anomalias.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.4_deteccion_de_anomalias.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.4_deteccion_de_anomalias.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-3/E3.4_deteccion_de_anomalias.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-3/E3.4_deteccion_de_anomalias.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-3/E3.4_deteccion_de_anomalias_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-3/E3.4_deteccion_de_anomalias_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-3/E3.4_deteccion_de_anomalias.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>z-score e IQR sobre tiempos de respuesta asimétricos; árbol de aislamiento y puntaje \(s(x)\).</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn</div><p><code>IsolationForest</code> (correlación de rangos con tu versión) y <code>LocalOutlierFactor</code>; ROC-AUC y PR-AUC; qué hace <code>contamination</code>.</p></div>
@@ -5027,6 +5099,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
         <p><strong>Cómo te prepara para la Tarea 3:</strong> la tarea exige comparar Isolation Forest y LOF, justificar el umbral y analizar a quién afectan las anomalías.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Novedades por error de reconstrucción</summary><div class="fold__body"><p><strong>Objetivo.</strong> Probar un detector basado en reconstruir el tráfico normal y compararlo con los del notebook.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E3.4 (detección de anomalías con KDD Cup 99), agrega un detector de novedades por error de reconstrucción: un MLPRegressor que reconstruye las variables escaladas, entrenado solo con tráfico normal. Compara su PR-AUC y sus falsas alarmas por cada 10 000 conexiones normales, con un recall del 80 %, frente a Isolation Forest, LOF y el baseline del notebook. Explica en español si vale la pena su complejidad.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>El detector se entrena solo con tráfico normal.</li><li>Todos los métodos se evalúan con las mismas particiones.</li><li>La conclusión lo compara con el baseline simple, no solo con los otros detectores.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s3-e34"><span class="check__text"><span class="check__title">Terminé E3.4</span></span></label>
   </section>
 </article>
@@ -5115,10 +5188,11 @@ tc["incumple"] = tc["incumple"].astype(int)          # viene como categoría "0"
     </div>
   <div class="callout callout--etica">
     <div class="callout__title">Integridad y uso de IA</div>
-    <div class="callout__body"><p>Incluye al final del informe la declaración de uso de IA generativa y de código externo, con los prompts relevantes en <code>reports/prompts.md</code> (norma f). Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
+    <div class="callout__body"><p>Puedes resolver la tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares al final del informe, con los prompts relevantes en <code>reports/prompts.md</code> (norma f). El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y la verificación de los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>. Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
   </div>
   <p class="muted" style="font-size:.875rem">Te preparan para esta tarea: <a href="#/s3/ejercicios/e3-1">E3.1</a>, <a href="#/s3/ejercicios/e3-3">E3.3</a> y <a href="#/s3/ejercicios/e3-4">E3.4</a>.</p>
   <label class="check"><input type="checkbox" data-check="s3-t3"><span class="check__text"><span class="check__title">Entregué la Tarea 3</span><small>Márcalo cuando la subas al LMS</small></span></label>
+  
 </article>
 
 <!-- ---- src/content/30-semana-3/80-quiz.html ---- -->
@@ -6198,13 +6272,21 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
     </div>
   </div>
 
+  <div class="callout callout--concepto">
+    <div class="callout__title">Versión resuelta y desafíos con IA</div>
+    <div class="callout__body">
+      <p>Cada ejercicio tiene su <strong>versión resuelta</strong> (botones <em>Resuelto en Colab</em> y <em>Resuelto en GitHub</em>): úsala para comprobar tu trabajo o para estudiar el razonamiento completo. Este curso no es de programación en Python: el código es el medio para entender, comparar y validar los métodos, y puedes escribirlo con ayuda de IA.</p>
+      <p>Al final de cada tarjeta hay un <strong>desafío opcional con IA agéntica</strong> para ampliar el laboratorio con Claude Code, Codex, Gemini, ChatGPT u otra herramienta. Si usas IA, decláralo (herramienta, prompts relevantes y qué verificaste tú), como pide la norma f del sílabo. Guía completa: <a href="#/recursos/ia">Recursos · IA en el curso</a>.</p>
+    </div>
+  </div>
+
   <!-- ============================== E4.1 ============================== -->
   <section class="card res-card" id="e4-1">
     <div class="res-card__top"><span class="chip chip--id">E4.1</span><span class="status status--listo">Notebook listo · verificado</span></div>
     <h3>Calidad de datos y ficha de datos</h3>
     <p>Mecanismos de faltantes simulados desde cero, un informe de calidad reutilizable y el diagnóstico de un conjunto clásico con problemas conocidos, cerrado con su Datasheet.</p>
     <div class="res-card__meta"><span>⏱ 4 h</span><span>Datos: sintéticos + <strong>Adult</strong> (OpenML 1590: 48 842 personas del censo de EE. UU. de 1994)</span><span>Teoría: <a href="#/s4/manual/m4-1">M4 §1</a>, <a href="#/s4/manual/m4-5">§5</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-4/E4.1_calidad_de_datos_y_ficha.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-4/E4.1_calidad_de_datos_y_ficha.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-4/E4.1_calidad_de_datos_y_ficha.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-4/E4.1_calidad_de_datos_y_ficha.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-4/E4.1_calidad_de_datos_y_ficha.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-4/E4.1_calidad_de_datos_y_ficha_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-4/E4.1_calidad_de_datos_y_ficha_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-4/E4.1_calidad_de_datos_y_ficha.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en pandas</div><p>MCAR, MAR y MNAR simulados; faltantes por grupo, duplicados, valores imposibles y acumulación en el máximo.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">Informe reutilizable</div><p><code>reporte_calidad(df, grupo)</code>: una fila por columna con alertas, probado con problemas sembrados.</p></div>
@@ -6236,6 +6318,7 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
         <p><strong>Cómo te prepara para el examen práctico:</strong> el examen pide una Datasheet de tu variante de ACS Income y un tratamiento de faltantes sin fuga y sin borrar grupos a ciegas.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · La ficha de datos de otro conjunto</summary><div class="fold__body"><p><strong>Objetivo.</strong> Aplicar el informe de calidad a otro conjunto público y redactar su Datasheet, verificando cada afirmación.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">Usando la función reporte_calidad del notebook resuelto E4.1, analiza otro conjunto público de OpenML con datos de personas (por ejemplo credit-g o bank-marketing). Genera el informe de calidad (faltantes por grupo, duplicados, valores imposibles y representación) y redacta un borrador de Datasheet con sus siete secciones. Marca con [VERIFICAR] toda afirmación que no salga directamente de los datos o de la documentación del conjunto.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Cada cifra de la ficha sale de una celda ejecutada.</li><li>Revisaste en la documentación del conjunto cada afirmación marcada con [VERIFICAR].</li><li>La ficha dice para qué no debería usarse el conjunto.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s4-e41"><span class="check__text"><span class="check__title">Terminé E4.1</span></span></label>
   </section>
 
@@ -6245,7 +6328,7 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
     <h3>Auditoría de sesgo y mitigación</h3>
     <p>Métricas de equidad desde la matriz de confusión, la imposibilidad de cumplirlas todas, <code>MetricFrame</code> con intervalos, dos mitigaciones con su costo y un registro de riesgos alineado con el NIST AI RMF.</p>
     <div class="res-card__meta"><span>⏱ 5 h</span><span>Datos: sintéticos + <strong>Diabetes 130-Hospitals</strong> (<code>fetch_diabetes_hospital</code>: 101 766 hospitalizaciones, reingreso en 30 días)</span><span>Teoría: <a href="#/s4/manual/m4-2">M4 §2</a>, <a href="#/s4/manual/m4-3">§3</a>, <a href="#/s4/manual/m4-6">§6</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-4/E4.2_auditoria_de_sesgo_y_mitigacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-4/E4.2_auditoria_de_sesgo_y_mitigacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-4/E4.2_auditoria_de_sesgo_y_mitigacion.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-4/E4.2_auditoria_de_sesgo_y_mitigacion.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-4/E4.2_auditoria_de_sesgo_y_mitigacion.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-4/E4.2_auditoria_de_sesgo_y_mitigacion_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-4/E4.2_auditoria_de_sesgo_y_mitigacion_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-4/E4.2_auditoria_de_sesgo_y_mitigacion.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero en NumPy</div><p>Selección, TPR, FPR y precisión por grupo; umbrales por grupo que igualan la TPR y separan la precisión.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">Fairlearn</div><p><code>MetricFrame</code> (con <code>assert</code> contra tu versión); <code>ThresholdOptimizer</code> y <code>ExponentiatedGradient</code> en un caso sintético.</p></div>
@@ -6278,6 +6361,7 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
         <p><strong>Cómo te prepara para el examen práctico:</strong> el examen pide una auditoría con <code>MetricFrame</code> por sexo y raza en ACS Income, mitigación si corresponde y un registro de riesgos NIST.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Otra métrica, otra mitigación</summary><div class="fold__body"><p><strong>Objetivo.</strong> Auditar el mismo modelo por otro atributo y con otra restricción de equidad, y documentar el compromiso.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">En el notebook resuelto E4.2 (auditoría con Fairlearn sobre Diabetes 130-Hospitals), agrega una sección que audite por grupo de edad con MetricFrame, con tamaños e intervalos. Prueba ThresholdOptimizer con la restricción de odds igualadas y compara el desempeño, la brecha y la tasa de selección con el modelo sin mitigar. Escribe en español una recomendación breve que diga a quién perjudica cada error y cuánto cuesta la mitigación.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>Cada grupo se reporta con su tamaño y su intervalo.</li><li>La mitigación se ajusta con el entrenamiento y se evalúa en la prueba.</li><li>La recomendación menciona que ThresholdOptimizer usa el atributo sensible al decidir.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s4-e42"><span class="check__text"><span class="check__title">Terminé E4.2</span></span></label>
   </section>
 
@@ -6287,7 +6371,7 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
     <h3>Explicabilidad, Model Card y monitoreo</h3>
     <p>Importancia por permutación desde cero, PDP/ICE y SHAP sobre el modelo de E4.2, su Model Card con métricas desagregadas, drift simulado con PSI y KS, un plan de monitoreo y el registro del modelo en MLflow.</p>
     <div class="res-card__meta"><span>⏱ 5 h</span><span>Datos: <strong>Diabetes 130-Hospitals</strong> (el modelo de reingreso de E4.2)</span><span>Teoría: <a href="#/s4/manual/m4-4">M4 §4</a>, <a href="#/s4/manual/m4-5">§5</a>, <a href="#/s4/manual/m4-7">§7</a></span></div>
-    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-4/E4.3_explicabilidad_model_card_y_monitoreo.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-4/E4.3_explicabilidad_model_card_y_monitoreo.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-4/E4.3_explicabilidad_model_card_y_monitoreo.ipynb</code></span></div>
+    <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-4/E4.3_explicabilidad_model_card_y_monitoreo.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-4/E4.3_explicabilidad_model_card_y_monitoreo.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-4/E4.3_explicabilidad_model_card_y_monitoreo_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-4/E4.3_explicabilidad_model_card_y_monitoreo_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-4/E4.3_explicabilidad_model_card_y_monitoreo.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <div class="levels">
       <div class="level"><div class="level__n">NIVEL 1 · prelaboratorio</div><div class="level__t">Desde cero</div><p>Importancia por permutación: barajar cada columna y medir la caída del AUC.</p></div>
       <div class="level"><div class="level__n">NIVEL 2</div><div class="level__t">scikit-learn y SHAP</div><p><code>permutation_importance</code>, PDP/ICE (logística frente a boosting) y SHAP verificado con la fórmula lineal.</p></div>
@@ -6320,6 +6404,7 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
         <p><strong>Cómo te prepara para el examen práctico:</strong> el examen pide explicabilidad global y local, Model Card, plan de monitoreo con umbrales de drift y responsables, y el seguimiento en MLflow.</p>
       </div>
     </details>
+    <details class="fold fold--ia"><summary>Desafío opcional con IA agéntica · Un reporte de monitoreo con drift simulado</summary><div class="fold__body"><p><strong>Objetivo.</strong> Construir un reporte semanal de monitoreo y ver qué alertas se disparan con cada tipo de drift.</p><p><strong>Prompt inicial.</strong> Úsalo en la herramienta que prefieras (Claude Code, Codex, Gemini en Colab, ChatGPT…) con el notebook <em>resuelto</em> como contexto. Pide primero un plan y revisa cada paso antes de aprobarlo.</p><pre><code class="lang-prompt">Con el modelo del notebook resuelto E4.3 (reingreso hospitalario), simula 12 semanas de producción con un drift gradual en una variable de entrada y un drift de concepto desde la semana 8. Construye un reporte semanal con el PSI de cada variable, el AUC y la TPR por grupo, y alertas según los umbrales del plan de monitoreo del notebook. Genera los gráficos y explica en español qué alertas se habrían disparado y qué acción correspondía.</code></pre><p><strong>Cómo verificar el resultado</strong></p><ul><li>El PSI detecta el drift de datos, pero no el de concepto.</li><li>El drift de concepto aparece solo en las métricas con etiquetas.</li><li>Cada alerta tiene un umbral, una acción y un responsable.</li></ul><p><strong>Declara el uso de IA</strong> (norma f del sílabo): herramienta, prompts relevantes, qué verificaste tú y qué corregiste. Es opcional y no se califica; lo que cuenta es que puedas explicar cada decisión.</p></div></details>
     <label class="check"><input type="checkbox" data-check="s4-e43"><span class="check__text"><span class="check__title">Terminé E4.3</span></span></label>
   </section>
 </article>
@@ -6415,6 +6500,7 @@ reports/informe.md · datasheet.md · model_card.md · plan_monitoreo.md · regi
   <p class="muted" style="font-size:.875rem">Te preparan para el examen: <a href="#/s4/ejercicios/e4-2">E4.2</a>, <a href="#/s4/ejercicios/e4-3">E4.3</a> y el <a href="#/s4/quiz">simulacro Q4</a>.</p>
   <label class="check"><input type="checkbox" data-check="s4-exe"><span class="check__text"><span class="check__title">Rendí el examen teórico</span></span></label>
   <label class="check"><input type="checkbox" data-check="s4-exp"><span class="check__text"><span class="check__title">Entregué el examen práctico</span></span></label>
+  
 </article>
 
 <!-- ---- src/content/40-semana-4/80-quiz.html ---- -->
@@ -6571,6 +6657,7 @@ reports/informe.md · datasheet.md · model_card.md · plan_monitoreo.md · regi
           <a href="#/recursos/glosario">Glosario</a>
           <a href="#/recursos/bibliografia">Bibliografía completa</a>
           <a href="#/recursos/entorno">Guía del entorno</a>
+          <a href="#/recursos/ia">IA en el curso</a>
           <a href="#/recursos/faq">Preguntas frecuentes</a>
         </nav>
       </div>
@@ -6676,12 +6763,47 @@ uv run jupyter lab</code></pre>
       </div>
     </section>
 
+    <section class="home-section" id="ia" aria-labelledby="h-ia">
+      <h2 id="h-ia">IA en el curso</h2>
+      <p class="lead">Este curso no es de programación en Python: el código es el medio para entender, comparar y validar métodos. Puedes usar IA, tanto agentes (Claude Code, Codex, Gemini CLI) como asistentes de chat (ChatGPT, Claude, Gemini), en los ejercicios, en los desafíos opcionales y en las tareas, siempre que lo declares.</p>
+      <div class="grid grid--2">
+        <div class="card">
+          <h3>Dónde puedes usarla</h3>
+          <ul>
+            <li><strong>Ejercicios:</strong> estudiar la versión resuelta, pedir explicaciones o completar las celdas <code># TODO</code> con ayuda.</li>
+            <li><strong>Desafíos opcionales:</strong> al final de cada ejercicio hay uno para ampliar el laboratorio con IA agéntica.</li>
+            <li><strong>Tareas T1–T3:</strong> puedes resolverlas con ayuda de IA agéntica o de chat, declarándolo en la entrega.</li>
+            <li><strong>Exámenes:</strong> el práctico exige la misma declaración de uso de IA; el teórico tiene sus propias reglas, que se anuncian en el LMS.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Qué se evalúa</h3>
+          <p>Tu criterio: formular el problema, elegir la validación y la métrica, detectar fugas, interpretar los resultados y reconocer riesgos y limitaciones. El código puede venir de una IA; las decisiones, su justificación y la verificación son tuyas (autoría académica, norma f del sílabo).</p>
+        </div>
+      </div>
+      <h3 style="margin-top:1.4rem">Cómo trabajar con un agente</h3>
+      <ol>
+        <li><strong>Dale contexto:</strong> el notebook resuelto del ejercicio, el manual de la semana y qué quieres lograr.</li>
+        <li><strong>Pide un plan primero</strong> y aprueba cada paso; no aceptes cambios que no entiendes.</li>
+        <li><strong>Exige verificación:</strong> celdas con <code>assert</code>, la misma partición y la misma semilla (<code>SEED = 2026</code>) y comparación contra un modelo de referencia.</li>
+        <li><strong>Comprueba las cifras:</strong> ejecuta tú el notebook de principio a fin y confirma que los resultados coinciden con lo que la IA reporta.</li>
+        <li><strong>Protege los datos:</strong> no compartas datos personales, credenciales ni datos de tu organización con herramientas externas (norma e).</li>
+      </ol>
+      <h3 style="margin-top:1.4rem">Plantilla de declaración de uso de IA</h3>
+<pre><code class="lang-texto">Declaración de uso de IA (norma f del sílabo)
+- Herramientas y versión: (por ejemplo, Claude Code, ChatGPT)
+- Para qué las usé: (código de la sección 3, depuración, redacción del informe…)
+- Prompts relevantes: (cópialos aquí o en reports/prompts.md)
+- Qué verifiqué yo: (ejecuté todo de cero, comparé con el baseline, revisé fugas…)
+- Qué corregí o descarté de lo que propuso la IA:</code></pre>
+    </section>
+
     <section class="home-section" id="faq" aria-labelledby="h-faq">
       <h2 id="h-faq">Preguntas frecuentes</h2>
       <ol class="selfcheck">
         <li><details><summary>¿Dónde se guarda mi progreso?</summary><p>Solo en este navegador (almacenamiento local). Si cambias de computador o borras los datos del sitio, las casillas vuelven a cero. Tus entregas oficiales siempre van al LMS.</p></details></li>
         <li><details><summary>¿Cómo entrego las tareas y los exámenes?</summary><p>En el LMS institucional: el PDF del informe y el enlace a tu repositorio. Cada enunciado indica el nombre del archivo y la fecha límite (hora de Ecuador).</p></details></li>
-        <li><details><summary>¿Puedo usar IA generativa?</summary><p>Sí, declarándolo (norma f): qué herramienta, para qué, los prompts relevantes y cómo verificaste los resultados. El análisis y las decisiones deben ser tuyos.</p></details></li>
+        <li><details><summary>¿Puedo usar IA generativa o agéntica?</summary><p>Sí, en los ejercicios, los desafíos y las tareas, declarándolo (norma f): qué herramienta, para qué, los prompts relevantes y cómo verificaste los resultados. El análisis y las decisiones deben ser tuyos. Detalles en <a href="#/recursos/ia">IA en el curso</a>.</p></details></li>
         <li><details><summary>Un notebook falla. ¿Qué hago?</summary><p>Revisa la tabla de errores frecuentes del manual del ejercicio, reinicia el kernel y ejecuta de arriba hacia abajo. Si sigue fallando, comparte el mensaje de error en el foro con la versión de Python y de scikit-learn.</p></details></li>
         <li><details><summary>¿Las animaciones funcionan sin internet?</summary><p>Sí. El hub es un único archivo HTML con todo incluido: fuentes, fórmulas y animaciones. Solo los videos y los enlaces externos necesitan conexión.</p></details></li>
       </ol>
@@ -6703,7 +6825,7 @@ uv run jupyter lab</code></pre>
       <strong>Postgrado · Maestría en Inteligencia Artificial · MIAR0525</strong>
       <span>Período en Línea 4 · 2026 · Modalidad en línea · 4 créditos</span>
     </div>
-    <div class="site-footer__meta">Hub v0.5.1 · compilado 2026-09-13 19:45<br>Tu progreso se guarda solo en este navegador.</div>
+    <div class="site-footer__meta">Hub v0.6.0 · compilado 2026-09-13 22:17<br>Tu progreso se guarda solo en este navegador.</div>
   </div>
 </footer>
 
@@ -9168,12 +9290,12 @@ uv run jupyter lab</code></pre>
     const [, owner, name] = m, branch = CFG.rama || 'main';
     $$('[data-colab]').forEach(a => {
       a.href = `https://colab.research.google.com/github/${owner}/${name}/blob/${branch}/${a.dataset.colab}`;
-      a.textContent = 'Abrir en Colab';
+      a.textContent = a.dataset.label || 'Abrir en Colab';
       a.target = '_blank'; a.rel = 'noopener'; a.removeAttribute('aria-disabled');
     });
     $$('[data-github]').forEach(a => {
       a.href = `${repo}/blob/${branch}/${a.dataset.github}`;
-      a.textContent = 'Ver en GitHub';
+      a.textContent = a.dataset.label || 'Ver en GitHub';
       a.target = '_blank'; a.rel = 'noopener'; a.removeAttribute('aria-disabled');
     });
   }

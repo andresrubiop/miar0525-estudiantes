@@ -5,7 +5,8 @@ Maestría en Inteligencia Artificial · Postgrado **UEES** · Período en Línea
 | Qué | Dónde |
 |---|---|
 | Aula interactiva: presentaciones, animaciones, manuales, ejercicios y cuestionarios (ábrela en el navegador; funciona sin conexión) | `hub/dist/index.html` |
-| Notebooks de ejercicios | `semana-1/` · `semana-2/` · `semana-3/` · `semana-4/` |
+| Notebooks de ejercicios (con `TODO`) | `semana-1/` · `semana-2/` · `semana-3/` · `semana-4/` |
+| Versiones resueltas de los ejercicios | `soluciones/semana-N/` |
 | Manuales y presentaciones en PDF | `materiales/semana-N/` |
 | Estilo de gráficos UEES para tus tareas | `utils/uees.mplstyle` |
 
@@ -24,7 +25,15 @@ uv run jupyter lab
 ```
 
 Cada notebook tiene cuatro niveles (desde cero, con scikit-learn, datos reales y un reto), celdas `TODO` para
-completar y una autoverificación al final. Los datos se descargan solos (OpenML, scikit-learn o Fairlearn).
+completar, una autoverificación y un **desafío opcional con IA agéntica** al final. Su versión resuelta está en
+`soluciones/semana-N/`. Los datos se descargan solos (OpenML, scikit-learn o Fairlearn).
+
+## IA en el curso
+
+Este curso no es de programación en Python: el código es el medio para entender, comparar y validar métodos. Puedes
+usar IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini) en los ejercicios, los desafíos
+y las tareas, **siempre que lo declares**: herramienta, prompts relevantes y qué verificaste tú (norma f del sílabo).
+Las decisiones, su justificación y la verificación son tuyas.
 
 ## Normas
 

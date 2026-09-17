@@ -7,6 +7,7 @@ Maestría en Inteligencia Artificial · Postgrado **UEES** · Período en Línea
 | Aula interactiva: presentaciones, animaciones, manuales, ejercicios y cuestionarios (ábrela en el navegador; funciona sin conexión) | `hub/dist/index.html` |
 | Notebooks de ejercicios (con `TODO`) | `semana-1/` · `semana-2/` · `semana-3/` · `semana-4/` |
 | Versiones resueltas de los ejercicios | `soluciones/semana-N/` |
+| Plantillas de las tareas (lo que entregas) | `tareas/` |
 | Manuales y presentaciones en PDF | `materiales/semana-N/` |
 | Estilo de gráficos UEES para tus tareas | `utils/uees.mplstyle` |
 

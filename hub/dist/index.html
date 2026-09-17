@@ -1764,7 +1764,7 @@ base.score(X_val, y_val)   # el piso
         </tbody>
       </table>
       <p class="formula fragment">\( C = c_{FN}\cdot FN + c_{FP}\cdot FP \)</p>
-      <aside class="notes"><p>Enlazar con la Tarea 1: la matriz de costos de retener frente a perder un cliente debe justificarse en el informe.</p></aside>
+      <aside class="notes"><p>Enlazar con la Tarea 1: la matriz de costos de retener frente a perder un cliente debe justificarse en la sección 4 del notebook de entrega.</p></aside>
     </section>
 
     <section class="slide slide--section" data-title="Bloque 4">
@@ -2098,7 +2098,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
   <section class="card res-card" id="e0">
     <div class="res-card__top"><span class="chip chip--id">E0</span><span class="status status--listo">Notebook listo · verificado</span></div>
     <h3>Entorno reproducible</h3>
-    <p>Configura Python 3.13 o 3.14 con JupyterLab y las librerías del curso, en local o en Colab, y deja lista la estructura de repositorio que usarás en todas las tareas.</p>
+    <p>Configura Python 3.13 o 3.14 con JupyterLab y las librerías del curso, en local o en Colab, y comprueba que puedes ejecutar y guardar un notebook con sus salidas, que es como se entregan las tareas.</p>
     <div class="res-card__meta"><span>⏱ 1.5 h</span><span>Laboratorio guiado del sábado</span><span>Norma d · reproducibilidad</span></div>
     <div class="res-card__actions"><a class="btn btn--sm" data-colab="semana-1/E0_entorno.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="semana-1/E0_entorno.ipynb" aria-disabled="true">Ver en GitHub · pronto</a><a class="btn btn--sm" data-colab="soluciones/semana-1/E0_entorno_solucion.ipynb" data-label="Resuelto en Colab" aria-disabled="true">Resuelto en Colab · pronto</a><a class="btn btn--sm" data-github="soluciones/semana-1/E0_entorno_solucion.ipynb" data-label="Resuelto en GitHub" aria-disabled="true">Resuelto en GitHub · pronto</a><span class="muted" style="font-size:.75rem;align-self:center">En el repositorio: <code>semana-1/E0_entorno.ipynb</code> y su versión resuelta en <code>soluciones/</code></span></div>
     <details class="fold">
@@ -2274,51 +2274,49 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     </div>
     <div class="card card--soft">
       <h3>Supuestos de costo del caso</h3>
-      <p>Una oferta de retención cuesta alrededor de <strong>USD 20</strong> por cliente contactado (falso positivo si el cliente no pensaba irse). Perder un cliente cuesta alrededor de <strong>USD 100</strong> de margen (falso negativo). Usa esta relación 5:1 o justifica otra en tu informe.</p>
+      <p>Una oferta de retención cuesta alrededor de <strong>USD 20</strong> por cliente contactado (falso positivo si el cliente no pensaba irse). Perder un cliente cuesta alrededor de <strong>USD 100</strong> de margen (falso negativo). Usa esta relación 5:1 o justifica otra en la sección 4 del notebook.</p>
       <p class="muted" style="font-size:.875rem">Son supuestos didácticos, no cifras reales de una empresa.</p>
     </div>
   </div>
 
   <div class="card">
-    <h3>Qué debes hacer</h3>
-    <ol>
-      <li><strong>Reporte de calidad de datos:</strong> tipos, faltantes (incluidos los blancos de <code>TotalCharges</code>), duplicados, cardinalidad y balance de clases.</li>
-      <li><strong>Separa el conjunto de prueba (20 %, estratificado) antes de cualquier preprocesamiento</strong> y no lo uses hasta la evaluación final.</li>
-      <li>Construye el preprocesamiento con <code>Pipeline</code> y <code>ColumnTransformer</code> (rama numérica y rama categórica).</li>
-      <li>Reporta un <strong>baseline</strong> con <code>DummyClassifier</code>.</li>
-      <li>Entrena al menos <strong>dos modelos</strong>: una regresión logística y otro de tu elección.</li>
-      <li>Evalúa con <strong>validación cruzada estratificada</strong> (5 folds, semilla fija) y reporta media ± desviación.</li>
-      <li>Justifica la <strong>métrica</strong> y el <strong>umbral</strong> con la matriz de costos; elige el umbral por validación cruzada.</li>
-      <li>Haz un <strong>análisis de errores por segmento</strong> (tipo de contrato, antigüedad del cliente, método de pago) con hipótesis sobre por qué falla.</li>
-      <li>Evalúa <strong>una sola vez</strong> en la prueba y discute las <strong>limitaciones</strong> y los riesgos de uso.</li>
-    </ol>
+    <h3>Qué debes hacer, sección por sección</h3>
+    <p class="muted" style="font-size:.875rem">La plantilla ya trae estas secciones con sus celdas <code># TODO</code>. Cada una es un criterio de la rúbrica y lleva su puntaje.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Sección del notebook</th><th class="num">Pts</th><th>Qué se espera</th><th>Dónde lo practicaste</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0 · Configuración y datos</strong></td><td class="num">—</td><td>Ejecutar la celda tal cual: semilla 2026, versiones y datos cargados por código.</td><td><a href="#/s1/ejercicios/e0">E0</a></td></tr>
+          <tr><td><strong>1 · Calidad de datos y partición</strong></td><td class="num">20</td><td>Tipos, faltantes (incluidos los blancos de <code>TotalCharges</code>), duplicados, cardinalidad y balance de clases; decisión justificada sobre los faltantes; <strong>prueba del 20 % estratificada, separada antes de preprocesar</strong>.</td><td><a href="#/s1/ejercicios/e1-3">E1.3</a></td></tr>
+          <tr><td><strong>2 · Pipeline y ColumnTransformer</strong></td><td class="num">15</td><td>Rama numérica y rama categórica dentro de un <code>Pipeline</code>; nada de preprocesamiento por fuera.</td><td><a href="#/s1/ejercicios/e1-3">E1.3 · Nivel 3</a></td></tr>
+          <tr><td><strong>3 · Referencia, dos modelos y validación</strong></td><td class="num">15</td><td><code>DummyClassifier</code>, regresión logística y un modelo más; validación cruzada estratificada de 5 folds con <strong>media ± desviación</strong> en al menos dos métricas.</td><td><a href="#/s1/ejercicios/e1-1">E1.1 · Nivel 3</a></td></tr>
+          <tr><td><strong>4 · Métrica y umbral por costo</strong></td><td class="num">15</td><td>Matriz de costos del caso, probabilidades fuera de muestra, barrido de umbrales y elección del que minimiza el costo, <strong>sin tocar la prueba</strong>; gráfico del costo frente al umbral.</td><td><a href="#/s1/ejercicios/e1-2">E1.2 · Nivel 3</a></td></tr>
+          <tr><td><strong>5 · Evaluación final en la prueba</strong></td><td class="num">5</td><td>Una sola vez, con tu umbral: matriz de confusión, precisión, recall, F1, AUC y costo por cliente.</td><td><a href="#/s1/ejercicios/e1-2">E1.2</a></td></tr>
+          <tr><td><strong>6 · Errores por segmento y limitaciones</strong></td><td class="num">10</td><td>Desempeño por tipo de contrato, antigüedad y método de pago; hipótesis de por qué falla; tres riesgos de uso.</td><td><a href="#/s1/ejercicios/e1-3">E1.3 · Nivel 4</a></td></tr>
+          <tr><td><strong>7 · Conclusión y recomendación</strong></td><td class="num">10</td><td>150–250 palabras dirigidas al equipo de retención: qué modelo, con qué umbral, cuánto mejora a la referencia y qué harías antes de producción.</td><td>—</td></tr>
+          <tr><td><strong>8 · Declaración de uso de IA</strong></td><td class="num">obligatoria</td><td>Herramientas, <strong>en qué secciones</strong> la usaste, prompts relevantes y qué verificaste tú. Si no usaste IA, decláralo igual.</td><td><a href="#/recursos/ia">IA en el curso</a></td></tr>
+          <tr><td><strong>Reproducibilidad</strong> (todo el notebook)</td><td class="num">10</td><td>Corre de principio a fin sin errores tras reiniciar el kernel, con semilla fija y datos por código.</td><td><a href="#/s1/ejercicios/e0">E0</a></td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="grid grid--2">
     <div class="card">
       <h3>Qué entregas</h3>
+      <p><strong>Un solo archivo: el notebook.</strong> No hay informe en PDF ni repositorio obligatorio.</p>
       <ul>
-        <li><strong>Repositorio reproducible</strong> (enlace): <code>README.md</code> con los pasos, <code>pyproject.toml</code> o <code>environment.yml</code>, notebook o scripts que se ejecuten de principio a fin, semillas fijas y datos obtenidos por código.</li>
-        <li><strong>Informe técnico</strong> en PDF, de 3 a 5 páginas: problema, datos, método, resultados (con el baseline), umbral y costo, errores por segmento y limitaciones.</li>
-        <li><strong>Declaración de uso de IA</strong> al final del informe (norma f).</li>
+        <li>El notebook <strong>ejecutado de principio a fin</strong>, guardado con todas sus salidas visibles.</li>
+        <li>Todas las celdas <strong>"Tu análisis"</strong> respondidas: el código sin interpretación no suma puntos.</li>
+        <li>La <strong>declaración de uso de IA</strong> completa (sección 8 del notebook).</li>
       </ul>
-      <p class="muted" style="font-size:.875rem">Sube el PDF y el enlace del repositorio en el LMS. Nombre del archivo: <code>T1_Apellido_Nombre.pdf</code>.</p>
+      <p class="muted" style="font-size:.875rem">Súbelo al LMS con el nombre <code>T1_Apellido_Nombre.ipynb</code>. Antes de guardar: <em>Kernel → Restart &amp; Run All</em> (en Colab, <em>Entorno de ejecución → Reiniciar y ejecutar todo</em>).</p>
     </div>
     <div class="card">
-      <h3>Punto de partida</h3>
-<pre><code class="lang-python">import pandas as pd
-from sklearn.datasets import fetch_openml
-from sklearn.model_selection import train_test_split
-
-SEED = 2026
-df = fetch_openml(data_id=42178, as_frame=True).frame
-y = (df.pop("Churn") == "Yes").astype(int)
-X = df.drop(columns=["customerID"], errors="ignore")   # identificador (OpenML ya lo excluye)
-X["TotalCharges"] = pd.to_numeric(X["TotalCharges"], errors="coerce")  # blancos → NaN
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, stratify=y, random_state=SEED)</code></pre>
-      <p class="muted" style="font-size:.875rem">Comprueba los nombres de las columnas con <code>df.columns</code>: pueden variar entre versiones del dataset.</p>
+      <h3>La plantilla</h3>
+      <p>Parte de este notebook: ya trae la portada, la carga de datos, las ocho secciones con sus <code># TODO</code>, las celdas de autoverificación y la declaración de uso de IA.</p>
+      <div class="res-card__actions"><a class="btn btn--sm" data-colab="tareas/T1_flujo_end_to_end.ipynb" aria-disabled="true">Abrir en Colab · pronto</a><a class="btn btn--sm" data-github="tareas/T1_flujo_end_to_end.ipynb" aria-disabled="true">Ver en GitHub · pronto</a></div>
+      <p class="muted" style="font-size:.875rem">En el repositorio: <code>tareas/T1_flujo_end_to_end.ipynb</code>. Puedes reorganizar o agregar celdas, pero conserva la numeración de las secciones: la rúbrica se aplica sobre ellas.</p>
     </div>
   </div>
 
@@ -2326,36 +2324,38 @@ X_train, X_test, y_train, y_test = train_test_split(
     <h3 id="t1-rubrica" style="margin:.5rem 0 .8rem">Rúbrica analítica · 100 puntos</h3>
     <div class="table-wrap">
       <table class="table table--rubric">
-        <thead><tr><th>Criterio</th><th class="num">Pts</th><th>Excelente (100 %)</th><th>Suficiente (70 %)</th><th>Insuficiente (≤ 40 %)</th></tr></thead>
+        <thead><tr><th>Criterio (sección)</th><th class="num">Pts</th><th>Excelente (100 %)</th><th>Suficiente (70 %)</th><th>Insuficiente (≤ 40 %)</th></tr></thead>
         <tbody>
-          <tr><td>Reproducibilidad</td><td class="num">15</td><td>Se ejecuta de cero con un comando; versiones y semilla fijadas</td><td>Se ejecuta con ajustes menores</td><td>No se ejecuta</td></tr>
-          <tr><td>Calidad de datos y ausencia de fuga</td><td class="num">20</td><td>Reporte completo; prueba separada primero; todo el preprocesamiento dentro del pipeline</td><td>Fuga menor o reporte parcial</td><td>Fuga evidente</td></tr>
-          <tr><td>Pipeline y ColumnTransformer</td><td class="num">15</td><td>Correcto y legible, con tratamiento por tipo de variable</td><td>Funciona pero mezcla pasos fuera del pipeline</td><td>Ausente</td></tr>
-          <tr><td>Baseline y validación</td><td class="num">15</td><td>Baseline y validación cruzada estratificada con media ± desviación</td><td>Validación cruzada sin reportar la variabilidad</td><td>Sin baseline o sin validación cruzada</td></tr>
-          <tr><td>Métricas y costo</td><td class="num">15</td><td>Métrica y umbral justificados con los costos y elegidos por validación</td><td>Métricas estándar sin justificar</td><td>Solo exactitud</td></tr>
-          <tr><td>Análisis de errores y limitaciones</td><td class="num">10</td><td>Por segmento, con hipótesis y riesgos de uso</td><td>Genérico</td><td>Ausente</td></tr>
-          <tr><td>Comunicación</td><td class="num">10</td><td>Informe claro, figuras rotuladas, conclusiones accionables</td><td>Aceptable</td><td>Desordenado</td></tr>
+          <tr><td>Calidad de datos y partición (1)</td><td class="num">20</td><td>Reporte completo, decisiones justificadas y prueba separada antes de preprocesar</td><td>Reporte parcial o decisiones sin justificar</td><td>Fuga evidente o sin reporte</td></tr>
+          <tr><td>Pipeline y ColumnTransformer (2)</td><td class="num">15</td><td>Correcto y legible, con tratamiento por tipo de variable</td><td>Funciona pero mezcla pasos fuera del pipeline</td><td>Ausente</td></tr>
+          <tr><td>Referencia, modelos y validación (3)</td><td class="num">15</td><td>Baseline, dos modelos y validación cruzada con media ± desviación, comparados con criterio</td><td>Validación cruzada sin reportar la variabilidad</td><td>Sin baseline o sin validación cruzada</td></tr>
+          <tr><td>Métrica y umbral por costo (4)</td><td class="num">15</td><td>Umbral elegido por validación con la matriz de costos y justificado</td><td>Métricas estándar sin justificar el umbral</td><td>Umbral 0.5 por defecto o elegido en la prueba</td></tr>
+          <tr><td>Evaluación final (5)</td><td class="num">5</td><td>Una sola vez, con el umbral elegido, comparada con la validación</td><td>Correcta pero sin comentario</td><td>La prueba se usó varias veces</td></tr>
+          <tr><td>Errores por segmento y limitaciones (6)</td><td class="num">10</td><td>Por segmento, con hipótesis y riesgos de uso</td><td>Genérico</td><td>Ausente</td></tr>
+          <tr><td>Conclusión y recomendación (7)</td><td class="num">10</td><td>Accionable, con costos y condiciones para producción</td><td>Correcta pero vaga</td><td>Ausente</td></tr>
+          <tr><td>Reproducibilidad (todo el notebook)</td><td class="num">10</td><td>Corre de cero sin errores, con semilla y versiones a la vista</td><td>Corre con ajustes menores</td><td>No corre o faltan salidas</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="muted" style="font-size:.875rem">Falta la declaración de uso de IA (sección 8): se descuentan 10 puntos y se pide la entrega corregida.</p>
   </section>
 
   <div class="grid grid--2">
     <div class="callout callout--tarea">
       <div class="callout__title">Antes de entregar</div>
       <div class="callout__body">
-        <p>☐ Clonaste tu repositorio en una carpeta nueva y se ejecutó de principio a fin.<br>☐ La prueba solo aparece en la evaluación final.<br>☐ Reportas el baseline junto a cada modelo.<br>☐ El umbral no es 0.5 “porque sí”.<br>☐ Incluiste la declaración de uso de IA.</p>
+        <p>☐ Reiniciaste el kernel y ejecutaste todo de arriba hacia abajo, sin errores.<br>☐ Todas las celdas tienen su salida visible.<br>☐ Respondiste todas las celdas “Tu análisis”.<br>☐ La prueba aparece una sola vez, en la sección 5.<br>☐ El umbral no es 0.5 “porque sí”.<br>☐ Completaste la declaración de uso de IA.<br>☐ El archivo se llama <code>T1_Apellido_Nombre.ipynb</code>.</p>
       </div>
     </div>
     <div class="callout callout--etica">
       <div class="callout__title">Uso de IA permitido, siempre declarado</div>
       <div class="callout__body">
         <p>Puedes resolver esta tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares. El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y cómo verificaste los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>.</p>
-        <p>Plantilla: “Usé [herramienta] para [tarea concreta: depurar un error, redactar el README…]. Los prompts relevantes están en <code>reports/prompts.md</code>. Verifiqué los resultados [cómo]. El análisis, las decisiones y las conclusiones son de mi autoría.” Si no usaste IA, decláralo igualmente.</p>
+        <p>La declaración va en la <strong>sección 8 del notebook</strong>, que ya trae la tabla: herramientas, <strong>en qué secciones</strong> la usaste, para qué, prompts relevantes, qué verificaste tú y qué corregiste o descartaste. Si no usaste IA, escribe “No usé IA” y firma igual.</p>
       </div>
     </div>
   </div>
-  <p class="muted" style="font-size:.875rem">Te preparan para esta tarea: <a href="#/s1/ejercicios/e1-3">E1.3</a> (flujo sin fuga), <a href="#/s1/ejercicios/e1-2">E1.2</a> (umbral por costo) y <a href="#/s1/ejercicios/e0">E0</a> (repositorio reproducible).</p>
+  <p class="muted" style="font-size:.875rem">Te preparan para esta tarea: <a href="#/s1/ejercicios/e1-1">E1.1</a> (proceso y baseline), <a href="#/s1/ejercicios/e1-2">E1.2</a> (umbral por costo) y <a href="#/s1/ejercicios/e1-3">E1.3</a> (flujo sin fuga). Puedes reutilizar sus celdas y sus versiones resueltas.</p>
   <label class="check"><input type="checkbox" data-check="s1-t1"><span class="check__text"><span class="check__title">Entregué la Tarea 1</span><small>Márcalo cuando la subas al LMS</small></span></label>
   
 </article>
@@ -3644,47 +3644,62 @@ with mlflow.start_run(run_name="bosque"):
     </div>
     <div class="card card--soft">
       <h3>Qué entregas</h3>
+      <p><strong>Un solo archivo: el notebook</strong>, ejecutado de principio a fin y con todas sus salidas. No hay informe en PDF y <strong>no hay que subir <code>mlflow.db</code></strong>: la evidencia de MLflow es la tabla de corridas impresa en la sección 3.</p>
       <ul>
-        <li>Repositorio reproducible con los experimentos de MLflow (la base <code>mlflow.db</code>, la carpeta <code>mlruns/</code> o una exportación).</li>
-        <li>Informe técnico de 4 a 6 páginas con la recomendación.</li>
-        <li>Declaración de uso de IA.</li>
+        <li>Todas las celdas <strong>"Tu análisis"</strong> respondidas.</li>
+        <li><strong>Declaración de uso de IA</strong> completa (sección 7 del notebook).</li>
       </ul>
+      <p class="muted" style="font-size:.875rem">Súbelo al LMS como <code>T2_Apellido_Nombre.ipynb</code>.</p>
+      <div class="res-card__actions"><a class="btn btn--sm" data-colab="tareas/T2_comparacion_de_modelos.ipynb" aria-disabled="true">Plantilla en Colab · pronto</a><a class="btn btn--sm" data-github="tareas/T2_comparacion_de_modelos.ipynb" aria-disabled="true">Ver en GitHub · pronto</a></div>
     </div>
   </div>
   <div class="card">
-    <h3>Qué debes hacer</h3>
-    <ol>
-      <li>Limpieza justificada: duplicados, faltantes y valores inconsistentes.</li>
-      <li>Separa la prueba estratificada antes de todo.</li>
-      <li>Compara regresión logística, SVM, árbol de decisión, random forest e HistGradientBoosting (este último como referencia).</li>
-      <li>Busca hiperparámetros sin fuga: prueba reservada y validación cruzada, o validación cruzada anidada.</li>
-      <li>Trata el desbalance con <code>class_weight</code> y con el umbral.</li>
-      <li>Grafica curvas de aprendizaje de al menos dos modelos.</li>
-      <li>Calibra el modelo elegido y muestra su diagrama de fiabilidad.</li>
-      <li>Registra <strong>todos</strong> los experimentos en MLflow.</li>
-      <li>Presenta una tabla comparativa con media ± desviación por métrica.</li>
-      <li>Da una recomendación técnica justificada, con sus limitaciones.</li>
-    </ol>
+    <h3>Qué debes hacer, sección por sección</h3>
+    <p class="muted" style="font-size:.875rem">La plantilla ya trae estas secciones con sus celdas <code># TODO</code>. Cada una es un criterio de la rúbrica.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Sección del notebook</th><th class="num">Pts</th><th>Qué se espera</th><th>Dónde lo practicaste</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0 · Configuración y datos</strong></td><td class="num">—</td><td>Ejecutar la celda tal cual: semilla 2026, versiones y datos cargados por código.</td><td>—</td></tr>
+          <tr><td><strong>1 · Limpieza y partición sin fuga</strong></td><td class="num">20</td><td>Duplicados, faltantes y valores imposibles, con decisiones justificadas; los duplicados se tratan <strong>antes</strong> de partir; prueba del 20 % estratificada.</td><td><a href="#/s2/ejercicios/e2-4">E2.4</a></td></tr>
+          <tr><td><strong>2 · Cinco modelos con su pipeline</strong></td><td class="num">20</td><td>Logística, SVM, árbol, bosque y <code>HistGradientBoosting</code>, más un <code>DummyClassifier</code>; preprocesamiento dentro de cada pipeline.</td><td><a href="#/s2/ejercicios/e2-2">E2.2</a> · <a href="#/s2/ejercicios/e2-3">E2.3</a> · <a href="#/s2/ejercicios/e2-4">E2.4</a></td></tr>
+          <tr><td><strong>3 · Búsqueda sin fuga y MLflow</strong></td><td class="num">15</td><td>Malla justificada para al menos tres modelos, búsqueda dentro del entrenamiento con los mismos folds, cada corrida registrada y la <strong>tabla de <code>mlflow.search_runs()</code> impresa</strong>.</td><td><a href="#/s2/ejercicios/e2-4">E2.4 · Nivel 3</a></td></tr>
+          <tr><td><strong>4 · Desbalance y umbral</strong></td><td class="num">10</td><td><code>class_weight</code> frente a umbral; costos del caso y umbral elegido por validación, sin tocar la prueba.</td><td><a href="#/s2/ejercicios/e2-2">E2.2</a> · <a href="#/s1/ejercicios/e1-2">E1.2</a></td></tr>
+          <tr><td><strong>5 · Curvas, calibración y prueba final</strong></td><td class="num">20</td><td>Curvas de aprendizaje de dos modelos interpretadas, diagrama de fiabilidad antes y después de calibrar, y evaluación única en la prueba.</td><td><a href="#/s2/ejercicios/e2-4">E2.4</a> · <a href="#/s2/ejercicios/e2-2">E2.2 · Nivel 3</a></td></tr>
+          <tr><td><strong>6 · Tabla comparativa y recomendación</strong></td><td class="num">15</td><td>Los seis modelos con media ± desviación y costo; recomendación de 150–250 palabras con limitaciones.</td><td><a href="#/s2/ejercicios/e2-4">E2.4 · Nivel 4</a></td></tr>
+          <tr><td><strong>7 · Declaración de uso de IA</strong></td><td class="num">obligatoria</td><td>Herramientas, <strong>en qué secciones</strong> la usaste, prompts relevantes y qué verificaste tú.</td><td><a href="#/recursos/ia">IA en el curso</a></td></tr>
+          <tr><td><strong>Reproducibilidad</strong> (todo el notebook)</td><td class="num">—</td><td>Incluida en el criterio 1: corre de principio a fin tras reiniciar el kernel, con semilla fija.</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
   <h3 style="margin:.5rem 0 .8rem">Rúbrica · 100 puntos</h3>
   <div class="table-wrap">
       <table class="table table--rubric">
         <thead><tr><th>Criterio</th><th class="num">Pts</th><th>Qué se espera en el nivel excelente</th></tr></thead>
         <tbody>
-          <tr><td>Reproducibilidad y seguimiento en MLflow</td><td class="num">15</td><td>Repositorio ejecutable de cero; cada corrida registrada con parámetros y métricas</td></tr>
-          <tr><td>Limpieza y validación sin fuga</td><td class="num">20</td><td>Duplicados tratados y justificados; toda búsqueda dentro de la validación</td></tr>
-          <tr><td>Implementación y búsqueda de los 5 modelos</td><td class="num">20</td><td>Espacios de búsqueda razonables y justificados</td></tr>
-          <tr><td>Desbalance y umbral</td><td class="num">10</td><td>Estrategia explícita y umbral elegido por validación</td></tr>
-          <tr><td>Análisis: curvas de aprendizaje, calibración, errores</td><td class="num">20</td><td>Interpretación de cada gráfico, no solo su presencia</td></tr>
-          <tr><td>Recomendación justificada y limitaciones</td><td class="num">15</td><td>Recomendación accionable con costos, riesgos y variabilidad</td></tr>
+          <tr><td>Búsqueda sin fuga y seguimiento en MLflow (3)</td><td class="num">15</td><td>Notebook que corre de cero; cada corrida registrada con parámetros y métricas, con la tabla impresa</td></tr>
+          <tr><td>Limpieza y partición sin fuga (1)</td><td class="num">20</td><td>Duplicados tratados y justificados; toda búsqueda dentro de la validación</td></tr>
+          <tr><td>Los cinco modelos y sus pipelines (2)</td><td class="num">20</td><td>Espacios de búsqueda razonables y justificados</td></tr>
+          <tr><td>Desbalance y umbral (4)</td><td class="num">10</td><td>Estrategia explícita y umbral elegido por validación</td></tr>
+          <tr><td>Curvas, calibración y prueba final (5)</td><td class="num">20</td><td>Interpretación de cada gráfico, no solo su presencia</td></tr>
+          <tr><td>Tabla comparativa y recomendación (6)</td><td class="num">15</td><td>Recomendación accionable con costos, riesgos y variabilidad</td></tr>
         </tbody>
       </table>
     </div>
   <div class="callout callout--etica">
     <div class="callout__title">Integridad y uso de IA</div>
-    <div class="callout__body"><p>Puedes resolver la tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares al final del informe, con los prompts relevantes en <code>reports/prompts.md</code> (norma f). El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y la verificación de los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>. Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
+    <div class="callout__body"><p>Puedes resolver la tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares en la <strong>sección 7 del notebook</strong>, indicando en qué secciones la usaste y con los prompts relevantes (norma f). El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y la verificación de los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>. Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
   </div>
   <p class="muted" style="font-size:.875rem">Te prepara para esta tarea: <a href="#/s2/ejercicios/e2-4">E2.4</a>.</p>
+  <div class="callout callout--tarea">
+    <div class="callout__title">Antes de entregar</div>
+    <div class="callout__body">
+      <p>☐ Reiniciaste el kernel y ejecutaste todo, sin errores.<br>☐ Los duplicados se trataron antes de partir.<br>☐ La búsqueda de hiperparámetros nunca tocó la prueba.<br>☐ La tabla de corridas de MLflow está impresa en la sección 3.<br>☐ Reportaste media ± desviación y no declaraste ganador por diferencias menores que la variabilidad.<br>☐ Respondiste todas las celdas “Tu análisis” y completaste la declaración de uso de IA.<br>☐ El archivo se llama <code>T2_Apellido_Nombre.ipynb</code>.</p>
+    </div>
+  </div>
+
   <label class="check"><input type="checkbox" data-check="s2-t2"><span class="check__text"><span class="check__title">Entregué la Tarea 2</span><small>Márcalo cuando la subas al LMS</small></span></label>
   
 </article>
@@ -5123,12 +5138,13 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
     </div>
     <div class="card card--soft">
       <h3>Qué entregas</h3>
+      <p><strong>Un solo archivo: el notebook</strong>, ejecutado de principio a fin y con todas sus salidas. No hay informe en PDF ni presentación aparte: el <strong>resumen ejecutivo</strong> de la sección 7 hace las veces de presentación.</p>
       <ul>
-        <li>Presentación técnica de 8 a 10 diapositivas.</li>
-        <li>Notebook reproducible.</li>
-        <li>Reporte de estabilidad, anomalías, sesgos, riesgos y limitaciones.</li>
-        <li>Declaración de uso de IA.</li>
+        <li>Todas las celdas <strong>"Tu análisis"</strong> respondidas; la sección 6 (subgrupos) vale 25 puntos.</li>
+        <li><strong>Declaración de uso de IA</strong> completa (sección 8 del notebook).</li>
       </ul>
+      <p class="muted" style="font-size:.875rem">Súbelo al LMS como <code>T3_Apellido_Nombre.ipynb</code>.</p>
+      <div class="res-card__actions"><a class="btn btn--sm" data-colab="tareas/T3_no_supervisado_y_subgrupos.ipynb" aria-disabled="true">Plantilla en Colab · pronto</a><a class="btn btn--sm" data-github="tareas/T3_no_supervisado_y_subgrupos.ipynb" aria-disabled="true">Ver en GitHub · pronto</a></div>
     </div>
   </div>
   <div class="card">
@@ -5160,27 +5176,37 @@ tc["incumple"] = tc["incumple"].astype(int)          # viene como categoría "0"
     <p class="muted" style="font-size:.875rem">Decide y documenta qué haces con los códigos no documentados (agruparlos en "otros" es una opción razonable). Las variables sensibles <strong>no</strong> entran a la segmentación ni a los detectores: se conservan para el análisis por subgrupos. <code>incumple</code> tampoco se usa para agrupar; puedes usarla después como validación externa (¿los segmentos o las anomalías se relacionan con el incumplimiento?).</p>
   </div>
   <div class="card">
-    <h3>Qué debes hacer</h3>
-    <ol>
-      <li>Exploración y escalamiento justificado.</li>
-      <li>PCA con varianza explicada y reconstrucción, y su uso posterior.</li>
-      <li>t-SNE solo exploratorio (al menos dos perplejidades), con advertencias de interpretación.</li>
-      <li>Segmentación (K-means o DBSCAN) con validación interna y análisis de estabilidad.</li>
-      <li>Detección de anomalías con Isolation Forest <strong>y</strong> LOF, comparados.</li>
-      <li><strong>Composición de clusters y anomalías por subgrupo</strong> (sexo, educación, edad), con tasas y razones entre grupos.</li>
-      <li>Discusión de riesgos (proxies, uso indebido) y limitaciones.</li>
-    </ol>
+    <h3>Qué debes hacer, sección por sección</h3>
+    <p class="muted" style="font-size:.875rem">La plantilla ya trae estas secciones con sus celdas <code># TODO</code>, incluido el renombrado de <code>x1</code>–<code>x23</code>. Cada una es un criterio de la rúbrica.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Sección del notebook</th><th class="num">Pts</th><th>Qué se espera</th><th>Dónde lo practicaste</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0 · Configuración, datos y diccionario</strong></td><td class="num">—</td><td>Ejecutar la celda tal cual: semilla 2026 y columnas renombradas.</td><td>—</td></tr>
+          <tr><td><strong>1 · Preparación y escalamiento</strong></td><td class="num">10</td><td>Decisión documentada sobre los códigos no documentados; matriz <strong>sin</strong> variables sensibles ni <code>incumple</code>; escalamiento justificado.</td><td><a href="#/s3/ejercicios/e3-1">E3.1 · Nivel 3</a></td></tr>
+          <tr><td><strong>2 · PCA</strong></td><td class="num">15</td><td>Varianza explicada acumulada, número de componentes con criterio explícito, error de reconstrucción e interpretación de las dos primeras componentes.</td><td><a href="#/s3/ejercicios/e3-3">E3.3 · Niveles 1–3</a></td></tr>
+          <tr><td><strong>3 · t-SNE (solo exploratorio)</strong></td><td class="num">10</td><td>Al menos dos perplejidades sobre una muestra, partiendo de PCA, y qué <strong>no</strong> se puede concluir.</td><td><a href="#/s3/ejercicios/e3-3">E3.3 · Nivel 4</a></td></tr>
+          <tr><td><strong>4 · Segmentación validada y estable</strong></td><td class="num">15</td><td>K-means o DBSCAN con parámetros justificados; silhouette o Davies-Bouldin, estabilidad (ARI) y perfiles con nombre.</td><td><a href="#/s3/ejercicios/e3-1">E3.1</a> · <a href="#/s3/ejercicios/e3-2">E3.2</a></td></tr>
+          <tr><td><strong>5 · Anomalías: IF frente a LOF</strong></td><td class="num">15</td><td>Los dos detectores comparados, umbral justificado por capacidad de revisión y validación externa con <code>incumple</code>.</td><td><a href="#/s3/ejercicios/e3-4">E3.4</a></td></tr>
+          <tr><td><strong>6 · Subgrupos y riesgos éticos</strong></td><td class="num">25</td><td>Composición y razón de representación por sexo, educación y edad en cada segmento y en las anomalías; banda 0.8–1.25; proxies, usos aceptables y recomendaciones.</td><td><a href="#/s3/ejercicios/e3-1">E3.1 · Nivel 4</a> · <a href="#/s3/manual/m3-9">M3 §9</a></td></tr>
+          <tr><td><strong>7 · Resumen ejecutivo y limitaciones</strong></td><td class="num">10</td><td>200–300 palabras para el área de negocio: segmentos, anomalías, desbalances, usos recomendados y tres limitaciones.</td><td>—</td></tr>
+          <tr><td><strong>8 · Declaración de uso de IA</strong></td><td class="num">obligatoria</td><td>Herramientas, <strong>en qué secciones</strong> la usaste, prompts relevantes y qué verificaste tú.</td><td><a href="#/recursos/ia">IA en el curso</a></td></tr>
+          <tr><td><strong>Reproducibilidad</strong> (todo el notebook)</td><td class="num">10</td><td>Corre de principio a fin tras reiniciar el kernel, con semillas fijas y datos por código.</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
   <h3 style="margin:.5rem 0 .8rem">Rúbrica · 100 puntos</h3>
   <div class="table-wrap">
       <table class="table table--rubric">
         <thead><tr><th>Criterio</th><th class="num">Pts</th><th>Qué se espera en el nivel excelente</th></tr></thead>
         <tbody>
-          <tr><td>Reproducibilidad</td><td class="num">10</td><td>Notebook ejecutable de cero con semillas fijas</td></tr>
-          <tr><td>PCA correcto e interpretado</td><td class="num">15</td><td>Varianza explicada, reconstrucción y decisión del número de componentes</td></tr>
-          <tr><td>Uso adecuado de t-SNE</td><td class="num">10</td><td>Varias perplejidades y advertencias explícitas</td></tr>
-          <tr><td>Segmentación validada y estable</td><td class="num">15</td><td>Métricas internas, estabilidad y perfiles interpretables</td></tr>
-          <tr><td>Anomalías: comparación IF/LOF y umbral</td><td class="num">15</td><td>Comparación razonada y umbral justificado</td></tr>
+          <tr><td>Reproducibilidad (todo el notebook)</td><td class="num">10</td><td>Corre de cero con semillas fijas y todas las salidas visibles</td></tr>
+          <tr><td>PCA correcto e interpretado (2)</td><td class="num">15</td><td>Varianza explicada, reconstrucción y decisión del número de componentes</td></tr>
+          <tr><td>Uso adecuado de t-SNE (3)</td><td class="num">10</td><td>Varias perplejidades y advertencias explícitas</td></tr>
+          <tr><td>Segmentación validada y estable (4)</td><td class="num">15</td><td>Métricas internas, estabilidad y perfiles interpretables</td></tr>
+          <tr><td>Anomalías: IF frente a LOF y umbral (5)</td><td class="num">15</td><td>Comparación razonada y umbral justificado</td></tr>
           <tr><td>Análisis por subgrupos y riesgos éticos (RDA2)</td><td class="num">25</td><td>Tasas y razones por grupo, hipótesis, riesgos de proxies y mitigaciones</td></tr>
           <tr><td>Comunicación</td><td class="num">10</td><td>Presentación clara y figuras rotuladas</td></tr>
         </tbody>
@@ -5188,9 +5214,16 @@ tc["incumple"] = tc["incumple"].astype(int)          # viene como categoría "0"
     </div>
   <div class="callout callout--etica">
     <div class="callout__title">Integridad y uso de IA</div>
-    <div class="callout__body"><p>Puedes resolver la tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares al final del informe, con los prompts relevantes en <code>reports/prompts.md</code> (norma f). El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y la verificación de los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>. Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
+    <div class="callout__body"><p>Puedes resolver la tarea con ayuda de IA agéntica (Claude Code, Codex, Gemini CLI…) o de chat (ChatGPT, Claude, Gemini), siempre que lo declares en la <strong>sección 8 del notebook</strong>, indicando en qué secciones la usaste y con los prompts relevantes (norma f). El curso no es de programación en Python: la rúbrica evalúa tus decisiones, su justificación y la verificación de los resultados. Guía: <a href="#/recursos/ia">IA en el curso</a>. Niveles de desempeño de la rúbrica: excelente 100 %, suficiente 70 %, insuficiente ≤ 40 %.</p></div>
   </div>
   <p class="muted" style="font-size:.875rem">Te preparan para esta tarea: <a href="#/s3/ejercicios/e3-1">E3.1</a>, <a href="#/s3/ejercicios/e3-3">E3.3</a> y <a href="#/s3/ejercicios/e3-4">E3.4</a>.</p>
+  <div class="callout callout--tarea">
+    <div class="callout__title">Antes de entregar</div>
+    <div class="callout__body">
+      <p>☐ Reiniciaste el kernel y ejecutaste todo, sin errores.<br>☐ Las variables sensibles y <code>incumple</code> no entraron a la segmentación ni a los detectores.<br>☐ Mostraste al menos dos perplejidades de t-SNE con sus advertencias.<br>☐ Reportaste estabilidad (ARI) y perfiles con nombre.<br>☐ La sección 6 tiene tablas por subgrupo con razones de representación y discusión de riesgos.<br>☐ Respondiste todas las celdas “Tu análisis” y completaste la declaración de uso de IA.<br>☐ El archivo se llama <code>T3_Apellido_Nombre.ipynb</code>.</p>
+    </div>
+  </div>
+
   <label class="check"><input type="checkbox" data-check="s3-t3"><span class="check__text"><span class="check__title">Entregué la Tarea 3</span><small>Márcalo cuando la subas al LMS</small></span></label>
   
 </article>
@@ -6802,7 +6835,7 @@ uv run jupyter lab</code></pre>
       <h2 id="h-faq">Preguntas frecuentes</h2>
       <ol class="selfcheck">
         <li><details><summary>¿Dónde se guarda mi progreso?</summary><p>Solo en este navegador (almacenamiento local). Si cambias de computador o borras los datos del sitio, las casillas vuelven a cero. Tus entregas oficiales siempre van al LMS.</p></details></li>
-        <li><details><summary>¿Cómo entrego las tareas y los exámenes?</summary><p>En el LMS institucional: el PDF del informe y el enlace a tu repositorio. Cada enunciado indica el nombre del archivo y la fecha límite (hora de Ecuador).</p></details></li>
+        <li><details><summary>¿Cómo entrego las tareas y los exámenes?</summary><p>Las tareas 1, 2 y 3 se entregan con <strong>un solo archivo</strong>: el notebook ejecutado, subido al LMS como <code>T#_Apellido_Nombre.ipynb</code>. No hay informe en PDF. El examen práctico sí entrega repositorio y documentos, como indica su enunciado. Cada enunciado tiene la fecha límite (hora de Ecuador).</p></details></li>
         <li><details><summary>¿Puedo usar IA generativa o agéntica?</summary><p>Sí, en los ejercicios, los desafíos y las tareas, declarándolo (norma f): qué herramienta, para qué, los prompts relevantes y cómo verificaste los resultados. El análisis y las decisiones deben ser tuyos. Detalles en <a href="#/recursos/ia">IA en el curso</a>.</p></details></li>
         <li><details><summary>Un notebook falla. ¿Qué hago?</summary><p>Revisa la tabla de errores frecuentes del manual del ejercicio, reinicia el kernel y ejecuta de arriba hacia abajo. Si sigue fallando, comparte el mensaje de error en el foro con la versión de Python y de scikit-learn.</p></details></li>
         <li><details><summary>¿Las animaciones funcionan sin internet?</summary><p>Sí. El hub es un único archivo HTML con todo incluido: fuentes, fórmulas y animaciones. Solo los videos y los enlaces externos necesitan conexión.</p></details></li>
@@ -6825,7 +6858,7 @@ uv run jupyter lab</code></pre>
       <strong>Postgrado · Maestría en Inteligencia Artificial · MIAR0525</strong>
       <span>Período en Línea 4 · 2026 · Modalidad en línea · 4 créditos</span>
     </div>
-    <div class="site-footer__meta">Hub v0.6.0 · compilado 2026-09-13 22:17<br>Tu progreso se guarda solo en este navegador.</div>
+    <div class="site-footer__meta">Hub v0.6.0 · compilado 2026-09-16 20:11<br>Tu progreso se guarda solo en este navegador.</div>
   </div>
 </footer>
 

@@ -29,5 +29,23 @@ window.HUB_VIDEOS = {
   },
   "V3.2": {
     "src": "semana-3/V3.2.mp4"
+  },
+  "V3.3": {
+    "src": "semana-3/V3.3.mp4"
+  },
+  "V3.4": {
+    "src": "semana-3/V3.4.mp4"
+  },
+  "V4.1": {
+    "src": "semana-4/V4.1.mp4"
+  },
+  "V4.2": {
+    "src": "semana-4/V4.2.mp4"
+  },
+  "V4.3": {
+    "src": "semana-4/V4.3.mp4"
+  },
+  "V4.4": {
+    "src": "semana-4/V4.4.mp4"
   }
 };

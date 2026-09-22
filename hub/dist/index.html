@@ -967,6 +967,116 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
 .deck__notes .notes-extra::before { content: "Guion ampliado"; display: block; font-weight: 600; font-size: var(--fs-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: .25rem; }
 .deck__notes .notes-extra > * + * { margin-top: .4rem; }
 
+/* ---- src/css/55-ink.css ---- */
+/* ==========================================================================
+   Anotación a mano sobre las diapositivas (componente Ink · 80-ink.js):
+   capa de tinta, hojas de notas en blanco y barra de herramientas.
+   ========================================================================== */
+
+/* ---------- Capa de tinta ---------- */
+.ink-capa {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4;
+  pointer-events: none; touch-action: none;
+}
+.ink-capa .ink-hl { fill-opacity: .32; mix-blend-mode: multiply; }
+.deck.is-inking .ink-capa { pointer-events: auto; cursor: crosshair; }
+.deck.is-inking .slide:not(.is-active) .ink-capa { pointer-events: none; }
+.deck.is-inking .stage__controls { pointer-events: none; }
+
+/* ---------- Hoja de notas en blanco ---------- */
+.ink-hoja {
+  position: absolute; inset: 0; z-index: 6; background: #FFFFFF; color: #1C1A1B;
+  container-type: inline-size;
+}
+.ink-hoja[hidden] { display: none; }
+.ink-hoja__cab {
+  position: absolute; top: 0; left: 0; right: 0; height: 9%;
+  display: flex; align-items: center; gap: 1rem; padding: 0 5cqw;
+  border-bottom: .18cqw solid #821436;
+  font: 600 1.35cqw/1.2 var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: #77787B;
+}
+.ink-hoja__nav { margin-left: auto; display: flex; gap: .3rem; }
+.ink-hoja__nav .tbtn { width: 30px; height: 30px; background: #FFFFFF; border-color: #E4DEE0; color: #5E5F62; }
+.ink-hoja__nav .tbtn:hover { border-color: #821436; color: #821436; }
+
+/* ---------- Barra de herramientas ---------- */
+.ink-bar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .4rem .5rem;
+  padding: .45rem .55rem; border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.ink-bar[hidden] { display: none; }
+.ink-grupo { display: flex; align-items: center; gap: .25rem; padding-right: .5rem; border-right: 1px solid var(--line); }
+.ink-grupo:last-of-type { border-right: 0; }
+.ink-bar .tbtn { width: 32px; height: 32px; }
+.ink-bar .tbtn.is-on { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--accent-ink); }
+.ink-bar .tbtn[disabled] { opacity: .4; cursor: not-allowed; }
+
+.ink-color {
+  width: 24px; height: 24px; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 2px solid var(--surface); background: var(--c);
+  box-shadow: 0 0 0 1.5px var(--ink-3); transition: transform .12s, box-shadow .12s;
+}
+.ink-color:hover { transform: scale(1.1); }
+.ink-color.is-on { box-shadow: 0 0 0 2px var(--accent); transform: scale(1.12); }
+
+.ink-w {
+  width: 28px; height: 28px; display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--line-strong); border-radius: 50%; background: var(--surface); color: var(--ink);
+}
+.ink-w span { display: block; border-radius: 50%; background: currentColor; }
+.ink-w.is-on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+.ink-notas {
+  min-height: 28px; padding: .2rem .6rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-2);
+  font: 600 var(--fs-xs)/1 var(--font-sans); white-space: nowrap;
+}
+.ink-notas.is-on { border-color: var(--accent); color: var(--accent); }
+.ink-notas[disabled] { opacity: .5; cursor: default; }
+.ink-estado { flex: 1 1 8rem; min-width: 6rem; font: var(--fs-xs)/1.3 var(--font-sans); color: var(--ink-2); }
+.ink-pdf { flex: 0 0 auto; }
+
+/* ---------- Menú de opciones ---------- */
+.ink-menu {
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2);
+  padding: .8rem 1rem; font-size: var(--fs-sm);
+}
+.ink-menu[hidden] { display: none; }
+.ink-menu__t { font-weight: 600; color: var(--accent); margin-bottom: .2rem; }
+.ink-menu p { font-size: var(--fs-xs); line-height: 1.5; }
+.ink-menu__acc { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0; }
+.ink-menu__origen { border-top: 1px dashed var(--line-strong); padding-top: .6rem; margin-top: .4rem; }
+.ink-menu__origen[hidden] { display: none; }
+.ink-menu__origen p { margin-bottom: .4rem; }
+.ink-menu code { font-size: .92em; }
+
+/* ---------- Pantalla completa: la barra queda siempre visible al anotar ---------- */
+.deck.is-inking:fullscreen .deck__bar { opacity: 1; }
+.deck:fullscreen .ink-bar {
+  position: fixed; left: 50%; bottom: 58px; transform: translateX(-50%);
+  background: rgba(28, 26, 27, .92); border-color: rgba(255, 255, 255, .14); z-index: 10;
+}
+.deck:fullscreen .ink-bar .ink-estado { color: #CFC6C9; }
+.deck:fullscreen .ink-bar .tbtn { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .18); color: #EDE8EA; }
+.deck:fullscreen .ink-bar .tbtn.is-on { background: var(--accent-fill); border-color: var(--accent-fill); color: #FFFFFF; }
+.deck:fullscreen .ink-bar .ink-w { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .18); color: #EDE8EA; }
+.deck:fullscreen .ink-bar .ink-notas { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .18); color: #EDE8EA; }
+.deck:fullscreen .ink-bar .ink-color { border-color: rgba(28, 26, 27, .9); }
+.deck:fullscreen .ink-menu { display: none; }
+
+@media (max-width: 640px) {
+  .ink-grupo { border-right: 0; padding-right: 0; }
+  .ink-estado { flex-basis: 100%; }
+}
+
+/* ---------- Impresión ---------- */
+@media print {
+  .ink-bar, .ink-menu, .ink-hoja__cab, .deck .tbtn--ink { display: none !important; }
+  .ink-hoja { display: none !important; }
+  .ink-capa { display: block !important; }
+}
+
 /* ---- src/css/60-content.css ---- */
 /* ==========================================================================
    Contenido: portada del curso, manuales (prosa), glosario
@@ -1542,6 +1652,7 @@ details.fold > .fold__body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var
     <span class="eyebrow">Presentación P1 · tutoría del sábado 19/09</span>
     <h2>Introducción al Aprendizaje Automático</h2>
     <p>Presentación de la tutoría sincrónica (3 h, 25 diapositivas) con cuatro animaciones en vivo. Usa las flechas del teclado con la presentación enfocada, <kbd>F</kbd> para pantalla completa y <kbd>N</kbd> para las notas del docente.</p>
+    <p><strong>Anotar a mano.</strong> Con <kbd>D</kbd> (o el botón del lápiz de la barra) se activa la anotación: raya las diapositivas con una tableta gráfica, un lápiz táctil o el ratón, intercala <strong>hojas de notas en blanco</strong> con <kbd>H</kbd> y descarga un <strong>PDF anotado</strong> listo para compartir. Las anotaciones se guardan en este navegador.</p>
   </div>
 
   <div class="deck" data-deck="P1" data-title="P1 · Introducción al Aprendizaje Automático" data-foot="MIAR0525 · Semana 1 · Tutoría sincrónica">
@@ -1918,7 +2029,7 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
       <div class="callout__body"><p>Si una regla simple y estable resuelve el problema (validar el dígito verificador de una cédula), si no hay datos representativos del caso de uso, o si un error no es tolerable ni explicable para quien toma la decisión. ML añade incertidumbre, mantenimiento y riesgos; debe ganarse su lugar frente a la alternativa sencilla.</p></div>
     </div>
 
-    
+
 
     <h2 id="m1-2"><span class="sec">§2</span>Tipos de aprendizaje</h2>
     <p>La diferencia entre los tipos de aprendizaje está en la <strong>señal</strong> que guía el aprendizaje.</p>
@@ -1935,7 +2046,7 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
     <p>El dilema central es <strong>explorar o explotar</strong>: probar acciones nuevas para descubrir si son mejores, o repetir la mejor conocida. La estrategia ε-greedy explora al azar con probabilidad \(\varepsilon\). El caso más simple es el <em>bandido multibrazo</em>: un solo estado y varias acciones con recompensas desconocidas.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-1">E1.1 · Niveles 1 y 2</a> (regresión desde cero, K-means sobre <code>make_blobs</code> y un bandido ε-greedy) · <a href="#/s1/animaciones/anim-A1-1">Animación A1.1</a></div>
 
-    
+
 
     <h2 id="m1-3"><span class="sec">§3</span>Formulación del problema</h2>
     <p>La mayoría de los proyectos de ML que fracasan no lo hacen por el algoritmo, sino por un problema mal formulado. Antes de abrir un notebook responde por escrito:</p>
@@ -1947,7 +2058,7 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
       <li><strong>Baseline.</strong> ¿Qué obtendría una regla trivial? El modelo debe superarla con claridad para justificar su costo.</li>
     </ol>
 
-    
+
 
     <h2 id="m1-4"><span class="sec">§4</span>El proceso general y la generalización</h2>
     <p>Un proyecto de ML recorre un ciclo: <strong>recolección</strong> de datos, análisis exploratorio, <strong>preprocesamiento</strong> (imputar, escalar, codificar), <strong>entrenamiento</strong>, <strong>validación</strong> para elegir el modelo y sus hiperparámetros, <strong>prueba</strong> final, despliegue y monitoreo. Cuando el monitoreo detecta que los datos cambiaron, el ciclo vuelve a empezar.</p>
@@ -1960,7 +2071,7 @@ res = cross_validate(modelo, X_train, y_train, cv=5,
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-1">E1.1 · Nivel 3</a> (California Housing: baseline frente a modelo lineal) · <a href="#/s1/animaciones/anim-A1-2">A1.2 ciclo de vida</a> · <a href="#/s1/animaciones/anim-A1-5">A1.5 sub/sobreajuste</a></div>
 
-    
+
 
     <h2 id="m1-5"><span class="sec">§5</span>Particiones y validación</h2>
     <p>Para estimar el error de generalización necesitamos datos que el modelo no haya visto. El esquema estándar tiene tres papeles:</p>
@@ -1986,7 +2097,7 @@ res = cross_validate(modelo, X_train, y_train, cv=cv, scoring="average_precision
 print(f"{res['test_score'].mean():.3f} ± {res['test_score'].std():.3f}")</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-3">E1.3 · Nivel 2</a> · <a href="#/s1/animaciones/anim-A1-3">Animación A1.3</a></div>
 
-    
+
 
     <h2 id="m1-6"><span class="sec">§6</span>Métricas de evaluación</h2>
     <h3>Regresión</h3>
@@ -2006,7 +2117,7 @@ print(f"{res['test_score'].mean():.3f} ± {res['test_score'].std():.3f}")</code>
     <p>scikit-learn ofrece <code>TunedThresholdClassifierCV</code> para elegir el umbral por validación cruzada con una métrica o una función de costo, en lugar de usar 0.5 por defecto.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-2">E1.2 · Niveles 1 a 3</a> (métricas desde cero y umbral por costo sobre defectos de software) · <a href="#/s1/animaciones/anim-A1-6">Animación A1.6</a></div>
 
-    
+
 
     <h2 id="m1-7"><span class="sec">§7</span>Fuga de datos</h2>
     <p>Hay <strong>fuga de datos</strong> (<em>data leakage</em>) cuando información que no estará disponible al momento de predecir, o que pertenece al conjunto de validación o prueba, influye en el entrenamiento. Produce estimaciones optimistas que se desploman en producción. Las formas más comunes:</p>
@@ -2035,7 +2146,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e1-3">E1.3 · Nivel 1</a> (fuga sobre ruido puro) y <a href="#/s1/ejercicios/e1-3">Nivel 4</a> (encontrar la fuga en Titanic) · <a href="#/s1/animaciones/anim-A1-4">Animación A1.4</a></div>
 
-    
+
 
     <h2 id="m1-8"><span class="sec">§8</span>Reproducibilidad</h2>
     <p>Un resultado que nadie puede reproducir no es un resultado. La norma d del curso exige entregar un <strong>repositorio reproducible</strong>:</p>
@@ -2048,7 +2159,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     </ul>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s1/ejercicios/e0">E0 · Entorno reproducible</a></div>
 
-    
+
 
     <h2 id="m1-9"><span class="sec">§9</span>Autoevaluación y lecturas</h2>
     <ol class="selfcheck">
@@ -2310,7 +2421,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
         <li>Todas las celdas <strong>"Tu análisis"</strong> respondidas: el código sin interpretación no suma puntos.</li>
         <li>La <strong>declaración de uso de IA</strong> completa (sección 8 del notebook).</li>
       </ul>
-      <p class="muted" style="font-size:.875rem">Súbelo al LMS con el nombre <code>T1_Apellido_Nombre.ipynb</code>. Antes de guardar: <em>Kernel → Restart &amp; Run All</em> (en Colab, <em>Entorno de ejecución → Reiniciar y ejecutar todo</em>).</p>
+      <p class="muted" style="font-size:.875rem">Súbelo a Blackboard con el nombre <code>T1_Apellido_Nombre.ipynb</code>. Antes de guardar: <em>Kernel → Restart &amp; Run All</em> (en Colab, <em>Entorno de ejecución → Reiniciar y ejecutar todo</em>).</p>
     </div>
     <div class="card">
       <h3>La plantilla</h3>
@@ -2356,8 +2467,8 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     </div>
   </div>
   <p class="muted" style="font-size:.875rem">Te preparan para esta tarea: <a href="#/s1/ejercicios/e1-1">E1.1</a> (proceso y baseline), <a href="#/s1/ejercicios/e1-2">E1.2</a> (umbral por costo) y <a href="#/s1/ejercicios/e1-3">E1.3</a> (flujo sin fuga). Puedes reutilizar sus celdas y sus versiones resueltas.</p>
-  <label class="check"><input type="checkbox" data-check="s1-t1"><span class="check__text"><span class="check__title">Entregué la Tarea 1</span><small>Márcalo cuando la subas al LMS</small></span></label>
-  
+  <label class="check"><input type="checkbox" data-check="s1-t1"><span class="check__text"><span class="check__title">Entregué la Tarea 1</span><small>Márcalo cuando la subas a Blackboard</small></span></label>
+
 </article>
 
 <!-- ---- src/content/10-semana-1/80-quiz.html ---- -->
@@ -2642,6 +2753,7 @@ modelo = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=1000))])<
     <span class="eyebrow">Presentación P2 · tutoría del sábado 26/09</span>
     <h2>Modelos de Aprendizaje Supervisado</h2>
     <p>Presentación de la tutoría sincrónica (3 h, 41 diapositivas) con once animaciones en vivo. Usa las flechas del teclado con la presentación enfocada, <kbd>F</kbd> para pantalla completa y <kbd>N</kbd> para las notas del docente.</p>
+    <p><strong>Anotar a mano.</strong> Con <kbd>D</kbd> (o el botón del lápiz de la barra) se activa la anotación: raya las diapositivas con una tableta gráfica, un lápiz táctil o el ratón, intercala <strong>hojas de notas en blanco</strong> con <kbd>H</kbd> y descarga un <strong>PDF anotado</strong> listo para compartir. Las anotaciones se guardan en este navegador.</p>
   </div>
 
   <div class="deck" data-deck="P2" data-title="P2 · Modelos de Aprendizaje Supervisado" data-foot="MIAR0525 · Semana 2 · Tutoría sincrónica">
@@ -3260,6 +3372,8 @@ for _ in range(500):
     beta_gd -= 0.1 * grad</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-1">E2.1 · Nivel 1</a> (ecuación normal y gradiente; con x sin escalar, η = 8·10⁻⁴ ya diverge) · <a href="#/s2/animaciones/anim-A2-1">Animación A2.1</a></div>
 
+
+
     <h2 id="m2-2"><span class="sec">§2</span>Regularización</h2>
     <p>Con muchas variables, variables correlacionadas o pocos datos, los mínimos cuadrados producen coeficientes grandes e inestables: ajustan el ruido. La <strong>regularización</strong> agrega a la pérdida un castigo por el tamaño de los coeficientes (nunca del intercepto):</p>
     $$ \text{Ridge: } \lVert y - X\beta\rVert^2 + \alpha\lVert\beta\rVert_2^2 \qquad \text{Lasso: } \tfrac{1}{2n}\lVert y - X\beta\rVert^2 + \alpha\lVert\beta\rVert_1 $$
@@ -3283,6 +3397,8 @@ lasso = make_pipeline(StandardScaler(),
                       LassoCV(alphas=np.logspace(-4, 0, 30), cv=5))</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-1">E2.1 · Niveles 2 a 4</a> (Ridge desde cero, ruta de Lasso en California Housing y variables polinómicas) · <a href="#/s2/animaciones/anim-A2-2">Animación A2.2</a></div>
 
+
+
     <h2 id="m2-3"><span class="sec">§3</span>Regresión logística</h2>
     <p>Para clasificar, la regresión logística calcula un puntaje lineal y lo transforma en probabilidad con la <strong>sigmoide</strong>:</p>
     $$ z = w^\top x + b, \qquad p(y=1\mid x) = \sigma(z) = \frac{1}{1+e^{-z}} $$
@@ -3296,6 +3412,8 @@ lasso = make_pipeline(StandardScaler(),
       <li><strong>Probabilidad no es decisión:</strong> el umbral se elige por el costo de cada error, como en la semana 1.</li>
     </ul>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-2">E2.2 · Niveles 1 y 2</a> (sigmoide, log-loss y gradiente desde cero; efecto de <code>C</code> y <code>class_weight</code>) · <a href="#/s2/animaciones/anim-A2-3">Animación A2.3</a></div>
+
+
 
     <h2 id="m2-4"><span class="sec">§4</span>Calibración de probabilidades</h2>
     <p>Un modelo está <strong>calibrado</strong> si, entre todos los casos a los que asigna una probabilidad cercana a \(q\), la fracción de positivos es \(q\). Separar bien (AUC alto) no lo garantiza: cualquier transformación monótona de los puntajes conserva el orden, y por lo tanto la AUC, pero cambia su significado.</p>
@@ -3314,6 +3432,8 @@ cal = CalibratedClassifierCV(modelo, method="sigmoid", cv=5).fit(X_train, y_trai
 CalibrationDisplay.from_estimator(cal, X_test, y_test, n_bins=10)</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-2">E2.2 · Niveles 3 y 4</a> (Bank Marketing: fiabilidad, valor esperado, Platt frente a isotónica) · <a href="#/s2/animaciones/anim-A2-4">Animación A2.4</a></div>
 
+
+
     <h2 id="m2-5"><span class="sec">§5</span>Máquinas de soporte vectorial</h2>
     <p>Si dos clases son separables, hay infinitas rectas que las separan. La SVM elige la del <strong>margen máximo</strong>: la que deja la franja ("calle") más ancha sin puntos. Con etiquetas \(y_i \in \{-1, +1\}\) y la frontera \(w^\top x + b = 0\), el ancho de la calle es \(2/\lVert w\rVert\), así que maximizarlo equivale a minimizar \(\lVert w\rVert^2\).</p>
     <p>El <strong>margen blando</strong> permite violaciones con un costo \(C\) y lleva a minimizar la <strong>pérdida hinge</strong> regularizada:</p>
@@ -3327,6 +3447,8 @@ CalibrationDisplay.from_estimator(cal, X_test, y_test, n_bins=10)</code></pre>
     </ul>
     <p>La SVM no produce probabilidades por sí misma: <code>SVC(probability=True)</code> aplica Platt con validación cruzada interna (más lento). Para rankear basta <code>decision_function</code>.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-3">E2.3</a> (subgradiente de la hinge, malla C × gamma y detección de phishing: F1 0.916 del baseline lineal frente a 0.960 del RBF) · <a href="#/s2/animaciones/anim-A2-5">Animación A2.5</a></div>
+
+
 
     <h2 id="m2-6"><span class="sec">§6</span>k vecinos más cercanos (KNN)</h2>
     <p>KNN es el modelo más simple de todos: <strong>no aprende parámetros</strong>. Guarda el conjunto de entrenamiento y, para un caso nuevo \(x\), busca sus \(k\) vecinos más cercanos \(N_k(x)\) y los deja votar. En clasificación, la probabilidad estimada de cada clase es la proporción de vecinos de esa clase; en regresión, la predicción es el promedio de sus valores:</p>
@@ -3350,6 +3472,8 @@ busqueda = GridSearchCV(knn, malla, cv=5, scoring="f1").fit(X_train, y_train)</c
     <p>KNN rara vez gana en datos tabulares grandes, pero es un <strong>modelo de referencia</strong> honesto y fácil de explicar ("este caso se parece a estos 21"), sirve para imputar faltantes (<code>KNNImputer</code>), y su idea de vecindario reaparece en DBSCAN y LOF (semana 3).</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-3">E2.3 · Niveles 1–4</a> (KNN desde cero con broadcasting, k por validación cruzada, escalado, pesos 1/d y comparación con la SVM en phishing) · <a href="#/s2/animaciones/anim-A2-11">Animación A2.11</a></div>
 
+
+
     <h2 id="m2-7"><span class="sec">§7</span>Árboles de decisión</h2>
     <p>Un árbol divide el espacio con preguntas del tipo \(x_j \le t\). El algoritmo CART es <strong>voraz</strong>: en cada nodo prueba todos los umbrales de todas las variables y elige el corte que más reduce la impureza; luego repite en cada hijo. Cada hoja predice la clase mayoritaria (o la proporción) de sus datos.</p>
     $$ \text{Gini} = 1 - \sum_k p_k^2 \qquad \text{Entropía} = -\sum_k p_k\log_2 p_k $$
@@ -3361,6 +3485,8 @@ busqueda = GridSearchCV(knn, malla, cv=5, scoring="f1").fit(X_train, y_train)</c
       <li><strong>Inestabilidad:</strong> un pequeño cambio en la muestra puede cambiar el primer corte y todo el árbol. Es su punto débil y la razón de los ensambles.</li>
     </ul>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-4">E2.4 · Niveles 1 y 2</a> (Gini y mejor corte desde cero: <code>duration ≤ 17</code> en credit-g, igual que scikit-learn) · <a href="#/s2/animaciones/anim-A2-6">Animación A2.6</a></div>
+
+
 
     <h2 id="m2-8"><span class="sec">§8</span>Bosques aleatorios y boosting</h2>
     <h3>Bagging y bosques aleatorios</h3>
@@ -3381,6 +3507,8 @@ hgb = HistGradientBoostingClassifier(
     learning_rate=0.05, max_iter=500, early_stopping=True,
     categorical_features="from_dtype", random_state=2026)</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-4">E2.4 · Nivel 2</a> (OOB, MDI frente a permutación y parada temprana) · <a href="#/s2/animaciones/anim-A2-7">A2.7 bosque</a> · <a href="#/s2/animaciones/anim-A2-8">A2.8 boosting</a></div>
+
+
 
     <h2 id="m2-9"><span class="sec">§9</span>Comparar modelos con honestidad</h2>
     <p>Elegir entre modelos es una decisión estadística: las diferencias deben ser mayores que el ruido de la estimación.</p>
@@ -3409,6 +3537,8 @@ with mlflow.start_run(run_name="bosque"):
       <div class="callout__body"><p>Elegir hiperparámetros o el umbral con la prueba; escalar o seleccionar variables fuera del pipeline; declarar un ganador por milésimas sin mirar la desviación; comparar modelos con particiones distintas; reportar la exactitud con clases desbalanceadas.</p></div>
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s2/ejercicios/e2-4">E2.4 · Niveles 3 y 4</a> (laboratorio del sábado: 5 modelos en MLflow y validación anidada) · <a href="#/s2/animaciones/anim-A2-9">A2.9 sesgo y varianza</a> · <a href="#/s2/animaciones/anim-A2-10">A2.10 curvas de aprendizaje</a> · <a href="#/s2/tarea">Tarea 2</a></div>
+
+
 
     <h2 id="m2-10"><span class="sec">§10</span>Autoevaluación y lecturas</h2>
     <ol class="selfcheck">
@@ -3649,7 +3779,7 @@ with mlflow.start_run(run_name="bosque"):
         <li>Todas las celdas <strong>"Tu análisis"</strong> respondidas.</li>
         <li><strong>Declaración de uso de IA</strong> completa (sección 7 del notebook).</li>
       </ul>
-      <p class="muted" style="font-size:.875rem">Súbelo al LMS como <code>T2_Apellido_Nombre.ipynb</code>.</p>
+      <p class="muted" style="font-size:.875rem">Súbelo a Blackboard como <code>T2_Apellido_Nombre.ipynb</code>.</p>
       <div class="res-card__actions"><a class="btn btn--sm" data-colab="tareas/T2_comparacion_de_modelos.ipynb" aria-disabled="true">Plantilla en Colab · pronto</a><a class="btn btn--sm" data-github="tareas/T2_comparacion_de_modelos.ipynb" aria-disabled="true">Ver en GitHub · pronto</a></div>
     </div>
   </div>
@@ -3700,8 +3830,8 @@ with mlflow.start_run(run_name="bosque"):
     </div>
   </div>
 
-  <label class="check"><input type="checkbox" data-check="s2-t2"><span class="check__text"><span class="check__title">Entregué la Tarea 2</span><small>Márcalo cuando la subas al LMS</small></span></label>
-  
+  <label class="check"><input type="checkbox" data-check="s2-t2"><span class="check__text"><span class="check__title">Entregué la Tarea 2</span><small>Márcalo cuando la subas a Blackboard</small></span></label>
+
 </article>
 
 <!-- ---- src/content/20-semana-2/80-quiz.html ---- -->
@@ -3986,6 +4116,7 @@ with mlflow.start_run(run_name="bosque"):
     <span class="eyebrow">Presentación P3 · tutoría del sábado 03/10</span>
     <h2>Modelos de Aprendizaje No Supervisado</h2>
     <p>Presentación de la tutoría sincrónica (3 h, 46 diapositivas) con once animaciones en vivo. Usa las flechas del teclado con la presentación enfocada, <kbd>F</kbd> para pantalla completa y <kbd>N</kbd> para las notas del docente.</p>
+    <p><strong>Anotar a mano.</strong> Con <kbd>D</kbd> (o el botón del lápiz de la barra) se activa la anotación: raya las diapositivas con una tableta gráfica, un lápiz táctil o el ratón, intercala <strong>hojas de notas en blanco</strong> con <kbd>H</kbd> y descarga un <strong>PDF anotado</strong> listo para compartir. Las anotaciones se guardan en este navegador.</p>
   </div>
 
   <div class="deck" data-deck="P3" data-title="P3 · Modelos de Aprendizaje No Supervisado" data-foot="MIAR0525 · Semana 3 · Tutoría sincrónica">
@@ -4696,6 +4827,8 @@ db = DBSCAN(eps=5 / 6371, min_samples=60,
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-1">E3.1 · Nivel 3</a> (validación externa con la tasa de contratación) · <a href="#/s3/animaciones/anim-A3-1">Animación A3.1</a></div>
 
+
+
     <h2 id="m3-2"><span class="sec">§2</span>K-means</h2>
     <p>K-means busca \(k\) centroides \(\mu_1,\dots,\mu_k\) que minimicen la <strong>inercia</strong>, la suma de distancias al cuadrado de cada punto a su centroide:</p>
     $$ J = \sum_{j=1}^{k}\ \sum_{x \in C_j} \lVert x - \mu_j \rVert^2 $$
@@ -4726,6 +4859,8 @@ etiquetas = modelo.fit_predict(X)
 inercia = modelo[-1].inertia_          # J de la mejor de las 10 inicializaciones</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-1">E3.1 · Niveles 1 y 2</a> (Lloyd y k-means++ desde cero; tu inercia debe coincidir con <code>KMeans</code>) · <a href="#/s3/animaciones/anim-A3-1">Animación A3.1</a></div>
 
+
+
     <h2 id="m3-3"><span class="sec">§3</span>Escalamiento y distancias</h2>
     <p>K-means, DBSCAN, LOF, kNN y PCA dependen de distancias o varianzas. Si el ingreso está en dólares (desviación de decenas de miles) y la edad en años (desviación de una decena), la distancia euclidiana es casi solo ingreso: la edad no influye en quién está cerca de quién. Antes de agrupar hay que decidir cuánto pesa cada variable, y la escala es esa decisión.</p>
     <ul>
@@ -4740,6 +4875,8 @@ inercia = modelo[-1].inertia_          # J de la mejor de las 10 inicializacione
       <div class="callout__body"><p>Agrupar variables en unidades distintas sin escalar; estandarizar variables muy asimétricas y concluir que "los clusters son los clientes ricos"; incluir identificadores o códigos numéricos (código postal, número de cliente) como si fueran magnitudes; escalar con toda la base cuando luego se asignarán clientes nuevos (el escalador se ajusta una vez y se guarda con el modelo, dentro del pipeline).</p></div>
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-1">E3.1 · Nivel 3</a> (transformación por cuantiles del saldo y los contactos) · <a href="#/s3/animaciones/anim-A3-2">Animación A3.2</a></div>
+
+
 
     <h2 id="m3-4"><span class="sec">§4</span>DBSCAN</h2>
     <p>DBSCAN define un cluster como una <strong>región densa</strong>. Tiene dos parámetros: el radio \(\varepsilon\) y el mínimo de puntos <code>minPts</code> (<code>min_samples</code> en scikit-learn, que cuenta al propio punto).</p>
@@ -4766,6 +4903,8 @@ print(zonas.max() + 1, "zonas ·", np.mean(zonas == -1), "de ruido")</code></pre
     <p><strong>Límites.</strong> Un solo eps no sirve cuando los grupos tienen <strong>densidades distintas</strong>: el eps que separa el grupo denso fragmenta el disperso, y el que une el disperso fusiona todo (animación A3.3). En alta dimensión las distancias se parecen entre sí y la densidad pierde sentido. El resultado es muy sensible a los parámetros: en California, eps = 3 km con minPts = 120 deja el 87 % como ruido, y eps = 20 km con minPts = 30, solo el 3 %. <code>HDBSCAN</code> (en scikit-learn desde la versión 1.3) explora muchos eps a la vez y tolera densidades distintas.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-2">E3.2 · Niveles 1 a 4</a> (DBSCAN desde cero, k-distancia, haversine y sensibilidad) · <a href="#/s3/animaciones/anim-A3-3">Animación A3.3</a></div>
 
+
+
     <h2 id="m3-5"><span class="sec">§5</span>Validación de clusters</h2>
     <p>La <strong>silhouette</strong> mide, punto por punto, si está más cerca de su grupo que del grupo vecino. Con \(a(i)\) la distancia media de \(i\) a los demás puntos de su cluster y \(b(i)\) la menor distancia media de \(i\) a los puntos de otro cluster:</p>
     $$ s(i) = \frac{b(i) - a(i)}{\max\big(a(i),\, b(i)\big)} \in [-1, 1] $$
@@ -4785,6 +4924,8 @@ s = silhouette_score(Z, etiquetas, sample_size=8000, random_state=2026)
 db = davies_bouldin_score(Z, etiquetas)
 ari = adjusted_rand_score(etiquetas_semilla_1, etiquetas_semilla_2)   # estabilidad</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-1">E3.1 · Niveles 2 y 3</a> (silhouette, Davies-Bouldin, ARI y perfiles) · <a href="#/s3/animaciones/anim-A3-4">Animación A3.4</a> (haz clic en un punto para ver a(i) y b(i))</div>
+
+
 
     <h2 id="m3-6"><span class="sec">§6</span>PCA</h2>
     <p>El análisis de componentes principales busca las direcciones en las que los datos <strong>varían más</strong>. Con los datos centrados \(X_c\) (\(n \times p\)) y su matriz de covarianza \(\Sigma = X_c^\top X_c/(n-1)\):</p>
@@ -4817,6 +4958,8 @@ pipe = make_pipeline(StandardScaler(), PCA(n_components=30),
 print(cross_val_score(pipe, X, y, cv=5).mean())</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-3">E3.3 · Niveles 1 a 3</a> (PCA por SVD, eigenfaces y PCA en un pipeline) · <a href="#/s3/animaciones/anim-A3-5">Animación A3.5</a></div>
 
+
+
     <h2 id="m3-7"><span class="sec">§7</span>t-SNE</h2>
     <p>t-SNE es una técnica <strong>no lineal</strong> para visualizar datos de muchas dimensiones en 2D intentando que los vecinos sigan siendo vecinos. Funciona en dos pasos:</p>
     <ol>
@@ -4839,6 +4982,8 @@ mapas = {p: TSNE(n_components=2, perplexity=p, init="pca",
                  random_state=2026).fit_transform(X_escalado)
          for p in (5, 30, 50)}</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-3">E3.3 · Niveles 3 y 4</a> (PCA frente a t-SNE en digits y el error de interpretación típico) · <a href="#/s3/animaciones/anim-A3-6">Animación A3.6</a> (t-SNE en vivo)</div>
+
+
 
     <h2 id="m3-8"><span class="sec">§8</span>Detección de anomalías</h2>
     <p>Una anomalía es una observación que no se parece al resto. Conviene distinguir la <strong>detección de atípicos</strong> (los datos de entrenamiento ya incluyen anomalías: el detector debe aislarlas) de la <strong>detección de novedades</strong> (se entrena con datos verificados como normales y se marca lo nuevo que se aparta). Las anomalías pueden ser puntuales, contextuales (normal en diciembre, raro en marzo) o colectivas (una secuencia rara de eventos normales).</p>
@@ -4881,6 +5026,8 @@ print(average_precision_score(y_nuevo, puntaje_if))  # solo si hay etiquetas
 alertas = np.argsort(-puntaje_if)[:300]              # umbral = capacidad del equipo</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-4">E3.4 · Niveles 1 a 4</a> (reglas, Isolation Forest de juguete, KDD Cup 99 y umbral por capacidad) · <a href="#/s3/animaciones/anim-A3-7">A3.7 Isolation Forest</a> · <a href="#/s3/animaciones/anim-A3-8">A3.8 LOF</a></div>
 
+
+
     <h2 id="m3-9"><span class="sec">§9</span>Ética de lo no supervisado (RDA2)</h2>
     <p>Segmentar o marcar como anómalas a <strong>personas</strong> tiene consecuencias: a quién se ofrece un producto, a quién se llama, a quién se investiga o se bloquea. Que no haya etiquetas no significa que no haya decisiones.</p>
     <ul>
@@ -4902,6 +5049,8 @@ razon = composicion / df["grupo_edad"].value_counts(normalize=True)
 tasa_alerta = df.groupby("sexo")["alerta"].mean()
 razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s3/ejercicios/e3-1">E3.1 · Nivel 4</a> (¿la segmentación discrimina?) · <a href="#/s3/tarea">Tarea 3</a> (análisis por subgrupos, 25 de 100 puntos)</div>
+
+
 
     <h2 id="m3-10"><span class="sec">§10</span>Autoevaluación y lecturas</h2>
     <ol class="selfcheck">
@@ -5143,7 +5292,7 @@ razon_alerta = tasa_alerta / tasa_alerta.min()</code></pre>
         <li>Todas las celdas <strong>"Tu análisis"</strong> respondidas; la sección 6 (subgrupos) vale 25 puntos.</li>
         <li><strong>Declaración de uso de IA</strong> completa (sección 8 del notebook).</li>
       </ul>
-      <p class="muted" style="font-size:.875rem">Súbelo al LMS como <code>T3_Apellido_Nombre.ipynb</code>.</p>
+      <p class="muted" style="font-size:.875rem">Súbelo a Blackboard como <code>T3_Apellido_Nombre.ipynb</code>.</p>
       <div class="res-card__actions"><a class="btn btn--sm" data-colab="tareas/T3_no_supervisado_y_subgrupos.ipynb" aria-disabled="true">Plantilla en Colab · pronto</a><a class="btn btn--sm" data-github="tareas/T3_no_supervisado_y_subgrupos.ipynb" aria-disabled="true">Ver en GitHub · pronto</a></div>
     </div>
   </div>
@@ -5224,8 +5373,8 @@ tc["incumple"] = tc["incumple"].astype(int)          # viene como categoría "0"
     </div>
   </div>
 
-  <label class="check"><input type="checkbox" data-check="s3-t3"><span class="check__text"><span class="check__title">Entregué la Tarea 3</span><small>Márcalo cuando la subas al LMS</small></span></label>
-  
+  <label class="check"><input type="checkbox" data-check="s3-t3"><span class="check__text"><span class="check__title">Entregué la Tarea 3</span><small>Márcalo cuando la subas a Blackboard</small></span></label>
+
 </article>
 
 <!-- ---- src/content/30-semana-3/80-quiz.html ---- -->
@@ -5512,6 +5661,7 @@ tc["incumple"] = tc["incumple"].astype(int)          # viene como categoría "0"
     <span class="eyebrow">Presentación P4 · tutoría del sábado 17/10</span>
     <h2>Ética, Sesgo y Calidad en el Aprendizaje Automático</h2>
     <p>Presentación de la tutoría sincrónica (3 h, 41 diapositivas) con ocho animaciones en vivo e instrucciones de los exámenes. Usa las flechas del teclado con la presentación enfocada, <kbd>F</kbd> para pantalla completa y <kbd>N</kbd> para las notas del docente.</p>
+    <p><strong>Anotar a mano.</strong> Con <kbd>D</kbd> (o el botón del lápiz de la barra) se activa la anotación: raya las diapositivas con una tableta gráfica, un lápiz táctil o el ratón, intercala <strong>hojas de notas en blanco</strong> con <kbd>H</kbd> y descarga un <strong>PDF anotado</strong> listo para compartir. Las anotaciones se guardan en este navegador.</p>
   </div>
 
   <div class="deck" data-deck="P4" data-title="P4 · Ética, Sesgo y Calidad en el Aprendizaje Automático" data-foot="MIAR0525 · Semana 4 · Tutoría sincrónica">
@@ -5967,7 +6117,7 @@ mf.by_group, mf.difference(), mf.by_group_ci</code></pre>
           </tbody>
         </table>
         <ul>
-          <li>Cuestionario en el LMS, una sola apertura; ítems al azar de un banco de ≈ 90.</li>
+          <li>Cuestionario en Blackboard, una sola apertura; ítems al azar de un banco de ≈ 90.</li>
           <li>Casos breves, lectura de gráficos y tablas (matriz de confusión, curvas, silhouette, calibración, <code>MetricFrame</code>), errores en fragmentos de código, elección justificada.</li>
           <li>7 de comprender, 13 de aplicar e interpretar, 10 de analizar y evaluar.</li>
         </ul>
@@ -6149,6 +6299,8 @@ perdida = 1 - df.dropna()["sexo"].value_counts() / df["sexo"].value_counts()
 tope = df["capital_gain"].value_counts().sort_index().tail(2)</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-1">E4.1 · Niveles 1 a 4</a> (mecanismos de faltantes, <code>reporte_calidad</code>, Adult y su Datasheet) · <a href="#/s4/animaciones/anim-A4-2">Animación A4.2</a></div>
 
+
+
     <h2 id="m4-2"><span class="sec">§2</span>Sesgo y equidad</h2>
     <p>El sesgo puede entrar en cualquier etapa del ciclo de vida (Suresh y Guttag, 2021): <strong>histórico</strong> (el mundo ya era desigual y las etiquetas lo reflejan), <strong>de representación</strong> (pocos datos de un grupo), <strong>de medición</strong> (un proxy del objetivo, como el gasto en salud en lugar de la necesidad), <strong>de agregación</strong> (un solo modelo para grupos con relaciones distintas), <strong>de evaluación</strong> (un benchmark que no representa a todos) y <strong>de despliegue</strong> (otro contexto u otro uso). Solo una de las seis está en el algoritmo.</p>
     <h3>Métricas de equidad para clasificadores</h3>
@@ -6165,6 +6317,8 @@ tope = df["capital_gain"].value_counts().sort_index().tail(2)</code></pre>
       <div class="callout__body"><p>Si los grupos tienen tasas base distintas y el clasificador no es perfecto, no se pueden igualar a la vez la paridad predictiva y las odds igualadas (Chouldechova, 2017; Kleinberg et al., 2016). En E4.2, con tasas base de 31 % y 12 % y un puntaje calibrado, un umbral común da precisión parecida (0.66 y 0.60) pero TPR de 0.38 y 0.15; al igualar la TPR en 0.60 con umbrales por grupo, la precisión se separa (0.55 y 0.37). La elección depende de <strong>a quién perjudica cada error</strong> en el contexto: en un programa de ayuda importa no dejar fuera a quien la necesita (TPR); en una sanción, no señalar a inocentes (FPR).</p></div>
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-2">E4.2 · Nivel 1</a> (métricas desde la matriz de confusión) · <a href="#/s4/animaciones/anim-A4-1">A4.1 métricas y umbrales</a> · <a href="#/s4/animaciones/anim-A4-2">A4.2 fuentes de sesgo</a></div>
+
+
 
     <h2 id="m4-3"><span class="sec">§3</span>Auditoría con Fairlearn</h2>
     <p><code>MetricFrame</code> calcula cualquier métrica global y por grupo, y resume la brecha:</p>
@@ -6194,6 +6348,8 @@ to.fit(X_tr, y_tr, sensitive_features=grupo_tr)
 pred_mitigada = to.predict(X_te, sensitive_features=grupo_te, random_state=2026)</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-2">E4.2 · Niveles 2 y 3</a> (laboratorio del sábado: auditoría de reingreso hospitalario y mitigación)</div>
 
+
+
     <h2 id="m4-4"><span class="sec">§4</span>Transparencia y explicabilidad</h2>
     <ul>
       <li><strong>Importancia por permutación</strong> (global): cuánto empeora la métrica al barajar una variable. Mide la <strong>dependencia del modelo</strong>, no causalidad. En E4.3 domina <code>had_inpatient_days</code> (caída de AUC 0.081); tu versión desde cero coincide con <code>permutation_importance</code> (correlación de rangos 0.95). Con variables correlacionadas, la importancia se reparte entre ellas: se permutan en grupo.</li>
@@ -6216,6 +6372,8 @@ explicador = shap.LinearExplainer(modelo[-1], fondo)
 shap.plots.waterfall(explicador(Z_te[[i]])[0])</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-3">E4.3 · Niveles 1 y 2</a> · <a href="#/s4/animaciones/anim-A4-3">A4.3 permutación</a> · <a href="#/s4/animaciones/anim-A4-4">A4.4 PDP e ICE</a> · <a href="#/s4/animaciones/anim-A4-5">A4.5 SHAP local</a></div>
 
+
+
     <h2 id="m4-5"><span class="sec">§5</span>Documentación</h2>
     <ul>
       <li><strong>Model Card</strong> (Mitchell et al., 2019): detalles del modelo, uso previsto (y fuera de alcance), factores, métricas <strong>desagregadas</strong>, datos de evaluación y de entrenamiento, análisis cuantitativos, consideraciones éticas, advertencias y recomendaciones. Documenta un <strong>punto de operación</strong> (umbral) y se versiona con el modelo.</li>
@@ -6227,6 +6385,8 @@ shap.plots.waterfall(explicador(Z_te[[i]])[0])</code></pre>
       <div class="callout__body"><p>Documentar no es llenar un formulario: sin métricas por grupo, sin datos descritos y sin advertencias, la tarjeta da una falsa sensación de control. Se escribe con cifras, se revisa con quienes usan el modelo y se actualiza cuando cambian el umbral, los datos o el uso.</p></div>
     </div>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-3">E4.3 · Nivel 3</a> (Model Card con métricas desagregadas) · <a href="#/s4/animaciones/anim-A4-7">A4.7 constructor de Model Card</a></div>
+
+
 
     <h2 id="m4-6"><span class="sec">§6</span>Gobernanza</h2>
     <p>El <strong>NIST AI Risk Management Framework 1.0</strong> (NIST, 2023) organiza la gestión de riesgos de la IA en cuatro funciones:</p>
@@ -6241,6 +6401,8 @@ shap.plots.waterfall(explicador(Z_te[[i]])[0])</code></pre>
     </table></div>
     <p>El marco describe además las características de una IA confiable: válida y fiable; segura; protegida y resiliente; responsable y transparente; explicable e interpretable; respetuosa de la privacidad; y justa, con los sesgos dañinos gestionados. Es voluntario y no reemplaza la normativa de cada país; sirve como lenguaje común para organizar el trabajo.</p>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-2">E4.2 · Nivel 4</a> (informe de auditoría y registro de riesgos)</div>
+
+
 
     <h2 id="m4-7"><span class="sec">§7</span>Monitoreo en producción</h2>
     <ul>
@@ -6262,6 +6424,8 @@ with mlflow.start_run(run_name="logistica-balanceada"):
 version = info.registered_model_version
 cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</code></pre>
     <div class="practice-link"><strong>Practica esto →</strong> <a href="#/s4/ejercicios/e4-3">E4.3 · Niveles 3 y 4</a> (drift simulado, plan de monitoreo y registro en MLflow) · <a href="#/s4/animaciones/anim-A4-6">A4.6 drift y monitoreo</a></div>
+
+
 
     <h2 id="m4-8"><span class="sec">§8</span>Autoevaluación y lecturas</h2>
     <ol class="selfcheck">
@@ -6453,7 +6617,7 @@ cargado = mlflow.sklearn.load_model(f"models:/reingreso-diabetes/{version}")</co
     <div class="card">
       <span class="chip chip--accent">Examen teórico · 15 %</span>
       <h3 style="margin-top:.6rem">Sábado 24/10 · 90 minutos</h3>
-      <p>Cuestionario basado en casos en el LMS: 30 ítems aleatorizados de un banco de ≈ 90, con una sola apertura.</p>
+      <p>Cuestionario basado en casos en Blackboard: 30 ítems aleatorizados de un banco de ≈ 90, con una sola apertura.</p>
       <p class="muted" style="font-size:.875rem">Tipos de ítem: casos breves, lectura de gráficos (matriz de confusión, curvas, silhouette, calibración, MetricFrame), errores metodológicos en fragmentos de código y elección justificada entre alternativas.</p>
     </div>
     <div class="card">
@@ -6533,7 +6697,7 @@ reports/informe.md · datasheet.md · model_card.md · plan_monitoreo.md · regi
   <p class="muted" style="font-size:.875rem">Te preparan para el examen: <a href="#/s4/ejercicios/e4-2">E4.2</a>, <a href="#/s4/ejercicios/e4-3">E4.3</a> y el <a href="#/s4/quiz">simulacro Q4</a>.</p>
   <label class="check"><input type="checkbox" data-check="s4-exe"><span class="check__text"><span class="check__title">Rendí el examen teórico</span></span></label>
   <label class="check"><input type="checkbox" data-check="s4-exp"><span class="check__text"><span class="check__title">Entregué el examen práctico</span></span></label>
-  
+
 </article>
 
 <!-- ---- src/content/40-semana-4/80-quiz.html ---- -->
@@ -6806,7 +6970,7 @@ uv run jupyter lab</code></pre>
             <li><strong>Ejercicios:</strong> estudiar la versión resuelta, pedir explicaciones o completar las celdas <code># TODO</code> con ayuda.</li>
             <li><strong>Desafíos opcionales:</strong> al final de cada ejercicio hay uno para ampliar el laboratorio con IA agéntica.</li>
             <li><strong>Tareas T1–T3:</strong> puedes resolverlas con ayuda de IA agéntica o de chat, declarándolo en la entrega.</li>
-            <li><strong>Exámenes:</strong> el práctico exige la misma declaración de uso de IA; el teórico tiene sus propias reglas, que se anuncian en el LMS.</li>
+            <li><strong>Exámenes:</strong> el práctico exige la misma declaración de uso de IA; el teórico tiene sus propias reglas, que se anuncian en Blackboard.</li>
           </ul>
         </div>
         <div class="card">
@@ -6834,8 +6998,8 @@ uv run jupyter lab</code></pre>
     <section class="home-section" id="faq" aria-labelledby="h-faq">
       <h2 id="h-faq">Preguntas frecuentes</h2>
       <ol class="selfcheck">
-        <li><details><summary>¿Dónde se guarda mi progreso?</summary><p>Solo en este navegador (almacenamiento local). Si cambias de computador o borras los datos del sitio, las casillas vuelven a cero. Tus entregas oficiales siempre van al LMS.</p></details></li>
-        <li><details><summary>¿Cómo entrego las tareas y los exámenes?</summary><p>Las tareas 1, 2 y 3 se entregan con <strong>un solo archivo</strong>: el notebook ejecutado, subido al LMS como <code>T#_Apellido_Nombre.ipynb</code>. No hay informe en PDF. El examen práctico sí entrega repositorio y documentos, como indica su enunciado. Cada enunciado tiene la fecha límite (hora de Ecuador).</p></details></li>
+        <li><details><summary>¿Dónde se guarda mi progreso?</summary><p>Solo en este navegador (almacenamiento local). Si cambias de computador o borras los datos del sitio, las casillas vuelven a cero. Tus entregas oficiales siempre van a Blackboard.</p></details></li>
+        <li><details><summary>¿Cómo entrego las tareas y los exámenes?</summary><p>Las tareas 1, 2 y 3 se entregan con <strong>un solo archivo</strong>: el notebook ejecutado, subido a Blackboard como <code>T#_Apellido_Nombre.ipynb</code>. No hay informe en PDF. El examen práctico sí entrega repositorio y documentos, como indica su enunciado. Cada enunciado tiene la fecha límite (hora de Ecuador).</p></details></li>
         <li><details><summary>¿Puedo usar IA generativa o agéntica?</summary><p>Sí, en los ejercicios, los desafíos y las tareas, declarándolo (norma f): qué herramienta, para qué, los prompts relevantes y cómo verificaste los resultados. El análisis y las decisiones deben ser tuyos. Detalles en <a href="#/recursos/ia">IA en el curso</a>.</p></details></li>
         <li><details><summary>Un notebook falla. ¿Qué hago?</summary><p>Revisa la tabla de errores frecuentes del manual del ejercicio, reinicia el kernel y ejecuta de arriba hacia abajo. Si sigue fallando, comparte el mensaje de error en el foro con la versión de Python y de scikit-learn.</p></details></li>
         <li><details><summary>¿Las animaciones funcionan sin internet?</summary><p>Sí. El hub es un único archivo HTML con todo incluido: fuentes, fórmulas y animaciones. Solo los videos y los enlaces externos necesitan conexión.</p></details></li>
@@ -6858,7 +7022,7 @@ uv run jupyter lab</code></pre>
       <strong>Postgrado · Maestría en Inteligencia Artificial · MIAR0525</strong>
       <span>Período en Línea 4 · 2026 · Modalidad en línea · 4 créditos</span>
     </div>
-    <div class="site-footer__meta">Hub v0.6.0 · compilado 2026-09-16 20:11<br>Tu progreso se guarda solo en este navegador.</div>
+    <div class="site-footer__meta">Hub v0.7.0 · compilado 2026-09-22 08:55<br>Tu progreso se guarda solo en este navegador.</div>
   </div>
 </footer>
 
@@ -6884,7 +7048,9 @@ uv run jupyter lab</code></pre>
       if (k === 'class') el.className = v;
       else if (k === 'html') el.innerHTML = v;
       else if (k === 'text') el.textContent = v;
-      else if (k === 'style' && typeof v === 'object') Object.assign(el.style, v);
+      else if (k === 'style' && typeof v === 'object') {
+        for (const [p, x] of Object.entries(v)) { if (p.startsWith('--')) el.style.setProperty(p, x); else el.style[p] = x; }
+      }
       else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
       else el.setAttribute(k, v === true ? '' : v);
     }
@@ -6995,7 +7161,7 @@ uv run jupyter lab</code></pre>
 
 /* ---- src/js/core/20-store.js ---- */
 /* Almacenamiento local seguro (solo comodidades por navegador: progreso, tema, respuestas).
-   Si localStorage no está disponible (ventana privada, LMS con iframe restringido) todo sigue funcionando. */
+   Si localStorage no está disponible (ventana privada, Blackboard con iframe restringido) todo sigue funcionando. */
 (function () {
   'use strict';
   const PREFIX = 'miar0525:';
@@ -8115,6 +8281,347 @@ uv run jupyter lab</code></pre>
   };
 })();
 
+/* ---- src/js/core/90-pdf.js ---- */
+/* Hub.pdf · escritura de PDF sin dependencias: anota un PDF existente mediante una
+ * ACTUALIZACIÓN INCREMENTAL (los bytes originales no se tocan; se añaden objetos al final).
+ *
+ * Se usa para exportar la presentación anotada a mano en clase:
+ *   Hub.pdf.anotar(bytes, { capas, hojas, espacio: [1600, 900], titulo })
+ *     capas  [{pagina, ops, inkList, color}]   tinta sobre una página existente (anotación /Ink con /AP)
+ *     hojas  [{tras, ops, etiqueta}]           página nueva en blanco después de la página `tras`
+ *   Las coordenadas de `ops` e `inkList` van en el espacio de la diapositiva (`espacio`, con la Y hacia
+ *   abajo); aquí se aplica la transformación al sistema del PDF (Y hacia arriba).
+ *
+ * Solo admite PDF con tabla xref clásica, que es lo que genera Chrome (y por tanto todos los PDF del curso).
+ */
+(function () {
+  'use strict';
+  const Hub = window.Hub;
+
+  // ---- texto ↔ bytes en Latin-1: un carácter = un byte, imprescindible para los desplazamientos del xref
+  function texto(bytes) {
+    let s = '';
+    for (let i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
+    return s;
+  }
+  function crudo(s) {
+    const b = new Uint8Array(s.length);
+    for (let i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 0xff;
+    return b;
+  }
+
+  const BLANCO = ' \t\r\n\f\0';
+  const DELIM = '()<>[]{}/%';
+
+  function salta(t, i) {
+    while (i < t.length) {
+      if (BLANCO.includes(t[i])) i++;
+      else if (t[i] === '%') { while (i < t.length && t[i] !== '\n' && t[i] !== '\r') i++; }
+      else break;
+    }
+    return i;
+  }
+
+  function finCadena(t, i) {          // (…) con paréntesis anidados y escapes
+    let d = 0;
+    for (; i < t.length; i++) {
+      if (t[i] === '\\') { i++; continue; }
+      if (t[i] === '(') d++;
+      else if (t[i] === ')') { d--; if (!d) return i + 1; }
+    }
+    return i;
+  }
+
+  /** Lee un objeto PDF desde la posición i. Devuelve [texto del valor, posición final]. */
+  function valor(t, i) {
+    i = salta(t, i);
+    const c = t[i];
+    if (c === '<' && t[i + 1] === '<') {
+      let d = 0, j = i;
+      while (j < t.length) {
+        if (t[j] === '(') j = finCadena(t, j);
+        else if (t[j] === '<' && t[j + 1] === '<') { d++; j += 2; }
+        else if (t[j] === '>' && t[j + 1] === '>') { d--; j += 2; if (!d) break; }
+        else j++;
+      }
+      return [t.slice(i, j), j];
+    }
+    if (c === '[') {
+      let d = 0, j = i;
+      while (j < t.length) {
+        if (t[j] === '(') j = finCadena(t, j);
+        else if (t[j] === '[') { d++; j++; }
+        else if (t[j] === ']') { d--; j++; if (!d) break; }
+        else j++;
+      }
+      return [t.slice(i, j), j];
+    }
+    if (c === '(') { const j = finCadena(t, i); return [t.slice(i, j), j]; }
+    if (c === '<') { const j = t.indexOf('>', i) + 1; return [t.slice(i, j), j]; }
+    if (c === '/') {
+      let j = i + 1;
+      while (j < t.length && !BLANCO.includes(t[j]) && !DELIM.includes(t[j])) j++;
+      return [t.slice(i, j), j];
+    }
+    const m = /^[+-]?[\d.]+(?:[ \t\r\n]+\d+[ \t\r\n]+R)?/.exec(t.slice(i, i + 48));
+    if (m && m[0]) return [m[0], i + m[0].length];
+    let j = i;
+    while (j < t.length && /[A-Za-z]/.test(t[j])) j++;
+    return [t.slice(i, j), Math.max(j, i + 1)];
+  }
+
+  /** Claves del primer nivel de un diccionario: {clave: {v, ini, fin}} (posiciones dentro del texto dado). */
+  function dicc(t) {
+    const out = {};
+    let i = t.indexOf('<<');
+    if (i < 0) return out;
+    i += 2;
+    while (i < t.length) {
+      i = salta(t, i);
+      if (t[i] === '>' && t[i + 1] === '>') break;
+      if (t[i] !== '/') { const [, j] = valor(t, i); if (j <= i) break; i = j; continue; }
+      const [clave, j] = valor(t, i);
+      const ini = salta(t, j);
+      const [v, k] = valor(t, ini);
+      out[clave.slice(1)] = { v, ini, fin: k };
+      i = k;
+    }
+    return out;
+  }
+
+  /** Devuelve el diccionario con la clave puesta en `nuevo` (la añade si no existía). */
+  function conClave(cuerpo, clave, nuevo) {
+    const d = dicc(cuerpo);
+    if (d[clave]) return cuerpo.slice(0, d[clave].ini) + nuevo + cuerpo.slice(d[clave].fin);
+    const i = cuerpo.indexOf('<<') + 2;
+    return cuerpo.slice(0, i) + `/${clave} ${nuevo}` + cuerpo.slice(i);
+  }
+
+  const numRef = s => { const m = /(\d+)\s+\d+\s+R/.exec(s || ''); return m ? +m[1] : null; };
+  const numRefs = s => Array.from(String(s).matchAll(/(\d+)\s+\d+\s+R/g), m => +m[1]);
+
+  /** Índice del PDF: desplazamiento de cada objeto + tráiler (sigue la cadena /Prev). */
+  function indice(t) {
+    const m = /startxref\s+(\d+)\s*%%EOF\s*$/.exec(t.slice(-2048)) || /startxref\s+(\d+)/.exec(t.slice(-2048));
+    if (!m) throw new Error('El PDF no tiene índice (startxref).');
+    const inicial = +m[1];
+    const offsets = new Map();
+    let trailer = null, pos = inicial;
+    const vistos = new Set();
+    while (Number.isFinite(pos) && pos > 0 && !vistos.has(pos)) {
+      vistos.add(pos);
+      let i = salta(t, pos);
+      if (!t.startsWith('xref', i)) {
+        throw new Error('Este PDF usa un índice comprimido (xref stream) que el exportador del hub no lee.');
+      }
+      i += 4;
+      const ent = /(\d{10})[ ](\d{5})[ ]([nf])/y;
+      for (;;) {
+        i = salta(t, i);
+        if (t.startsWith('trailer', i)) { i += 7; break; }
+        const cab = /^(\d+)[ \t]+(\d+)/.exec(t.slice(i, i + 48));
+        if (!cab) break;
+        const desde = +cab[1], n = +cab[2];
+        i += cab[0].length;
+        for (let k = 0; k < n; k++) {
+          i = salta(t, i);
+          ent.lastIndex = i;
+          const e = ent.exec(t);
+          if (!e) throw new Error('Tabla xref ilegible en el PDF de origen.');
+          if (e[3] === 'n' && !offsets.has(desde + k)) offsets.set(desde + k, +e[1]);
+          i = ent.lastIndex;
+        }
+      }
+      const tr = {};
+      const d = dicc(valor(t, i)[0]);
+      for (const [k, v] of Object.entries(d)) tr[k] = v.v;
+      if (!trailer) trailer = tr;
+      else for (const [k, v] of Object.entries(tr)) if (!(k in trailer)) trailer[k] = v;
+      pos = tr.Prev ? parseInt(tr.Prev, 10) : NaN;
+    }
+    if (!trailer || !trailer.Root) throw new Error('El PDF no tiene catálogo (/Root).');
+    return { offsets, trailer, inicial };
+  }
+
+  function cuerpoObjeto(t, offsets, num) {
+    const off = offsets.get(num);
+    if (off == null) throw new Error(`El PDF no contiene el objeto ${num}.`);
+    const m = /^\s*(\d+)\s+(\d+)\s+obj/.exec(t.slice(off, off + 48));
+    if (!m) throw new Error(`Desplazamiento inválido para el objeto ${num}.`);
+    return valor(t, off + m[0].length)[0];
+  }
+
+  /** Páginas en orden: {num, cuerpo, padre, mediaBox}. */
+  function paginas(t, offsets, trailer) {
+    const cat = dicc(cuerpoObjeto(t, offsets, numRef(trailer.Root)));
+    if (!cat.Pages) throw new Error('El catálogo del PDF no tiene /Pages.');
+    const out = [];
+    const caja = (d, padres) => {
+      if (d.MediaBox) return d.MediaBox.v;
+      for (let k = padres.length - 1; k >= 0; k--) if (padres[k].MediaBox) return padres[k].MediaBox.v;
+      return '[0 0 612 792]';
+    };
+    (function rec(num, padre, padres, vistos) {
+      if (vistos.has(num)) return;
+      vistos.add(num);
+      const cuerpo = cuerpoObjeto(t, offsets, num);
+      const d = dicc(cuerpo);
+      if (d.Kids) {
+        const pila = padres.concat([d]);
+        numRefs(d.Kids.v).forEach(hijo => rec(hijo, num, pila, vistos));
+      } else {
+        out.push({ num, cuerpo, padre, mediaBox: caja(d, padres) });
+      }
+    })(numRef(cat.Pages.v), null, [], new Set());
+    return out;
+  }
+
+  const num = x => (Math.round(x * 1000) / 1000).toString();
+  const cadena = s => '(' + String(s).replace(/([\\()])/g, '\\$1').replace(/[^\x20-\xff]/g, ' ') + ')';
+  const fecha = d => 'D:' + [d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()]
+    .map((v, i) => String(v).padStart(i ? 2 : 4, '0')).join('') + 'Z';
+
+  Hub.pdf = {
+    /** Número de páginas del PDF (para avisar si no coincide con la presentación). */
+    contar(origen) {
+      const t = texto(origen);
+      const { offsets, trailer } = indice(t);
+      return paginas(t, offsets, trailer).length;
+    },
+
+    /** Añade tinta (y hojas de notas) a un PDF existente. Devuelve un Uint8Array nuevo. */
+    anotar(origen, opciones) {
+      const o = opciones || {};
+      const capas = o.capas || [], hojas = o.hojas || [];
+      const [EW, EH] = o.espacio || [1600, 900];
+      const alfa = o.alfaMarcador == null ? 0.32 : o.alfaMarcador;
+      const t = texto(origen);
+      const { offsets, trailer, inicial } = indice(t);
+      const pags = paginas(t, offsets, trailer);
+      if (!pags.length) throw new Error('El PDF no tiene páginas.');
+
+      let siguiente = Math.max(parseInt(trailer.Size, 10) || 0, ...offsets.keys()) + 1;
+      const nuevos = new Map();                                   // número de objeto → cuerpo completo
+      const cuerpoDe = n => (nuevos.has(n) ? nuevos.get(n) : cuerpoObjeto(t, offsets, n));
+      const crea = cuerpo => { const n = siguiente++; nuevos.set(n, cuerpo); return n; };
+      const flujo = (dict, datos) => `<<${dict}/Length ${datos.length}>>\nstream\n${datos}\nendstream`;
+      const gs = `/ExtGState<</GM<</Type/ExtGState/ca ${alfa}/BM/Multiply>>/GN<</Type/ExtGState/ca 1/BM/Normal>>>>`;
+      const hoy = new Date();
+      const marca = fecha(hoy);
+      const titulo = o.titulo || 'Anotaciones de clase';
+
+      // Transformación espacio de la diapositiva (Y hacia abajo) → espacio del PDF (Y hacia arriba).
+      const marco = pag => {
+        const [x0, y0, x1, y1] = (pag.mediaBox.match(/[-\d.]+/g) || [0, 0, 612, 792]).map(Number);
+        const w = Math.abs(x1 - x0), hh = Math.abs(y1 - y0);
+        return { x0: Math.min(x0, x1), y0: Math.min(y0, y1), x1: Math.max(x0, x1), y1: Math.max(y0, y1), w, h: hh };
+      };
+      const cm = m => `${num(m.w / EW)} 0 0 ${num(-m.h / EH)} ${num(m.x0)} ${num(m.y1)} cm`;
+
+      // ---- 1. tinta sobre las diapositivas: anotación /Ink con su propia apariencia
+      for (const capa of capas) {
+        const pag = pags[capa.pagina];
+        if (!pag || !capa.ops) continue;
+        const m = marco(pag);
+        const datos = `q ${cm(m)}\n${capa.ops}\nQ\n`;
+        const ap = crea(flujo(`/Type/XObject/Subtype/Form/FormType 1/BBox[${num(m.x0)} ${num(m.y0)} ${num(m.x1)} ${num(m.y1)}]` +
+          `/Resources<</ProcSet[/PDF]${gs}>>`, datos));
+        const tinta = (capa.inkList || []).map(l => {
+          const p = [];
+          for (let i = 0; i + 1 < l.length; i += 2) p.push(num(m.x0 + (l[i] / EW) * m.w), num(m.y1 - (l[i + 1] / EH) * m.h));
+          return '[' + p.join(' ') + ']';
+        }).join('');
+        const c = capa.color || [0.51, 0.08, 0.21];
+        const anot = crea(`<</Type/Annot/Subtype/Ink/Rect[${num(m.x0)} ${num(m.y0)} ${num(m.x1)} ${num(m.y1)}]` +
+          `/F 4/CA 1/C[${c.map(num).join(' ')}]/T${cadena(titulo)}/Contents${cadena('Anotación manuscrita de la clase')}` +
+          `/M(${marca})/InkList[${tinta}]/BS<</W 0>>/AP<</N ${ap} 0 R>>>>`);
+        const previas = dicc(cuerpoDe(pag.num)).Annots;
+        const lista = previas && previas.v.trim().startsWith('[')
+          ? previas.v.replace(/\]\s*$/, ` ${anot} 0 R]`)
+          : `[${anot} 0 R]`;
+        nuevos.set(pag.num, conClave(cuerpoDe(pag.num), 'Annots', lista));
+      }
+
+      // ---- 2. hojas de notas: páginas nuevas insertadas entre las diapositivas
+      let fuente = null;
+      const inserciones = [];
+      for (const hoja of hojas) {
+        const base = pags[Math.min(Math.max(hoja.tras, 0), pags.length - 1)];
+        if (!base) continue;
+        const m = marco(base);
+        // Rejilla en el espacio de la diapositiva: idéntica a la que se ve en el hub (patrón de 80 × 80 bajo la cabecera).
+        const y0 = o.rejillaDesde == null ? 81 : o.rejillaDesde;
+        const rejilla = [];
+        for (let x = 0; x <= EW; x += 80) rejilla.push(`${x} ${y0} m ${x} ${EH} l`);
+        for (let y = y0; y <= EH; y += 80) rejilla.push(`0 ${num(y)} m ${EW} ${num(y)} l`);
+        const cabecera = hoja.etiqueta
+          ? `BT /F1 ${num(m.h * 0.026)} Tf 0.46 0.47 0.48 rg ${num(m.x0 + m.w * 0.05)} ${num(m.y1 - m.h * 0.058)} Td ${cadena(hoja.etiqueta)} Tj ET\n` +
+            `0.51 0.08 0.21 RG ${num(m.h * 0.003)} w ${num(m.x0 + m.w * 0.05)} ${num(m.y1 - m.h * 0.076)} m ${num(m.x1 - m.w * 0.05)} ${num(m.y1 - m.h * 0.076)} l S\n`
+          : '';
+        const datos = `q ${cm(m)}\n1 1 1 rg 0 0 ${EW} ${EH} re f\n` +
+          `q 0.925 0.906 0.914 RG 1.2 w\n${rejilla.join('\n')}\nS Q\n` +
+          (hoja.ops || '') + `\nQ\n${cabecera}`;
+        const cont = crea(flujo('', datos));
+        if (!fuente) fuente = crea('<</Type/Font/Subtype/Type1/BaseFont/Helvetica/Encoding/WinAnsiEncoding>>');
+        const pag = crea(`<</Type/Page/MediaBox[${num(m.x0)} ${num(m.y0)} ${num(m.x1)} ${num(m.y1)}]` +
+          `/Resources<</ProcSet[/PDF/Text]/Font<</F1 ${fuente} 0 R>>${gs}>>/Contents ${cont} 0 R/Parent ${base.padre} 0 R>>`);
+        inserciones.push({ padre: base.padre, tras: base.num, num: pag });
+      }
+
+      if (inserciones.length) {
+        const ultima = new Map();                 // varias hojas seguidas conservan su orden
+        for (const ins of inserciones) {
+          const cuerpo = cuerpoDe(ins.padre);
+          const kids = dicc(cuerpo).Kids;
+          if (!kids) throw new Error('No se pudo insertar la hoja: el árbol de páginas es inesperado.');
+          const anterior = ultima.get(ins.tras) || ins.tras;
+          const marcaRef = new RegExp(`${anterior}\\s+\\d+\\s+R`);
+          const lista = kids.v.replace(marcaRef, r => `${r} ${ins.num} 0 R`);
+          ultima.set(ins.tras, ins.num);
+          nuevos.set(ins.padre, conClave(cuerpo, 'Kids', lista));
+          // /Count de ese nodo y de todos sus ascendientes
+          let nodo = ins.padre;
+          const vistos = new Set();
+          while (nodo != null && !vistos.has(nodo)) {
+            vistos.add(nodo);
+            const c = cuerpoDe(nodo);
+            const d = dicc(c);
+            if (d.Count) nuevos.set(nodo, conClave(c, 'Count', String(parseInt(d.Count.v, 10) + 1)));
+            nodo = d.Parent ? numRef(d.Parent.v) : null;
+          }
+        }
+      }
+
+      // ---- 3. actualización incremental: objetos nuevos + xref + tráiler
+      const base = origen.length;
+      let extra = /[\r\n]$/.test(t) ? '' : '\n';
+      const pos = new Map();
+      const orden = [...nuevos.keys()].sort((a, b) => a - b);
+      for (const n of orden) {
+        pos.set(n, base + extra.length);
+        extra += `${n} 0 obj\n${nuevos.get(n)}\nendobj\n`;
+      }
+      const inicioXref = base + extra.length;
+      extra += 'xref\n';
+      for (let k = 0; k < orden.length;) {
+        let j = k;
+        while (j + 1 < orden.length && orden[j + 1] === orden[j] + 1) j++;
+        extra += `${orden[k]} ${j - k + 1}\n`;
+        for (let i = k; i <= j; i++) extra += String(pos.get(orden[i])).padStart(10, '0') + ' 00000 n\r\n';
+        k = j + 1;
+      }
+      extra += `trailer\n<</Size ${siguiente}/Root ${trailer.Root}` +
+        (trailer.Info ? `/Info ${trailer.Info}` : '') + (trailer.ID ? `/ID ${trailer.ID}` : '') +
+        `/Prev ${inicial}>>\nstartxref\n${inicioXref}\n%%EOF\n`;
+
+      const salida = new Uint8Array(base + extra.length);
+      salida.set(origen, 0);
+      salida.set(crudo(extra), base);
+      return salida;
+    },
+  };
+})();
+
 /* ---- src/js/components/10-stage.js ---- */
 /* Stage · escenario de animaciones explicativas (contrato completo en AGENTS.md §5).
  *
@@ -8768,6 +9275,7 @@ uv run jupyter lab</code></pre>
       this.jump.value = String(i);
       const n = s.querySelector('aside.notes');
       this.notesBody.innerHTML = n ? n.innerHTML : '<p class="muted">Sin notas para esta diapositiva.</p>';
+      Hub.emit('deck:slide', { deck: this, i });       // lo escucha la capa de anotación (80-ink.js)
     }
     toggleNotes() { this.notes.hidden = !this.notes.hidden; }
     fullscreen() {
@@ -9353,6 +9861,682 @@ uv run jupyter lab</code></pre>
       document.head.append(s);
     },
     base: videosBase,
+  };
+})();
+
+/* ---- src/js/components/80-ink.js ---- */
+/* Ink · anotar las diapositivas a mano alzada (Wacom, iPad, ratón) y exportar un PDF anotado.
+ *
+ * Se monta sobre cada presentación (componente Deck) y añade a su barra el botón "Anotar".
+ * Con la anotación activa:
+ *   - se dibuja sobre la diapositiva con pluma (sensible a la presión), marcador o borrador;
+ *   - se pueden intercalar HOJAS DE NOTAS en blanco después de cualquier diapositiva;
+ *   - todo se guarda solo en este navegador (Hub.store) y se exporta a PDF con un clic.
+ *
+ * El PDF anotado se construye sobre el PDF oficial de la presentación (materiales/semana-N/P#_presentacion.pdf):
+ * la tinta se añade como anotación /Ink vectorial y las hojas de notas como páginas nuevas (ver Hub.pdf).
+ *
+ * Atajos (con la presentación enfocada): D anotar · P pluma · M marcador · B borrador · Z deshacer ·
+ * Y rehacer · 1…5 color · H hoja de notas · Esc salir de la hoja o de la anotación.
+ */
+(function () {
+  'use strict';
+  const Hub = window.Hub;
+  const { h, $, $$, clamp } = Hub.util;
+
+  const EW = 1600, EH = 900;      // espacio virtual de una diapositiva 16:9 (el mismo que usa Hub.pdf)
+  const CAB = 81;                 // alto de la cabecera de una hoja de notas, en ese espacio
+  const ALFA = 0.32;              // opacidad del marcador (idéntica en pantalla y en el PDF)
+  const COLORES = [['#821436', 'vino'], ['#1C1A1B', 'tinta'], ['#1F6F8B', 'azul'], ['#3A7D44', 'verde'], ['#C62828', 'rojo']];
+  const GROSOR = [3.6, 6.4, 11];  // diámetro de la pluma, en unidades de diapositiva
+  const MARCADOR = 26;
+  const K = 0.5522847498;         // aproximación de un cuarto de circunferencia con una cúbica
+
+  const ICO = {
+    pluma: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l4.2-1.1 9.6-9.6a2.2 2.2 0 0 0-3.1-3.1L5.6 15.3 4.5 19.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>',
+    marcador: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5l6-6 3.5 3.5-6 6H8.5v-3.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M4.5 20.5h15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    borrador: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 18.5l-4-4a1.6 1.6 0 0 1 0-2.3l6.4-6.4a1.6 1.6 0 0 1 2.3 0l4 4a1.6 1.6 0 0 1 0 2.3l-6.4 6.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 18.5h11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    deshacer: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14l-4-4 4-4M5.4 10H14a4.6 4.6 0 0 1 0 9.2h-3.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    rehacer: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l4-4-4-4M18.6 10H10a4.6 4.6 0 0 0 0 9.2h3.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    limpiar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7.5h12M9.5 7.5V5.2h5v2.3M8 7.5l.9 12h6.2l.9-12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    hoja: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17H6z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M12 9v6M9 12h6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    pdf: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    mas: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h.01M12 12h.01M18 12h.01" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    cerrar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  };
+
+  // ======================================================================
+  // Geometría: un trazo con presión se convierte en el contorno de la mancha
+  // de tinta. Los mismos comandos se dibujan en SVG (pantalla) y en PDF.
+  // ======================================================================
+
+  /** Arco de un cuarto de vuelta de A = c+a hasta B = c+b, con b = a girado. */
+  function cuarto(cmds, cx, cy, ax, ay, bx, by) {
+    cmds.push(['C', cx + ax + K * bx, cy + ay + K * by, cx + bx + K * ax, cy + by + K * ay, cx + bx, cy + by]);
+  }
+  /** Media circunferencia (punta redonda) desde (fx, fy) alrededor de (cx, cy). */
+  function tapa(cmds, cx, cy, fx, fy) {
+    const ux = fx - cx, uy = fy - cy;
+    cuarto(cmds, cx, cy, ux, uy, uy, -ux);
+    cuarto(cmds, cx, cy, uy, -ux, -ux, -uy);
+  }
+  function circulo(cx, cy, r) {
+    const cmds = [['M', cx + r, cy]];
+    cuarto(cmds, cx, cy, r, 0, 0, -r);
+    cuarto(cmds, cx, cy, 0, -r, -r, 0);
+    cuarto(cmds, cx, cy, -r, 0, 0, r);
+    cuarto(cmds, cx, cy, 0, r, r, 0);
+    cmds.push(['Z']);
+    return cmds;
+  }
+  /** Curva suave (cuadráticas por los puntos medios) por una polilínea; el punto actual ya es el primero. */
+  function suave(cmds, pts, inv) {
+    const n = pts.length / 2;
+    const px = i => pts[2 * (inv ? n - 1 - i : i)];
+    const py = i => pts[2 * (inv ? n - 1 - i : i) + 1];
+    for (let i = 1; i < n - 1; i++) cmds.push(['Q', px(i), py(i), (px(i) + px(i + 1)) / 2, (py(i) + py(i + 1)) / 2]);
+    if (n > 1) cmds.push(['L', px(n - 1), py(n - 1)]);
+  }
+
+  /** Contorno de un trazo. p = [x, y, radio, x, y, radio, …] en unidades de diapositiva. */
+  function comandos(p) {
+    const n = p.length / 3;
+    if (!n) return [];
+    let largo = 0;
+    for (let i = 3; i < p.length; i += 3) largo += Math.hypot(p[i] - p[i - 3], p[i + 1] - p[i - 2]);
+    if (n === 1 || largo < 0.4) return circulo(p[0], p[1], p[2]);
+    const L = [], R = [];
+    for (let i = 0; i < n; i++) {
+      const a = 3 * Math.max(0, i - 1), b = 3 * Math.min(n - 1, i + 1);
+      let dx = p[b] - p[a], dy = p[b + 1] - p[a + 1];
+      const d = Math.hypot(dx, dy) || 1;
+      const nx = (-dy / d) * p[3 * i + 2], ny = (dx / d) * p[3 * i + 2];
+      L.push(p[3 * i] + nx, p[3 * i + 1] + ny);
+      R.push(p[3 * i] - nx, p[3 * i + 1] - ny);
+    }
+    const cmds = [['M', L[0], L[1]]];
+    suave(cmds, L, false);
+    tapa(cmds, p[3 * n - 3], p[3 * n - 2], L[2 * n - 2], L[2 * n - 1]);
+    suave(cmds, R, true);
+    tapa(cmds, p[0], p[1], R[0], R[1]);
+    cmds.push(['Z']);
+    return cmds;
+  }
+
+  const r1 = x => Math.round(x * 10) / 10;
+  function svgD(cmds) {
+    return cmds.map(c => (c[0] === 'Z' ? 'Z' : c[0] + c.slice(1).map(r1).join(' '))).join('');
+  }
+  /** Los mismos comandos como operadores de camino de PDF (misma orientación: Y hacia abajo). */
+  function pdfOps(cmds) {
+    let out = '', cx = 0, cy = 0;
+    const n = x => String(Math.round(x * 100) / 100);
+    for (const c of cmds) {
+      if (c[0] === 'M') { out += `${n(c[1])} ${n(c[2])} m\n`; cx = c[1]; cy = c[2]; }
+      else if (c[0] === 'L') { out += `${n(c[1])} ${n(c[2])} l\n`; cx = c[1]; cy = c[2]; }
+      else if (c[0] === 'Q') {
+        out += `${n(cx + (2 / 3) * (c[1] - cx))} ${n(cy + (2 / 3) * (c[2] - cy))} ` +
+          `${n(c[3] + (2 / 3) * (c[1] - c[3]))} ${n(c[4] + (2 / 3) * (c[2] - c[4]))} ${n(c[3])} ${n(c[4])} c\n`;
+        cx = c[3]; cy = c[4];
+      } else if (c[0] === 'C') {
+        out += `${n(c[1])} ${n(c[2])} ${n(c[3])} ${n(c[4])} ${n(c[5])} ${n(c[6])} c\n`;
+        cx = c[5]; cy = c[6];
+      } else if (c[0] === 'Z') out += 'h\n';
+    }
+    return out;
+  }
+
+  const rgb = hex => [1, 3, 5].map(i => Math.round((parseInt(hex.slice(i, i + 2), 16) / 255) * 1000) / 1000);
+  const svgEl = (tag, attrs) => {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
+    return el;
+  };
+  /** Distancia del punto (x, y) al trazo (para el borrador). */
+  function cerca(tr, x, y, rad) {
+    const p = tr.p;
+    for (let i = 0; i < p.length; i += 3) {
+      const lim = rad + p[i + 2];
+      if (i + 5 >= p.length) { if (Math.hypot(x - p[i], y - p[i + 1]) <= lim) return true; break; }
+      const ax = p[i], ay = p[i + 1], bx = p[i + 3], by = p[i + 4];
+      const dx = bx - ax, dy = by - ay, l2 = dx * dx + dy * dy;
+      const t = l2 ? clamp(((x - ax) * dx + (y - ay) * dy) / l2, 0, 1) : 0;
+      if (Math.hypot(x - (ax + t * dx), y - (ay + t * dy)) <= lim) return true;
+    }
+    return false;
+  }
+
+  // ======================================================================
+  // Componente
+  // ======================================================================
+
+  class Tinta {
+    constructor(el) {
+      this.el = el;
+      this.deck = el._deck;
+      this.id = el.dataset.deck || 'P';
+      this.clave = 'ink:' + this.id;
+      this.titulo = el.dataset.title || this.id;
+      this.datos = this.leer();
+      this.activo = false;
+      this.herr = 'pluma';
+      this.color = COLORES[0][0];
+      this.grosor = 1;
+      this.pila = [];
+      this.rehacerPila = [];
+      this.hoja = null;              // {s, k} si hay una hoja de notas abierta
+      this.capas = new Map();        // índice de diapositiva → <svg>
+      this.pluma = false;            // ¿se ha usado un lápiz? (para descartar la palma)
+      this.archivo = null;           // PDF de origen elegido a mano en esta sesión
+      this.construye();
+      this.pinta();
+    }
+
+    // ---- datos ---------------------------------------------------------
+    leer() {
+      const d = Hub.store.get(this.clave, null);
+      const ok = d && typeof d === 'object' && d.slides;
+      return ok ? { v: 1, deck: this.id, slides: d.slides || {}, notas: d.notas || {} }
+        : { v: 1, deck: this.id, slides: {}, notas: {} };
+    }
+    guarda() {
+      for (const [k, v] of Object.entries(this.datos.slides)) if (!v.length) delete this.datos.slides[k];
+      clearTimeout(this._t);
+      this._t = setTimeout(() => Hub.store.set(this.clave, this.datos), 400);
+      this.actualiza();
+    }
+    trazosDe(ref) {
+      const s = String(ref.s);
+      if (ref.k == null) return (this.datos.slides[s] = this.datos.slides[s] || []);
+      const notas = (this.datos.notas[s] = this.datos.notas[s] || []);
+      while (notas.length <= ref.k) notas.push([]);
+      return notas[ref.k];
+    }
+    notasDe(s) { return this.datos.notas[String(s)] || []; }
+    /** Guarda el estado anterior para poder deshacer. */
+    marca(ref) {
+      this.pila.push(ref.k === 'notas'
+        ? { tipo: 'notas', s: ref.s, antes: this.notasDe(ref.s).map(a => a.slice()) }
+        : { tipo: 'trazos', ref, antes: this.trazosDe(ref).slice() });
+      if (this.pila.length > 60) this.pila.shift();
+      this.rehacerPila.length = 0;
+    }
+    aplica(e) {
+      const inverso = e.tipo === 'notas'
+        ? { tipo: 'notas', s: e.s, antes: this.notasDe(e.s).map(a => a.slice()) }
+        : { tipo: 'trazos', ref: e.ref, antes: this.trazosDe(e.ref).slice() };
+      if (e.tipo === 'notas') this.datos.notas[String(e.s)] = e.antes.map(a => a.slice());
+      else {
+        const t = this.trazosDe(e.ref);
+        t.length = 0;
+        e.antes.forEach(x => t.push(x));
+      }
+      this.guarda();
+      this.pinta();
+      return inverso;
+    }
+    deshacer() {
+      const e = this.pila.pop();
+      if (!e) return;
+      if (this.hoja && e.tipo === 'notas' && e.s === this.hoja.s && e.antes.length <= this.hoja.k) this.cierraHoja();
+      this.rehacerPila.push(this.aplica(e));
+    }
+    rehacer() {
+      const e = this.rehacerPila.pop();
+      if (e) this.pila.push(this.aplica(e));
+    }
+
+    // ---- interfaz ------------------------------------------------------
+    construye() {
+      const bar = $('.deck__bar', this.el);
+      this.btnAnotar = h('button', { type: 'button', class: 'tbtn tbtn--ink', 'aria-pressed': 'false', title: 'Anotar a mano (D)', 'aria-label': 'Anotar a mano', html: ICO.pluma });
+      this.btnAnotar.addEventListener('click', () => this.alterna());
+      if (bar) bar.append(this.btnAnotar);
+
+      const b = (icono, etiqueta, fn, clase) => {
+        const x = h('button', { type: 'button', class: 'tbtn ' + (clase || ''), title: etiqueta, 'aria-label': etiqueta, html: icono });
+        x.addEventListener('click', fn);
+        return x;
+      };
+      this.bHerr = {};
+      const herr = (id, icono, etiqueta) => {
+        const x = b(icono, etiqueta, () => this.usaHerr(id));
+        this.bHerr[id] = x;
+        return x;
+      };
+      this.bColor = COLORES.map(([c, nombre], i) => {
+        const x = h('button', { type: 'button', class: 'ink-color', title: `Color ${nombre} (${i + 1})`, 'aria-label': `Color ${nombre}`, style: { '--c': c } });
+        x.addEventListener('click', () => { this.color = c; this.herr = this.herr === 'borrador' ? 'pluma' : this.herr; this.actualiza(); });
+        return x;
+      });
+      this.bGrosor = GROSOR.map((g, i) => {
+        const x = h('button', { type: 'button', class: 'ink-w', title: ['Trazo fino', 'Trazo medio', 'Trazo grueso'][i], 'aria-label': ['Trazo fino', 'Trazo medio', 'Trazo grueso'][i] },
+          h('span', { style: { width: 2 + i * 4 + 'px', height: 2 + i * 4 + 'px' } }));
+        x.addEventListener('click', () => { this.grosor = i; this.actualiza(); });
+        return x;
+      });
+      this.bDeshacer = b(ICO.deshacer, 'Deshacer (Z)', () => this.deshacer());
+      this.bRehacer = b(ICO.rehacer, 'Rehacer (Y)', () => this.rehacer());
+      this.bHoja = b(ICO.hoja, 'Hoja de notas en blanco después de esta diapositiva (H)', () => this.nuevaHoja());
+      this.bNotas = h('button', { type: 'button', class: 'ink-notas', title: 'Abrir las hojas de notas de esta diapositiva' });
+      this.bNotas.addEventListener('click', () => { const n = this.notasDe(this.deck.i); if (n.length) this.abreHoja(this.deck.i, 0); });
+      this.bLimpiar = b(ICO.limpiar, 'Borrar la tinta de esta página', () => this.limpia());
+      this.bPdf = h('button', { type: 'button', class: 'btn btn--sm ink-pdf', html: ICO.pdf + 'PDF anotado' });
+      this.bPdf.addEventListener('click', () => this.exporta());
+      this.bMas = b(ICO.mas, 'Más opciones', () => { this.menu.hidden = !this.menu.hidden; });
+
+      this.estado = h('span', { class: 'ink-estado', role: 'status' });
+      this.barra = h('div', { class: 'ink-bar', hidden: true },
+        h('div', { class: 'ink-grupo' }, herr('pluma', ICO.pluma, 'Pluma (P)'), herr('marcador', ICO.marcador, 'Marcador (M)'), herr('borrador', ICO.borrador, 'Borrador (B)')),
+        h('div', { class: 'ink-grupo ink-grupo--colores' }, this.bColor),
+        h('div', { class: 'ink-grupo' }, this.bGrosor),
+        h('div', { class: 'ink-grupo' }, this.bDeshacer, this.bRehacer, this.bLimpiar),
+        h('div', { class: 'ink-grupo' }, this.bHoja, this.bNotas),
+        this.estado, this.bPdf, this.bMas);
+
+      this.menu = h('div', { class: 'ink-menu', hidden: true },
+        h('p', { class: 'ink-menu__t' }, 'Anotaciones de ', h('strong', {}, this.id)),
+        h('p', { class: 'muted' }, 'Se guardan en este navegador. Descarga una copia si vas a cambiar de equipo.'),
+        h('div', { class: 'ink-menu__acc' },
+          h('button', { type: 'button', class: 'btn btn--sm', onclick: () => this.descargaJSON() }, 'Descargar anotaciones (.json)'),
+          h('button', { type: 'button', class: 'btn btn--sm', onclick: () => this.entrada.click() }, 'Cargar anotaciones'),
+          h('button', { type: 'button', class: 'btn btn--sm', onclick: () => this.borraTodo() }, 'Borrar todo')),
+        h('p', { class: 'ink-menu__pdf muted' }, 'El PDF anotado se arma sobre el PDF oficial de la presentación: la tinta queda como anotación vectorial y cada hoja de notas, como una página nueva.'),
+        h('div', { class: 'ink-menu__origen', hidden: true }));
+      this.entrada = h('input', { type: 'file', accept: 'application/json,.json', hidden: true, onchange: e => this.cargaJSON(e.target.files[0]) });
+      this.entradaPdf = h('input', { type: 'file', accept: 'application/pdf,.pdf', hidden: true, onchange: e => this.eligePdf(e.target.files[0]) });
+      this.el.append(this.barra, this.menu, this.entrada, this.entradaPdf);
+
+      // Hoja de notas: una sola capa reutilizable sobre la diapositiva activa.
+      this.hojaEl = h('div', { class: 'ink-hoja', hidden: true });
+      this.hojaTit = h('span', { class: 'ink-hoja__t' });
+      this.hojaNav = h('span', { class: 'ink-hoja__nav' });
+      this.hojaEl.append(h('div', { class: 'ink-hoja__cab' }, this.hojaTit, this.hojaNav));
+      this.hojaSvg = this.creaCapa(true);
+      this.hojaEl.append(this.hojaSvg);
+      this.deck.vp.append(this.hojaEl);
+
+      this.deck.vp.addEventListener('keydown', e => this.tecla(e), true);
+      Hub.on('deck:slide', ({ deck }) => { if (deck === this.deck) { this.cierraHoja(); this.pinta(); } });
+      document.addEventListener('click', e => {
+        if (!this.menu.hidden && !this.menu.contains(e.target) && e.target !== this.bMas && !this.bMas.contains(e.target)) this.menu.hidden = true;
+      });
+      this.actualiza();
+    }
+
+    creaCapa(hoja) {
+      const svg = svgEl('svg', { class: 'ink-capa', viewBox: `0 0 ${EW} ${EH}`, 'aria-hidden': 'true' });
+      if (hoja) {
+        const pid = 'rejilla-' + this.id;
+        const defs = svgEl('defs', {});
+        const pat = svgEl('pattern', { id: pid, x: 0, y: CAB, width: 80, height: 80, patternUnits: 'userSpaceOnUse' });
+        pat.append(svgEl('path', { d: 'M0 0H80M0 0V80', fill: 'none', stroke: '#ECE6E8', 'stroke-width': 1.2 }));
+        defs.append(pat);
+        svg.append(defs, svgEl('rect', { x: 0, y: CAB, width: EW, height: EH - CAB, fill: `url(#${pid})` }));
+      }
+      svg.append(svgEl('g', { class: 'ink-hl' }), svgEl('g', { class: 'ink-pen' }));
+      svg.addEventListener('pointerdown', e => this.abajo(e, svg));
+      svg.addEventListener('pointermove', e => this.mueve(e));
+      svg.addEventListener('pointerup', e => this.arriba(e));
+      svg.addEventListener('pointercancel', e => this.arriba(e));
+      svg.addEventListener('contextmenu', e => { if (this.activo) e.preventDefault(); });
+      return svg;
+    }
+    capaDe(i) {
+      if (this.capas.has(i)) return this.capas.get(i);
+      const svg = this.creaCapa(false);
+      this.deck.slides[i].append(svg);
+      this.capas.set(i, svg);
+      return svg;
+    }
+
+    alterna(v) {
+      this.activo = v == null ? !this.activo : v;
+      if (this.activo) this.deck.slides.forEach((s, i) => this.capaDe(i));   // superficie de dibujo en todas
+      else this.cierraHoja();
+      this.el.classList.toggle('is-inking', this.activo);
+      this.barra.hidden = !this.activo;
+      this.btnAnotar.setAttribute('aria-pressed', String(this.activo));
+      if (!this.activo) this.menu.hidden = true;
+      this.actualiza();
+      if (this.activo) this.deck.vp.focus();
+    }
+    usaHerr(id) { this.herr = id; this.actualiza(); }
+
+    actualiza() {
+      for (const [id, btn] of Object.entries(this.bHerr)) btn.classList.toggle('is-on', this.herr === id);
+      this.bColor.forEach((x, i) => x.classList.toggle('is-on', COLORES[i][0] === this.color));
+      this.bGrosor.forEach((x, i) => x.classList.toggle('is-on', i === this.grosor));
+      this.bDeshacer.disabled = !this.pila.length;
+      this.bRehacer.disabled = !this.rehacerPila.length;
+      const n = this.notasDe(this.deck.i).length;
+      this.bNotas.textContent = n ? `${n} hoja${n > 1 ? 's' : ''}` : 'sin hojas';
+      this.bNotas.disabled = !n;
+      this.bNotas.classList.toggle('is-on', !!this.hoja);
+      const total = this.cuenta();
+      this.estado.textContent = total.trazos ? `${total.trazos} trazo${total.trazos > 1 ? 's' : ''} · ${total.hojas} hoja${total.hojas === 1 ? '' : 's'}` : 'sin anotaciones';
+      this.bPdf.disabled = !total.trazos && !total.hojas;
+    }
+    cuenta() {
+      let trazos = 0, hojas = 0;
+      for (const t of Object.values(this.datos.slides)) trazos += t.length;
+      for (const ns of Object.values(this.datos.notas)) { hojas += ns.length; ns.forEach(t => { trazos += t.length; }); }
+      return { trazos, hojas };
+    }
+
+    // ---- dibujo --------------------------------------------------------
+    pinta() {
+      this.deck.slides.forEach((s, i) => {
+        const t = this.datos.slides[String(i)] || [];
+        if (!t.length && !this.capas.has(i)) return;
+        this.repinta(this.capaDe(i), t);
+      });
+      if (this.hoja) this.repinta(this.hojaSvg, this.trazosDe(this.hoja));
+      this.actualiza();
+    }
+    repinta(svg, trazos) {
+      const hl = $('.ink-hl', svg), pen = $('.ink-pen', svg);
+      hl.replaceChildren();
+      pen.replaceChildren();
+      trazos.forEach(tr => (tr.h ? hl : pen).append(svgEl('path', { d: svgD(comandos(tr.p)), fill: tr.c })));
+    }
+
+    destino() { return this.hoja ? { s: this.hoja.s, k: this.hoja.k } : { s: this.deck.i, k: null }; }
+
+    abajo(ev, svg) {
+      if (!this.activo || this.dibujo) return;
+      if (ev.pointerType === 'pen') this.pluma = true;
+      if (ev.pointerType === 'touch' && this.pluma) return;      // descarta la palma de la mano
+      if (ev.button > 0 && ev.button !== 5) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      const borra = this.herr === 'borrador' || ev.button === 5 || (ev.buttons & 32) > 0;
+      const ref = this.destino();
+      if (borra) {
+        this.borrando = { ref, svg, tocado: false, id: ev.pointerId };
+        svg.setPointerCapture(ev.pointerId);
+        this.borra(ev, svg);
+        return;
+      }
+      this.marca(ref);
+      const tr = { h: this.herr === 'marcador' ? 1 : 0, c: this.color, p: [] };
+      this.dibujo = { ref, svg, tr, path: svgEl('path', { d: '', fill: tr.c }), pres: null };
+      $(tr.h ? '.ink-hl' : '.ink-pen', svg).append(this.dibujo.path);
+      this.trazosDe(ref).push(tr);
+      svg.setPointerCapture(ev.pointerId);
+      this.punto(ev, svg);
+    }
+    mueve(ev) {
+      if (this.borrando) { this.borra(ev, this.borrando.svg); return; }
+      if (!this.dibujo) return;
+      ev.preventDefault();
+      const lista = ev.getCoalescedEvents ? ev.getCoalescedEvents() : [ev];
+      lista.forEach(e => this.punto(e, this.dibujo.svg));
+      this.dibujo.path.setAttribute('d', svgD(comandos(this.dibujo.tr.p)));
+    }
+    arriba(ev) {
+      if (this.borrando) {
+        try { this.borrando.svg.releasePointerCapture(this.borrando.id); } catch (e) { /* ya se soltó */ }
+        this.borrando = null;
+        this.guarda();
+        return;
+      }
+      if (!this.dibujo) return;
+      const d = this.dibujo;
+      this.dibujo = null;
+      try { d.svg.releasePointerCapture(ev.pointerId); } catch (e) { /* el puntero ya se soltó */ }
+      if (!d.tr.p.length) { this.trazosDe(d.ref).pop(); d.path.remove(); this.pila.pop(); }
+      else d.path.setAttribute('d', svgD(comandos(d.tr.p)));
+      this.guarda();
+    }
+    punto(ev, svg) {
+      const r = svg.getBoundingClientRect();
+      if (!r.width) return;
+      const x = ((ev.clientX - r.left) / r.width) * EW;
+      const y = ((ev.clientY - r.top) / r.height) * EH;
+      const d = this.dibujo;
+      const p = d.tr.p;
+      const n = p.length;
+      if (n && Math.hypot(x - p[n - 3], y - p[n - 2]) < 1.4) return;
+      let rad;
+      if (d.tr.h) rad = MARCADOR / 2;
+      else {
+        let pr = ev.pointerType === 'pen' && ev.pressure > 0 ? ev.pressure : 0.5;
+        d.pres = d.pres == null ? pr : d.pres + (pr - d.pres) * 0.35;
+        rad = (GROSOR[this.grosor] / 2) * (ev.pointerType === 'pen' ? 0.45 + 0.85 * d.pres : 1);
+      }
+      p.push(r1(x), r1(y), Math.round(rad * 100) / 100);
+    }
+    borra(ev, svg) {
+      const r = svg.getBoundingClientRect();
+      if (!r.width) return;
+      const x = ((ev.clientX - r.left) / r.width) * EW;
+      const y = ((ev.clientY - r.top) / r.height) * EH;
+      const trazos = this.trazosDe(this.borrando.ref);
+      const quedan = trazos.filter(tr => !cerca(tr, x, y, 7));
+      if (quedan.length === trazos.length) return;
+      if (!this.borrando.tocado) { this.marca(this.borrando.ref); this.borrando.tocado = true; }
+      trazos.length = 0;
+      quedan.forEach(t => trazos.push(t));
+      this.repinta(svg, trazos);
+      this.actualiza();
+    }
+    limpia() {
+      const ref = this.destino();
+      const t = this.trazosDe(ref);
+      if (!t.length) return;
+      this.marca(ref);
+      t.length = 0;
+      this.repinta(this.hoja ? this.hojaSvg : this.capaDe(ref.s), t);
+      this.guarda();
+    }
+
+    // ---- hojas de notas ------------------------------------------------
+    nuevaHoja() {
+      const s = this.hoja ? this.hoja.s : this.deck.i;
+      const notas = this.datos.notas[String(s)] || [];
+      this.marca({ s, k: 'notas' });
+      this.datos.notas[String(s)] = notas.concat([[]]);
+      this.guarda();
+      this.abreHoja(s, this.datos.notas[String(s)].length - 1);
+      if (!this.activo) this.alterna(true);
+    }
+    abreHoja(s, k) {
+      const notas = this.notasDe(s);
+      if (!notas.length) return;
+      k = clamp(k, 0, notas.length - 1);
+      this.hoja = { s, k };
+      this.hojaEl.hidden = false;
+      this.hojaTit.textContent = `Notas · después de la diapositiva ${s + 1} de ${this.deck.slides.length}` +
+        (notas.length > 1 ? ` · hoja ${k + 1} de ${notas.length}` : '');
+      this.hojaNav.replaceChildren(
+        h('button', { type: 'button', class: 'tbtn', title: 'Hoja anterior (←)', 'aria-label': 'Hoja anterior', html: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>', onclick: () => this.mueveHoja(-1) }),
+        h('button', { type: 'button', class: 'tbtn', title: 'Hoja siguiente (→)', 'aria-label': 'Hoja siguiente', html: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>', onclick: () => this.mueveHoja(1) }),
+        h('button', { type: 'button', class: 'tbtn', title: 'Volver a la diapositiva (Esc)', 'aria-label': 'Volver a la diapositiva', html: ICO.cerrar, onclick: () => this.cierraHoja() }));
+      this.repinta(this.hojaSvg, this.trazosDe(this.hoja));
+      this.actualiza();
+    }
+    mueveHoja(d) {
+      if (!this.hoja) return;
+      const notas = this.notasDe(this.hoja.s);
+      const k = this.hoja.k + d;
+      if (k < 0) { this.cierraHoja(); return; }
+      if (k >= notas.length) { this.cierraHoja(); this.deck.next(); return; }
+      this.abreHoja(this.hoja.s, k);
+    }
+    cierraHoja() {
+      if (!this.hoja) return;
+      this.hoja = null;
+      this.hojaEl.hidden = true;
+      this.actualiza();
+    }
+
+    tecla(e) {
+      if (e.target.closest('input, select, textarea, button')) return;
+      const k = e.key;
+      if (this.hoja) {
+        if (k === 'ArrowRight' || k === 'PageDown' || k === ' ') { e.preventDefault(); e.stopPropagation(); this.mueveHoja(1); return; }
+        if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); e.stopPropagation(); this.mueveHoja(-1); return; }
+        if (k === 'Escape') { e.stopPropagation(); this.cierraHoja(); return; }
+      } else if (k === 'Escape' && this.activo) { e.stopPropagation(); this.alterna(false); return; }
+      if (e.ctrlKey || e.metaKey) {
+        if (k === 'z' || k === 'Z') { e.preventDefault(); e.stopPropagation(); if (e.shiftKey) this.rehacer(); else this.deshacer(); }
+        return;
+      }
+      if (k === 'd' || k === 'D') { e.stopPropagation(); this.alterna(); return; }
+      if (k === 'h' || k === 'H') { e.stopPropagation(); this.nuevaHoja(); return; }
+      if (!this.activo) return;
+      if (k === 'p' || k === 'P') { e.stopPropagation(); this.usaHerr('pluma'); }
+      else if (k === 'm' || k === 'M') { e.stopPropagation(); this.usaHerr('marcador'); }
+      else if (k === 'b' || k === 'B') { e.stopPropagation(); this.usaHerr('borrador'); }
+      else if (k === 'z' || k === 'Z') { e.stopPropagation(); this.deshacer(); }
+      else if (k === 'y' || k === 'Y') { e.stopPropagation(); this.rehacer(); }
+      else if (k >= '1' && k <= '5' && COLORES[+k - 1]) { e.stopPropagation(); this.color = COLORES[+k - 1][0]; this.actualiza(); }
+    }
+
+    // ---- exportación ---------------------------------------------------
+    /** Tinta de una página como operadores de PDF. */
+    ops(trazos) {
+      let out = '';
+      for (const tr of trazos) {
+        const c = rgb(tr.c).join(' ');
+        const camino = pdfOps(comandos(tr.p));
+        out += tr.h ? `q /GM gs ${c} rg\n${camino}f\nQ\n` : `q /GN gs ${c} rg\n${camino}f\nQ\n`;
+      }
+      return out;
+    }
+    lineas(trazos) {
+      return trazos.map(tr => {
+        const l = [];
+        for (let i = 0; i < tr.p.length; i += 3) l.push(r1(tr.p[i]), r1(tr.p[i + 1]));
+        return l;
+      });
+    }
+    urlPdf() {
+      const sub = this.el.closest('.sub') || document;
+      const a = sub.querySelector('[data-material$="_presentacion.pdf"]') || document.querySelector(`[data-material$="/${this.id}_presentacion.pdf"]`);
+      return a ? a.href : null;
+    }
+    async origenPdf() {
+      if (this.archivo) return this.archivo;
+      const url = this.urlPdf();
+      if (url) {
+        try {
+          const r = await fetch(url);
+          if (r.ok) return new Uint8Array(await r.arrayBuffer());
+        } catch (e) { /* file:// no permite leer archivos vecinos */ }
+      }
+      return null;
+    }
+    eligePdf(f) {
+      if (!f) return;
+      const lector = new FileReader();
+      lector.onload = () => { this.archivo = new Uint8Array(lector.result); this.exporta(); };
+      lector.readAsArrayBuffer(f);
+    }
+    async exporta() {
+      this.estado.textContent = 'Generando el PDF…';
+      this.bPdf.disabled = true;
+      try {
+        const origen = await this.origenPdf();
+        if (!origen) {
+          this.menu.hidden = false;
+          const caja = $('.ink-menu__origen', this.menu);
+          caja.hidden = false;
+          caja.replaceChildren(
+            h('p', {}, 'Este navegador no puede leer el PDF de la presentación desde el disco (se abrió con ', h('code', {}, 'file://'), ').'),
+            h('button', { type: 'button', class: 'btn btn--sm', onclick: () => this.entradaPdf.click() }, `Elegir ${this.id}_presentacion.pdf`),
+            h('p', { class: 'muted' }, 'Está en ', h('code', {}, `materiales/semana-${this.id.replace(/\D/g, '')}/${this.id}_presentacion.pdf`), '.'));
+          this.estado.textContent = 'Falta el PDF de origen';
+          this.actualiza();
+          return;
+        }
+        const paginas = Hub.pdf.contar(origen);
+        const capas = [], hojas = [];
+        this.deck.slides.forEach((s, i) => {
+          const t = this.datos.slides[String(i)] || [];
+          if (t.length) capas.push({ pagina: i, ops: this.ops(t), inkList: this.lineas(t), color: rgb(t[0].c) });
+          const ns = this.notasDe(i);
+          ns.forEach((notas, k) => {
+            hojas.push({
+              tras: i,
+              ops: this.ops(notas),
+              etiqueta: `${this.id} · notas después de la diapositiva ${i + 1}` + (ns.length > 1 ? ` (${k + 1}/${ns.length})` : ''),
+            });
+          });
+        });
+        const salida = Hub.pdf.anotar(origen, {
+          capas, hojas, espacio: [EW, EH], alfaMarcador: ALFA, rejillaDesde: CAB,
+          titulo: `Anotaciones de clase · ${this.id}`,
+        });
+        const hoy = new Date();
+        const fecha = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+        this.descarga(new Blob([salida], { type: 'application/pdf' }), `${this.id}_presentacion_anotado_${fecha}.pdf`);
+        const aviso = paginas !== this.deck.slides.length
+          ? ` · ojo: el PDF tiene ${paginas} páginas y la presentación ${this.deck.slides.length} diapositivas`
+          : '';
+        this.estado.textContent = `PDF listo (+${hojas.length} hoja${hojas.length === 1 ? '' : 's'})${aviso}`;
+      } catch (err) {
+        this.estado.textContent = 'No se pudo generar: ' + (err && err.message ? err.message : err);
+      }
+      this.bPdf.disabled = false;
+    }
+    descarga(blob, nombre) {
+      const a = h('a', { href: URL.createObjectURL(blob), download: nombre });
+      document.body.append(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }
+    descargaJSON() {
+      const d = { ...this.datos, titulo: this.titulo, fecha: new Date().toISOString() };
+      this.descarga(new Blob([JSON.stringify(d)], { type: 'application/json' }), `anotaciones_${this.id}.json`);
+    }
+    cargaJSON(f) {
+      if (!f) return;
+      const lector = new FileReader();
+      lector.onload = () => {
+        try {
+          const d = JSON.parse(lector.result);
+          if (!d || typeof d !== 'object' || !d.slides) throw new Error('formato desconocido');
+          this.datos = { v: 1, deck: this.id, slides: d.slides || {}, notas: d.notas || {} };
+          this.pila.length = this.rehacerPila.length = 0;
+          this.cierraHoja();
+          this.capas.forEach(svg => svg.remove());
+          this.capas.clear();
+          this.guarda();
+          this.pinta();
+          this.estado.textContent = 'Anotaciones cargadas';
+        } catch (e) { this.estado.textContent = 'Archivo no válido'; }
+      };
+      lector.readAsText(f);
+      this.entrada.value = '';
+    }
+    borraTodo() {
+      const n = this.cuenta();
+      if (!n.trazos && !n.hojas) return;
+      if (!window.confirm(`¿Borrar las anotaciones de ${this.id}? Se perderán ${n.trazos} trazos y ${n.hojas} hojas de notas.`)) return;
+      this.datos = { v: 1, deck: this.id, slides: {}, notas: {} };
+      this.pila.length = this.rehacerPila.length = 0;
+      this.cierraHoja();
+      this.capas.forEach(svg => svg.remove());
+      this.capas.clear();
+      this.guarda();
+      this.pinta();
+      this.menu.hidden = true;
+    }
+  }
+
+  Hub.ink = {
+    instancias: [],
+    mountAll(root = document) {
+      $$('.deck[data-mounted]:not([data-ink])', root).forEach(el => {
+        if (!el._deck) return;
+        el.setAttribute('data-ink', '');
+        el._ink = new Tinta(el);
+        Hub.ink.instancias.push(el._ink);
+      });
+    },
   };
 })();
 
@@ -18454,6 +19638,7 @@ ${OPC.limites[api.p.limites] || 'PENDIENTE'}
   Hub.on('route', ({ el }) => {
     Hub.math.render(el);
     Hub.deck.mountAll(el);
+    Hub.ink.mountAll(el);
     Hub.quiz.mountAll(el);
     Hub.anim.mountAll(el);
   });

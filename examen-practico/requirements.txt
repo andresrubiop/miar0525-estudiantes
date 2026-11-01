@@ -1,0 +1,10 @@
+# Dependencias del examen práctico (para Colab o un entorno con pip).
+# En el entorno del curso: uv sync --extra mlflow --extra etica
+numpy
+pandas
+scikit-learn
+matplotlib
+fairlearn
+shap
+mlflow
+pytest

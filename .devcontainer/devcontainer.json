@@ -1,0 +1,19 @@
+{
+  "name": "Aprendizaje Automático (MIAR0525) · Python 3.13",
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "postCreateCommand": "bash .devcontainer/preparar.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  }
+}
